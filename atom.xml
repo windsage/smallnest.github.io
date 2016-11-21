@@ -4,7 +4,7 @@
   <subtitle><![CDATA[大道至简 Simplicity is the ultimate form of sophistication]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://colobu.com/"/>
-  <updated>2016-11-21T06:20:39.786Z</updated>
+  <updated>2016-11-21T07:14:18.797Z</updated>
   <id>http://colobu.com/</id>
   
   <author>
@@ -15,11 +15,11 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[[译]Scala Collection类的性能]]></title>
+    <title><![CDATA[[译]Scala Collection的性能]]></title>
     <link href="http://colobu.com/2016/11/17/Benchmarking-Scala-Collections/"/>
     <id>http://colobu.com/2016/11/17/Benchmarking-Scala-Collections/</id>
     <published>2016-11-17T02:20:11.000Z</published>
-    <updated>2016-11-21T06:19:01.739Z</updated>
+    <updated>2016-11-21T07:14:00.367Z</updated>
     <content type="html"><![CDATA[<p>这是翻译自 <a href="http://www.lihaoyi.com" target="_blank" rel="external">Li Haoyi</a> 的 <a href="http://www.lihaoyi.com/post/BenchmarkingScalaCollections.html" target="_blank" rel="external">Benchmarking Scala Collections</a>。</p>
 <p>Li Haoyi 的背景了解Scala的人都知道，虽然Scala的官方文档对集合框架的性能提供了<a href="http://docs.scala-lang.org/overviews/collections/performance-characteristics.html" target="_blank" rel="external">定性的分析</a>，但是Li Haoyi的这篇文章定量的比较了各个框架类的性能，非常有参考意义，也便于你更好的正确的选择 Scala 集合中的类。</p>
 <p>这篇文章从经验的角度深入研究了Scala集合库的运行特性。你也许已经看到了很多的从实现的角度介绍Scala集合库的文章(<a href="http://docs.scala-lang.org/tutorials/FAQ/collections" target="_blank" rel="external">inheritance hierarchies</a>, <a href="http://docs.scala-lang.org/tutorials/FAQ/breakout.html" target="_blank" rel="external">CanBuildFrom</a>, <a href="http://docs.scala-lang.org/overviews/core/architecture-of-scala-collections.html" target="_blank" rel="external">等等</a>),但是很少有人写这些集合运行时的行为特性。</p>
