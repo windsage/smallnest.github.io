@@ -4,7 +4,7 @@
   <subtitle><![CDATA[大道至简 Simplicity is the ultimate form of sophistication]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://colobu.com/"/>
-  <updated>2016-11-21T08:02:17.227Z</updated>
+  <updated>2016-11-27T08:24:59.463Z</updated>
   <id>http://colobu.com/</id>
   
   <author>
@@ -13,6 +13,107 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[嘘，啪啪啪的秘密]]></title>
+    <link href="http://colobu.com/2016/11/26/secrets-of-condoms/"/>
+    <id>http://colobu.com/2016/11/26/secrets-of-condoms/</id>
+    <published>2016-11-26T10:05:11.000Z</published>
+    <updated>2016-11-27T08:24:15.845Z</updated>
+    <content type="html"><![CDATA[<p>本文根据京东避孕套的销量情况，分析中国各省对啪啪啪的喜爱程度，以及深度<del>胡扯</del>分析中国人一年四季对避孕套的需求。</p>
+<p>虽然本文不涉及低俗的内容，但是因为谈论的话题还是成年人的话题，请小司机们自觉绕行。<br><a id="more"></a></p>
+<p>前几天看到有人根据京东购买的罩杯的大小进行的分析，所以趁这周休假扒了一下京东的避孕套的购买情况，并基于数据进行分析。</p>
+<p>本人是一个涉世不深，思想单纯的孩子，偶尔看到京东的情趣用品的列表，简直就是玲琅满目目不暇接接天蔽日日月同辉。很显然，没有人能精确的说出中国人啪啪啪的详细数据，对于这么隐私的话题，并且以中国儒家思想占正统的中华文化来讲，很难能有一个精准的数据进行分析。但是通过对京东等电商的避孕套的销量来分析，可以估算中国人啪啪啪的一些有趣的特点。</p>
+<p>当然，京东并没有提供每种商品的销售量，但是根据购买者对于商品的评价，我们可以进行一个估算。其它京东的商品大家的评价可能比较积极，但是对于套套这样的商品，涉及到个人的隐私，虽然京东提供了匿名评价的功能，但是还是有个人的头像的展示，所以估计购买了套套而真正做了评价的人还是少数，所以粗略估计销售量是评价数的十倍。当然京东的内部人士的可以精确的得到这方面的数据，但是对于外部人员来说，只能通过估计的方法计算。</p>
+<p>另外，京东并不是唯一可以买到套套的地方，淘宝也可以。而且很多实体店比如药店、超市、居委会都可以购买或者领取，所以销售量也不能代表中国人啪啪啪的次数。另外，肯定有很多啪啪啪的时候是不使用套套的，所以综上所述，中国人啪啪啪的次数至少要比这里统计的套套的销售量要大几个数量级，至少要十倍以上，我们以<strong>K</strong>来表示， K可能是10，也可能是100，但是不会影响我们对购买分布的分析。</p>
+<p>情趣产品很多，为什么选用套套进行分析呢？答案只有一个，它最常用。</p>
+<p>请不要过于执着数据的准确性，权当在这凛冽的寒风瑟瑟的寒冬中的一点点温暖的谈资罢了。</p>
+<p>京东男性套套的商品数量大约一万五千多种，可查询的评价大约在两千万左右。</p>
+<p>本文不涉及对于评价内容的分析，这方面的内容有空单起一篇文章分析。</p>
+<p>京东的评价中没有记录购买者的性别，所以不能进行男女购买特征的分析，虽然根据头像有时候可以分辨出男女，但是毕竟这是少数，而且还不一定准确，所以没有进行性别的分析。</p>
+<p>当然，避孕套的用途不只有在啪啪啪的时候使用，在户外探险中，它也是一个很有的工具，可以作为盛水的好工具，也可以对重要的文件进行防水封闭，但是我相信，在京东上购买套套用于这方面需求的人还是少只有少，所以这个误差可以忽略不计。</p>
+<p>估算准不准呢？还是有一定道理的，比如让你估算北京有多少家餐馆，北京现在在路上开的汽车有多少，北京有多少理发师傅？密西西比河一天流出多少水？美国诺贝尔物理学奖得主费米最擅长这方面的技能，有兴趣的读者可以搜一搜费米估算，他可以通过一把碎纸估算出原子弹爆炸的量级。所以估算还是有一定的准确性呢。而且通过对京东的数据分析，不进行估算而是根据购买的分布还可以分析一些有趣的结论。</p>
+<h2 id="数据抓取">数据抓取</h2>
+<p>当然第一步就是成功的抓取京东的数据了。</p>
+<p>京东的商品栏目 &quot;医药保健 》 成人用品 》安全避孕&quot; 栏目列出了16119种避孕商品，不知道是否有毓婷等药品，根据分类看基本上都是避孕套的产品。</p>
+<ul>
+<li><a href="https://list.jd.com/list.html?cat=9192,9196,1502" target="_blank" rel="external">安全避孕</a></li>
+</ul>
+<p>一共有269页。</p>
+<p>所以第一步抓取这些页面，得到商品的名称和ID。</p>
+<p>商品详情页的格式是 <code>https://item.jd.com/[ID].html</code>,比如ID为<code>1340204</code>，商品名称为<code>杜蕾斯 避孕套 男用 安全套 超薄 计生用品 情爱四合一 32只装 成人用品 Durex</code>的套套的详情页，显示了商品的详细介绍，比如价格、数量等。</p>
+<p>为了提高页面的显示速度，它的评论页是通过另外的请求获得的，通过JSONP延迟显示，所以抓取它的评论也很方便了，直接调用相应的请求得到JSON数据。</p>
+<p><img src="comment.png" alt=""></p>
+<p>整个程序使用Go编写，代码相当的简短。主要使用goquery进行DOM分析查找。</p>
+<p>最后抓取的商品的数量为15999个，评论数量接近两千万。</p>
+<h2 id="数据清洗">数据清洗</h2>
+<p>当然，抓取的数据还必须进行清洗。很显然，我们并不知道京东的数据格式，所以需要对返回的结果进行分析，幸运的是对于json数据结果来说它的里面的名称并没有混淆压缩，所以很容易根据名称理解它的意思。</p>
+<p>第一，我们需要对套套进行统一的计数。不同的厂家不同的商品是不一样的，有的是72只一盒包装的，有的是24只装，还有12只、10只、6只、3只、一只包装的，还有的是3只+3只组合装，还有附送几只的，如果你看它们的名字，五花八门，各种组合都有。有的还叫做“XX支”、“XX片”，有的没写量词，只写了数字，所以单从名称上计算，难度太大，所以实际采用的方案根据详情页中的商品数量来计算，对于大部分的商品，这个值还是很正确的，也有小部分的商品这个值写作了“其它”，计算的时候按照一只来计算，虽然它实际可能是32只包装的，比如上面的那个杜蕾斯的产品。但是从统计的角度来说，我们忽略这个误差。</p>
+<p>为什么要按照只计数呢？很显然，买一盒72只装的套套和买一袋一只装的套套明显是不一样的概念，前者72只可以啪啪啪72次，而后者只能啪啪啪一次，如果都按照一只来计算，啪啪啪的估算明显不准，尤其是大部分商品都是多只一盒包装的。</p>
+<p>第二，有些用户所在省份显示为澳大利亚或者国外一些地方，这些数据应该剔除。港澳台的数据虽然也统计了，但是你可以暂时忽略。还有一大部分的用户显示所在省份是钓鱼岛，这和京东的物流支持配送钓鱼岛相关，权且当作对我钓鱼岛的爱国支持吧，统计的时候忽略。</p>
+<h2 id="数据分析">数据分析</h2>
+<h3 id="哪个省份最爱啪啪啪？">哪个省份最爱啪啪啪？</h3>
+<p>首先，我们看看哪个省份购买的套套最多。</p>
+<p><img src="province1.png" alt=""></p>
+<p><img src="province1-1.png" alt=""></p>
+<p>根据套套的历史销量，可以看到广东、北京、江苏、四川、上海五省市购买量最多，宁夏、青海、西藏占底。</p>
+<p>当然，这里有一个人口总量的问题，人口大省显然会购买更多的商品。所以我查了一下各省2015年底的常住人口统计，把上面的购买量除以常住人口基数，可以得到下表：</p>
+<p><img src="province2.png" alt=""></p>
+<p><img src="province2-1.png" alt=""></p>
+<p>在这个统计中，位列前五名的是北京、上海、广东、天津和江苏，陕、川、辽、浙紧随其后，甘肃、贵州、云南占底。<br>显然一线城市的居民更喜欢啪啪啪，但是西北的陕西、西南的四川、东北的辽宁也不甘示弱，人均消费量也很高。偏远地区的消费量就比较底了，也可能和他们的电商普及的程度有关。</p>
+<p>一个值得注意的现象是北京的人均消费量远远高于其它的省市，是第二名的上海的两倍还多，这一点让我很迷惑，想了多个答案来解释：</p>
+<ol>
+<li>流动人口带来的误差。北上广深的流动人口比较多，所以流动人口的消费量计算在了常住人口的头上。但是一线城市的流动人口都非常的多，广州、深圳、东莞的流动人口也不少吧？</li>
+<li>北京的消费者更喜欢在京东上购买套套，而江浙和南方的消费者更喜欢在淘宝上购买。</li>
+<li>北京的消费者更喜欢啪啪啪？ 差距不应该这么大吧。</li>
+</ol>
+<h3 id="消费者更喜欢在一年的哪个日子购买？">消费者更喜欢在一年的哪个日子购买？</h3>
+<p>总历史的消费量来看，消费者在一年之中的购买的分布如下图所示：<br><img src="days.png" alt=""></p>
+<p>而今年2016年的每天的购买量的分布如下图：<br><img src="daysofthisyear.png" alt=""></p>
+<p>可以看到今年的消费量的分布和往年保持一致，请注意2月初的一个波谷、6月份和11月份的两个波峰。</p>
+<p>可以看出一些有趣的结论：</p>
+<ol>
+<li>2月份的波谷是由春节假期造成的。这倒不是说春节大家啪啪啪的次数会明显减少，而是很多人减少了网上购物的次数，导致这个波谷的产生。</li>
+<li>6月份和11月份的波谷明显是由6.18和双十一的活动造成的，可见大家对于套套也是喜欢囤货的。记得水木上有个网友说屯了一箱子，可以用几年了。</li>
+<li>双十一的大家购买的力度更大，远远的大</li>
+<li>双十一对商家的伤害也是巨大的。因为大家的囤货，导致十一月下旬开始一直到春节，套套的销量明显低迷。</li>
+<li>另外一个有趣的现象就是假期后补货。因为假期中啪啪啪对套套的消耗，可以明显看到春节后几天、十一假期结束、端午节几天是套套的购买小高峰，因为套套在假期中用完了，或者到了购买的阈值。清明节和五一节不太明显，可能这两个节日大家的主要的活动是旅游，对套套的消耗不是很高。</li>
+<li>圣诞节前也是一个小高峰，但是由于前期双十一大量的囤货，导致这个小高峰不是很强烈。 </li>
+<li>二月份波谷后的一个小高峰除了和补货相关，也可能和情人节假期有很大的关系。</li>
+<li>除了一些波谷波峰以及冬季的低迷以外，全年的套套的销量成一个平稳的态势发展。</li>
+</ol>
+<h3 id="一天之中哪个时间段最爱买套套？">一天之中哪个时间段最爱买套套？</h3>
+<p><img src="time.png" alt=""></p>
+<p>从早上7点开始，大家开始活跃，到十点，购买欲望开始强烈，晚饭时有个小低谷，但是到晚上十点又有一个波峰，可能在晚上十点做准备动作的时候发现套套库存不够补货。夜晚是睡眠和欢悦的时间，所以这段时间购买量比较少了。</p>
+<p>基本上，这个普通的商品的购买分布是一致的，这也是大家正常的网络活动时间的分布。</p>
+<p>很显然，大家不会因为在需要套套的时候才去购买,而是及时的在购买其它商品的时候一起购买.</p>
+<h3 id="周几是大家的购买高峰?">周几是大家的购买高峰?</h3>
+<p><img src="weekday.png" alt=""></p>
+<p>周一是购买的最高峰,这和大家的网络活动时间不太一致,因为周一一般是忙于上班,准备一周的工作,网络活动属于恢复的阶段,周二才能恢复到高峰。可能周五、周六的消耗，大家意识到库存的不足，补货导致。从周日到周六呈递减的趋势，周日才开始上升。</p>
+<h3 id="销量最好的十款套套">销量最好的十款套套</h3>
+<p>根据历史销售数据，以下是十款销量最好的套套。</p>
+<ol>
+<li><a href="https://item.jd.com/725442.html" target="_blank" rel="external">第六感 避孕套 安全套 特惠促销装72只 超薄平滑24+螺纹24+六合一24 成人情趣用品 男用套套</a></li>
+<li><a href="https://item.jd.com/159324.html" target="_blank" rel="external">杜蕾斯 避孕套 男用 安全套 计生用品 LOVE装10只装 成人用品 Durex</a></li>
+<li><a href="https://item.jd.com/1228382.html" target="_blank" rel="external">杜蕾斯 避孕套 男用 安全套  计生用品 超值套装40只（挚爱12+love10+亲昵12+赠随机6只） 成人用品 Durex</a></li>
+<li><a href="https://item.jd.com/1218133970.html" target="_blank" rel="external">durex杜蕾斯LOVE型避孕套10只装</a></li>
+<li><a href="https://item.jd.com/1438545223.html" target="_blank" rel="external">杜蕾斯durex避孕套/安全套 LOVE 10只装</a></li>
+<li><a href="https://item.jd.com/1265085.html" target="_blank" rel="external">冈本Okamoto避孕套skin组合20片（至尊10片+纯或质感10片）超薄安全套 原装进口</a></li>
+<li><a href="https://item.jd.com/2179400.html" target="_blank" rel="external">冈本Okamoto避孕套 skin肤感纯3片装 安全套 原装进口</a></li>
+<li><a href="https://item.jd.com/3521615.html" target="_blank" rel="external">杜蕾斯 避孕套 男用 安全套 计生用品 超薄尊享三合一18只装（超薄10＋倍滑超薄4+紧型超薄4）Durex</a></li>
+<li><a href="https://item.jd.com/1340204.html" target="_blank" rel="external">杜蕾斯 避孕套 男用 安全套 超薄 计生用品 情爱四合一 32只装 成人用品 Durex</a></li>
+<li><a href="https://item.jd.com/315792.html" target="_blank" rel="external">冈本（Okamoto）避孕套003白金3片装 超薄安全套 原装进口 新老包装随机发货</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>本文根据京东避孕套的销量情况，分析中国各省对啪啪啪的喜爱程度，以及深度<del>胡扯</del>分析中国人一年四季对避孕套的需求。</p>
+<p>虽然本文不涉及低俗的内容，但是因为谈论的话题还是成年人的话题，请小司机们自觉绕行。<br>]]>
+    
+    </summary>
+    
+      <category term="大数据" scheme="http://colobu.com/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[[译]Scala Collection的性能]]></title>
@@ -2118,114 +2219,6 @@
       <category term="d3.js" scheme="http://colobu.com/tags/d3-js/"/>
     
       <category term="前端开发" scheme="http://colobu.com/categories/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[继续了解Java的纤程库 - Quasar]]></title>
-    <link href="http://colobu.com/2016/08/01/talk-about-quasar-again/"/>
-    <id>http://colobu.com/2016/08/01/talk-about-quasar-again/</id>
-    <published>2016-08-01T05:59:31.000Z</published>
-    <updated>2016-11-13T09:23:00.232Z</updated>
-    <content type="html"><![CDATA[<p>前一篇文章<a href="http://colobu.com/2016/07/14/Java-Fiber-Quasar/" target="_blank" rel="external">Java中的纤程库 - Quasar</a>中我做了简单的介绍，现在进一步介绍这个纤程库。</p>
-<p>Quasar还没有得到广泛的应用，搜寻整个github也就<a href="https://github.com/pinterest/quasar-thrift" target="_blank" rel="external">pinterest/quasar-thrift</a>这么一个像样的使用Quasar的库，。并且官方的文档也很简陋，很多地方并没有详细的介绍，和Maven的集成也不是很好。这些都限制了Quasar的进一步发展。</p>
-<p>但是，作为目前最好用的Java coroutine的实现，它在某些情况下的性能还是表现相当出色的，希望这个项目能够得到更大的支持和快速发展。</p>
-<p>因为Quasar文档的缺乏，所以使用起来需要不断的摸索和在论坛上搜索答案，本文将一些记录了我在Quasar使用过程中的一些探索。</p>
-<a id="more"></a>
-<h3 id="Thread_vs_Quasar">Thread vs Quasar</h3>
-<p>虽然Java的线程的API封装的很好，使用起来非常的方便，但是使用起来也得小心。首先线程需要耗费资源，所以单个的机器上创建上万个线程很困难，其次线程之间的切换也需要耗费CPU,在线程非常多的情况下导致很多CPU资源耗费在线程切换上，通过提高线程数来提高系统的性能有时候适得其反。你可以看到现在一些优秀的框架如Netty都不会创建很多的线程，默认2倍的CPU core的线程数就已经应付的很好了，比如node.js可以使用单一的进程／线程应付高并发。</p>
-<p>纤程使用的资源更少，它主要保存栈信息，所以一个系统中可以创建上万的纤程Fiber，而实际的纤程调度器只需要几个Java线程即可。</p>
-<p>我们看一个性能的比较，直观的感受一下Quasar带来的吞吐率的提高。</p>
-<p>下面这个例子中方法<code>m1</code>调用<code>m2</code>,<code>m2</code>调用<code>m3</code>，但是<code>m2</code>会暂停1秒钟，用来模拟实际产品中的阻塞，<code>m3</code>执行了一个简单的计算。<br>通过线程和纤程两种方式我们看看系统的吞吐率(throughput)和延迟(latency)。</p>
-<figure class="highlight Java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Helloworld</span> </span>{</div><div class="line">    <span class="annotation">@Suspendable</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">void</span> m1() <span class="keyword">throws</span> InterruptedException, SuspendExecution {</div><div class="line">        String m = <span class="string">"m1"</span>;</div><div class="line">        <span class="comment">//System.out.println("m1 begin");</span></div><div class="line">        m = m2();</div><div class="line">        <span class="comment">//System.out.println("m1 end");</span></div><div class="line">        <span class="comment">//System.out.println(m);</span></div><div class="line"></div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">static</span> String m2() <span class="keyword">throws</span> SuspendExecution, InterruptedException {</div><div class="line">        String m = m3();</div><div class="line">        Strand.sleep(<span class="number">1000</span>);</div><div class="line">        <span class="keyword">return</span> m;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//or define in META-INF/suspendables</span></div><div class="line">    <span class="annotation">@Suspendable</span></div><div class="line">    <span class="keyword">static</span> String m3() {</div><div class="line">        List l = Stream.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>).filter(i -&gt; i%<span class="number">2</span> == <span class="number">0</span>).collect(Collectors.toList());</div><div class="line">        <span class="keyword">return</span> l.toString();</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) <span class="keyword">throws</span> ExecutionException, InterruptedException {</div><div class="line">        <span class="keyword">int</span> count = <span class="number">10000</span>;</div><div class="line"></div><div class="line">        testThreadpool(count);</div><div class="line">        testFiber(count);</div><div class="line"></div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">void</span> testThreadpool(<span class="keyword">int</span> count) <span class="keyword">throws</span> InterruptedException {</div><div class="line"></div><div class="line">        <span class="keyword">final</span> CountDownLatch latch = <span class="keyword">new</span> CountDownLatch(count);</div><div class="line">        ExecutorService es = Executors.newFixedThreadPool(<span class="number">200</span>);</div><div class="line"></div><div class="line">        LongAdder latency = <span class="keyword">new</span> LongAdder();</div><div class="line"></div><div class="line">        <span class="keyword">long</span> t = System.currentTimeMillis();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i =<span class="number">0</span>; i&lt; count; i++) {</div><div class="line">            es.submit(() -&gt; {</div><div class="line">                <span class="keyword">long</span> start = System.currentTimeMillis();</div><div class="line">                <span class="keyword">try</span> {</div><div class="line">                    m1();</div><div class="line">                } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">                    e.printStackTrace();</div><div class="line">                } <span class="keyword">catch</span> (SuspendExecution suspendExecution) {</div><div class="line">                    suspendExecution.printStackTrace();</div><div class="line">                }</div><div class="line">                start = System.currentTimeMillis() - start;</div><div class="line">                latency.add(start);</div><div class="line"></div><div class="line">                latch.countDown();</div><div class="line">            });</div><div class="line">        }</div><div class="line"></div><div class="line">        latch.await();</div><div class="line">        t = System.currentTimeMillis() - t;</div><div class="line">        <span class="keyword">long</span> l = latency.longValue() / count;</div><div class="line"></div><div class="line">        System.out.println(<span class="string">"thread pool took: "</span> + t + <span class="string">", latency: "</span> + l + <span class="string">" ms"</span>);</div><div class="line"></div><div class="line">        es.shutdownNow();</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">void</span> testFiber(<span class="keyword">int</span> count) <span class="keyword">throws</span> InterruptedException {</div><div class="line"></div><div class="line">        <span class="keyword">final</span> CountDownLatch latch = <span class="keyword">new</span> CountDownLatch(count);</div><div class="line">        LongAdder latency = <span class="keyword">new</span> LongAdder();</div><div class="line"></div><div class="line"></div><div class="line">        <span class="keyword">long</span> t = System.currentTimeMillis();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i =<span class="number">0</span>; i&lt; count; i++) {</div><div class="line">            <span class="keyword">new</span> Fiber&lt;Void&gt;(<span class="string">"Caller"</span>, <span class="keyword">new</span> SuspendableRunnable() {</div><div class="line"></div><div class="line">                <span class="annotation">@Override</span></div><div class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() <span class="keyword">throws</span> SuspendExecution, InterruptedException {</div><div class="line">                    <span class="keyword">long</span> start = System.currentTimeMillis();</div><div class="line">                    m1();</div><div class="line">                    start = System.currentTimeMillis() - start;</div><div class="line">                    latency.add(start);</div><div class="line">                    latch.countDown();</div><div class="line">                }</div><div class="line">            }).start();</div><div class="line">        }</div><div class="line"></div><div class="line">        latch.await();</div><div class="line">        t = System.currentTimeMillis() - t;</div><div class="line"></div><div class="line">        <span class="keyword">long</span> l = latency.longValue() / count;</div><div class="line">        System.out.println(<span class="string">"fiber took: "</span> + t  + <span class="string">", latency: "</span> + l + <span class="string">" ms"</span>);</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>运行这个程序(需要某种instrument, agent或者AOT或者其它，在下面会介绍)，输出结果为：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">thread</span> pool took: <span class="number">50341</span>, latency: <span class="number">1005</span> ms</div><div class="line">fiber took: <span class="number">1158</span>, latency: <span class="number">1000</span> ms</div></pre></td></tr></table></figure>
-
-<p>如果使用线程，执行完1万个操作需要50秒，平均延迟为1秒左右(我们故意让延迟至少1秒)，线程池数量为200。(其实总时间50秒可以计算出来)<br>但是如果使用纤程，执行完1万个操作仅需要1.158秒，平均延迟时间为1秒，线程数量为CPU core数(缺省使用ForkJoinPool)。</p>
-<p>可以看到，通过使用纤程，尽受限于系统的业务逻辑，我们没有办法提升业务的处理时间， 但是我们确可以极大的提高系统的吞吐率，如上面的简单的例子将10000个操作的处理时间从50秒提高到1秒，非凡的成就。</p>
-<p>如果我们将方法<code>m2</code>中的<code>Strand.sleep(1000);</code>注释掉，这样这个例子中就没有什么阻塞了，我们看看在这种纯计算的情况下两者的表现：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="title">thread</span> pool took: <span class="number">114</span>, latency: <span class="number">0</span> ms</div><div class="line">fiber took: <span class="number">180</span>, latency: <span class="number">0</span> ms</div></pre></td></tr></table></figure>
-
-<p>可以看到，纤程非但没有提升性能，反而会带来性能的下降。对于这种纯计算没有阻塞的case,Quasar并不适合。</p>
-<p>正如官方所说：</p>
-<blockquote>
-<p>Fibers are not meant to replace threads in all circumstances. A fiber should be used when its body (the code it executes) blocks very often waiting on other fibers (e.g. waiting for messages sent by other fibers on a channel, or waiting for the value of a dataflow-variable). For long-running computations that rarely block, traditional threads are preferable. Fortunately, as we shall see, fibers and threads interoperate very well.</p>
-</blockquote>
-<h3 id="Suspendable方法">Suspendable方法</h3>
-<p>Fiber中的run方法，如<code>SuspendableRunnable</code> 和 <code>SuspendableCallable</code>声明了<code>SuspendExecution</code>异常。这并不是一个真的异常，而是fiber内部工作的机制。任何运行在fiber中的可能阻塞的方法，如果声明了这个异常，就被叫做 <strong>suspendable</strong> 方法。 如果你的方法调用了一个<code>suspendable</code>方法，那么你的方法也是<code>suspendable</code>方法，所以也需要声明抛出<code>SuspendExecution</code>异常。</p>
-<p>有时候不能在某个方法上声明抛出<code>SuspendExecution</code>异常，比如你实现某个接口，你不能更改接口的方法声明，你不得不使用其它的方法来指定<code>suspendable</code>方法。方法之一就是使用<code>@Suspendable</code>注解，在你需要指定的<code>suspendable</code>方法上加上这个注解就可以告诉Quasar这个方法是<code>suspendable</code>方法。</p>
-<p>另一个情况就是对于第三的库，你不可能更改它们的代码，如果想指定这些库的某些方法是<code>suspendable</code>方法,比如<code>java.net.URL.openStream()Ljava/io/InputStream;</code>, 就需要另外一种解决办法，也就是在<code>META-INF/suspendables</code>和<code>META-INF/suspendable-supers</code>定义。<br>文件中每个方法占一行，具体(concrete)的<code>suspendable</code>方法应该写在<code>META-INF/suspendables</code>中，<code>non-suspendable</code>方法，但是有<code>suspendable override</code>的类、接口写在<code>META-INF/suspendable-supers</code>中(可以是具体类单不能是final, 接口和抽象类也可以)。<br>每一行应该是方法的签名的全称“full.class.name.methodName” 以及<code>*</code>通配符。<br>使用｀SuspendablesScanner｀可以自动增加你的方法到这些文件中，待会介绍它。</p>
-<p><code>java.lang</code>包下的方法不能标记为<code>suspendable</code>，其它的JDK方法则可以显示地在文件<code>META-INF/suspendables</code>和<code>META-INF/suspendable-supers</code>中标记为<code>suspendable</code>，并且设置环境变量<code>co.paralleluniverse.fibers.allowJdkInstrumentation</code>为true,但是很少这样使用。</p>
-<p>还有一些特殊的情况也会被认为是<code>suspendable</code>的。</p>
-<p>反射调用总是被看作是<code>suspendable</code>的。</p>
-<p>Java 8 lambda也总是被看作<code>suspendable</code>的。</p>
-<p>构造函数／类初始化器不能被标记为<code>suspendable</code>。</p>
-<p>缺省情况下<code>synchronized</code>和blocking thread 调用不能运行在Fiber中。这是因为它们会阻塞Fiber使用的线程，导致系统处理变慢，但是如果你非要在Fiber中使用它们，可以可以将<code>allowMonitors</code>和<code>allowBlocking</code>传给instrumentation Ant task，或者将<code>b</code>、<code>m</code>传给Quasar Java agent。</p>
-<h3 id="Maven配置">Maven配置</h3>
-<p>Quasar依赖字节码的<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/instrument/package-summary.html" target="_blank" rel="external">instrumentation</a>, instrumentation用来修改字节码。 Quasar可以在运行时或者编译时修改字节码，下面介绍这几种实现。</p>
-<p>1、<strong>Quasar Java Agent</strong><br>Quasar java agent可以在运行时动态修改字节码，将下面一行加搭配java命令行中即可，注意把path-to-quasar-jar.jar替换成你实际的quasar java的地址。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-javaagent:path-to-quasar-jar.jar</div></pre></td></tr></table></figure>
-
-<p>如果你使用maven的exec task，你可以使用<code>maven-dependency-plugin</code>为依赖设置properties，然后在插件exec-maven-plugin中引用quasar库即可。</p>
-<p>详细配置可以参考<a href="http://docs.paralleluniverse.co/quasar/#specifying-the-java-agent-with-maven" target="_blank" rel="external">Specifying the Java Agent with Maven:</a>。</p>
-<p>Quasar对gradle的支持比较好，你可以方便的使用<a href="http://docs.paralleluniverse.co/quasar/#specifying-the-java-agent-with-gradle" target="_blank" rel="external">gradle配置</a>。</p>
-<p>这是首选的一种方式，因为在某些情况下，比如你使用第三方的库，如comsat,它们只能使用这种方式配置。</p>
-<p>2、<strong>AOT(Ahead-of-Time)</strong><br>另外一种是在编译时的时候完成instrumentation。</p>
-<p>它是通过一个Ant Task来完成的，所以对于Maven管理的项目来说，配置起来有些麻烦。</p>
-<p>这个Ant Task是<code>co.paralleluniverse.fibers.instrument.InstrumentationTask</code>，包含在<code>quasar-core.jar</code>中。它接受一组(fileset)classes进行instrument,但并不是传给它的所有classes都需要classes进行instrument,只有<code>suspendable</code>方法才有可能被instrument。它还会进行优化，有些<code>suspendable</code>方法可能不需要instrument。</p>
-<p>在Maven中配置起来有些复杂，如下面所示：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">plugin</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>maven-antrun-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">executions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="title">execution</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="title">id</span>&gt;</span>instrument-classes<span class="tag">&lt;/<span class="title">id</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="title">phase</span>&gt;</span>compile<span class="tag">&lt;/<span class="title">phase</span>&gt;</span></div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="title">configuration</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="title">tasks</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"ant_classpath"</span> <span class="attribute">refid</span>=<span class="value">"maven.dependency.classpath"</span>/&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="title">taskdef</span> <span class="attribute">name</span>=<span class="value">"instrumentationTask"</span></span></div><div class="line">                             <span class="attribute">classname</span>=<span class="value">"co.paralleluniverse.fibers.instrument.InstrumentationTask"</span></div><div class="line">                             <span class="attribute">classpath</span>=<span class="value">"${co.paralleluniverse:quasar-core:jar:jdk8}"</span>/&gt;</div><div class="line">                    <span class="tag">&lt;<span class="title">instrumentationTask</span> <span class="attribute">allowMonitors</span>=<span class="value">"true"</span> <span class="attribute">allowBlocking</span>=<span class="value">"true"</span> <span class="attribute">check</span>=<span class="value">"true"</span> <span class="attribute">verbose</span>=<span class="value">"true"</span> <span class="attribute">debug</span>=<span class="value">"true"</span>&gt;</span></div><div class="line">                        <span class="tag">&lt;<span class="title">fileset</span> <span class="attribute">dir</span>=<span class="value">"${project.build.directory}/classes/"</span> <span class="attribute">includes</span>=<span class="value">"**/*"</span>/&gt;</span></div><div class="line">                    <span class="tag">&lt;/<span class="title">instrumentationTask</span>&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="title">tasks</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="title">configuration</span>&gt;</span></div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="title">goals</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="title">goal</span>&gt;</span>run<span class="tag">&lt;/<span class="title">goal</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="title">goals</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="title">execution</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="title">executions</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">plugin</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="title">plugin</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>maven-dependency-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">version</span>&gt;</span>2.5.1<span class="tag">&lt;/<span class="title">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">executions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="title">execution</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="title">id</span>&gt;</span>getClasspathFilenames<span class="tag">&lt;/<span class="title">id</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="title">goals</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="title">goal</span>&gt;</span>properties<span class="tag">&lt;/<span class="title">goal</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="title">goals</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="title">execution</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="title">executions</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">plugin</span>&gt;</span></div></pre></td></tr></table></figure>
-
-<p>Quasar官方并没有提供一个maven插件，好心的社区倒是提供了一个<a href="https://github.com/vy/quasar-maven-plugin" target="_blank" rel="external">quasar-maven-plugin</a>。所以你可以不用上面的写法，而是用下面简单的写法：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">plugin</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.vlkan<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>quasar-maven-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">version</span>&gt;</span>0.7.3<span class="tag">&lt;/<span class="title">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">configuration</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="title">check</span>&gt;</span>true<span class="tag">&lt;/<span class="title">check</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="title">debug</span>&gt;</span>true<span class="tag">&lt;/<span class="title">debug</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="title">verbose</span>&gt;</span>true<span class="tag">&lt;/<span class="title">verbose</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="title">configuration</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">executions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="title">execution</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="title">phase</span>&gt;</span>compile<span class="tag">&lt;/<span class="title">phase</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="title">goals</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="title">goal</span>&gt;</span>instrument<span class="tag">&lt;/<span class="title">goal</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="title">goals</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="title">execution</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="title">executions</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">plugin</span>&gt;</span></div></pre></td></tr></table></figure>
-
-<p>3、<strong>在Web容器中</strong><br>如果你使用web容器使用基于Quasar的库comsat等，比如Tomcat,则比较棘手。因为你不太像将Quasar java agent直接加到tomcat的启动脚本中，这样会instrument所有的应用，导致很多的警告。</p>
-<p>Comsat提供了Tomcat和Jetty的解决方案。</p>
-<p><strong>Tomcat</strong><br>对于tomcat,你可以把<code>comsat-tomcat-loader-0.7.0-jdk8.jar</code>或者<code>comsat-tomcat-loader-0.7.0.jar</code>加入到tomcat的<code>common/lib</code>或者<code>lib</code>中，然后在你的web应用<code>META-INF/context.xml</code>中加入：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">Loader</span> <span class="attribute">loaderClass</span>=<span class="value">"co.paralleluniverse.comsat.tomcat.QuasarWebAppClassLoader"</span> /&gt;</span></div></pre></td></tr></table></figure>
-
-<p><strong>Jetty</strong><br>如果使用Jetty,则把<code>comsat-jetty-loader-0.7.0-jdk8.jar</code>或者<code>comsat-jetty-loader-0.7.0.jar</code>加入到Jetty的lib中，然后在你的context.xml中加入<code>&lt;Set name=&quot;classLoader&quot;&gt;</code>:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">Configure</span> <span class="attribute">id</span>=<span class="value">"ctx"</span> <span class="attribute">class</span>=<span class="value">"org.eclipse.jetty.webapp.WebAppContext"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">Set</span> <span class="attribute">name</span>=<span class="value">"war"</span>&gt;</span>./build/wars/dep.war<span class="tag">&lt;/<span class="title">Set</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--use custom classloader in order to instrument classes by quasar--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">Set</span> <span class="attribute">name</span>=<span class="value">"classLoader"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="title">New</span> <span class="attribute">class</span>=<span class="value">"co.paralleluniverse.comsat.jetty.QuasarWebAppClassLoader"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="title">Arg</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="title">Ref</span> <span class="attribute">id</span>=<span class="value">"ctx"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="title">Arg</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="title">New</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="title">Set</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">Configure</span>&gt;</span></div></pre></td></tr></table></figure>
-
-<p>总之，通过实现一个定制的ClassLoader实现instrumentation。</p>
-<h3 id="Auto_Suspendables_Detection">Auto Suspendables Detection</h3>
-<p>quasar提供了一个ant task,可以实现自动侦测<code>suspendable</code>方法，并可以把它们写入到｀META-INF/suspendables<code>和</code>META-INF/suspendable-supers`。</p>
-<p>但是官方并没有详细的介绍，而且也没有相应的maven插件可以使用。</p>
-<p>我们可以看看在gradle如何使用的，我们可以把侦测结果复制到maven中使用：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">apply plugin: 'java'</div><div class="line">apply plugin: 'maven'</div><div class="line"></div><div class="line">group = 'com.colobu.fiber'</div><div class="line">version = '1.0'</div><div class="line"></div><div class="line">description = """"""</div><div class="line"></div><div class="line">sourceCompatibility = 1.8</div><div class="line">targetCompatibility = 1.8</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">repositories {</div><div class="line"></div><div class="line">     maven { url "http://repo.maven.apache.org/maven2" }</div><div class="line">}</div><div class="line">dependencies {</div><div class="line">    compile group: 'co.paralleluniverse', name: 'quasar-core', version:'0.7.5', classifier:'jdk8'</div><div class="line">    compile group: 'co.paralleluniverse', name: 'comsat-httpclient', version:'0.7.0'</div><div class="line">    testCompile group: 'junit', name: 'junit', version:'4.12'</div><div class="line">}</div><div class="line"></div><div class="line">classes {</div><div class="line">    doFirst {</div><div class="line">        ant.taskdef(name: 'scanSuspendables',</div><div class="line">                classname: 'co.paralleluniverse.fibers.instrument.SuspendablesScanner',</div><div class="line">                classpath: "build/classes/main:build/resources/main:${configurations.runtime.asPath}")</div><div class="line">        ant.scanSuspendables(auto: true,</div><div class="line">                suspendablesFile: "$sourceSets.main.output.resourcesDir/META-INF/suspendables",</div><div class="line">                supersFile: "$sourceSets.main.output.resourcesDir/META-INF/suspendable-supers",</div><div class="line">                append: true) {</div><div class="line">            fileset(dir: sourceSets.main.output.classesDir)</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>我们可以看一下官方的库comsat的一些｀META-INF/suspendables`例子：</p>
-<p>1、comsat-okhttp<br><a href="https://github.com/puniverse/comsat/blob/master/comsat-okhttp/src/main/resources/META-INF/suspendables" target="_blank" rel="external">/META-INF/suspendables</a>:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">com</span>.squareup.okhttp.apache.OkApacheClient.<span class="keyword">execute</span></div></pre></td></tr></table></figure>
-
-<p>2、comsat-httpclient<br><a href="https://github.com/puniverse/comsat/blob/master/comsat-httpclient/src/main/resources/META-INF/suspendables" target="_blank" rel="external">/META-INF/suspendables</a></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">org.apache.http.<span class="keyword">impl</span>.client.CloseableHttpClient.doExecute</div><div class="line">org.apache.http.<span class="keyword">impl</span>.client.CloseableHttpClient.execute</div></pre></td></tr></table></figure>
-
-<h3 id="故障检测">故障检测</h3>
-<p>当前quasar依赖字节码的instrumentation,所以suspendable方法必须在运行之前进行标记。</p>
-<p>Quasar开发组和OpenJDK协作，将在JDK9中移除这个限制，将会有效地自动地实现instrumentation。</p>
-<p>如果你忘记将一个方法标记为<code>suspendable</code> (throws SuspendExecution、@Suspendable或者META-INF/suspendables/META-INF/suspendable-supers)，你可能会遇到一些奇怪的错误。</p>
-<p>环境变量<code>co.paralleluniverse.fibers.verifyInstrumentation</code>设为true可以检查未标记的方法。但是在生产环境中不要设置它。</p>
-<p><code>UnableToInstrumentException</code>异常表明quasar不能instrument一些方法如<code>synchronized</code>或者阻塞的线程调用。verbose(v), debug(d) 和 check(c)可以打印出详细信息。</p>
-<p>更多的调试可以参考:<a href="http://docs.paralleluniverse.co/quasar/#troubleshooting" target="_blank" rel="external">troubleshooting</a>。</p>
-<h3 id="其它">其它</h3>
-<p>Fiber可以序列化。</p>
-<p>Fiber也可以打印它的堆栈进行调试。</p>
-<p>Fiber也有Actor和Channel的实现，并且可以运行在集群上。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>前一篇文章<a href="http://colobu.com/2016/07/14/Java-Fiber-Quasar/" target="_blank" rel="external">Java中的纤程库 - Quasar</a>中我做了简单的介绍，现在进一步介绍这个纤程库。</p>
-<p>Quasar还没有得到广泛的应用，搜寻整个github也就<a href="https://github.com/pinterest/quasar-thrift" target="_blank" rel="external">pinterest/quasar-thrift</a>这么一个像样的使用Quasar的库，。并且官方的文档也很简陋，很多地方并没有详细的介绍，和Maven的集成也不是很好。这些都限制了Quasar的进一步发展。</p>
-<p>但是，作为目前最好用的Java coroutine的实现，它在某些情况下的性能还是表现相当出色的，希望这个项目能够得到更大的支持和快速发展。</p>
-<p>因为Quasar文档的缺乏，所以使用起来需要不断的摸索和在论坛上搜索答案，本文将一些记录了我在Quasar使用过程中的一些探索。</p>
-]]>
-    
-    </summary>
-    
-      <category term="quasar" scheme="http://colobu.com/tags/quasar/"/>
-    
-      <category term="Java" scheme="http://colobu.com/categories/Java/"/>
     
   </entry>
   
