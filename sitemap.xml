@@ -2,6 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://colobu.com/2016/12/24/a-featured-fsm/</loc>
+    <lastmod>2016-12-24T09:25:02.627Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2016/11/28/techempower-benchmarks-round13/</loc>
+    <lastmod>2016-12-24T07:10:58.032Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2016/12/21/how-to-dump-goroutine-stack-traces/</loc>
+    <lastmod>2016-12-24T07:10:57.979Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2016/07/13/gos-march-to-low-latency-gc/</loc>
+    <lastmod>2016-12-24T07:10:57.972Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2016/12/20/detect-and-link-references-in-github/</loc>
+    <lastmod>2016-12-24T07:10:57.959Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2016/12/10/Food-Chain-of-Premier-League/</loc>
     <lastmod>2016-12-10T16:19:55.285Z</lastmod>
   </url>
@@ -14,11 +39,6 @@
   <url>
     <loc>http://colobu.com/2016/12/04/smooth-weighted-round-robin-algorithm/</loc>
     <lastmod>2016-12-04T08:07:27.980Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2016/11/28/techempower-benchmarks-round13/</loc>
-    <lastmod>2016-11-28T11:43:50.582Z</lastmod>
   </url>
   
   <url>
@@ -734,11 +754,6 @@
   <url>
     <loc>http://colobu.com/2015/09/07/gotchas-and-common-mistakes-in-go-golang/</loc>
     <lastmod>2016-11-13T09:22:59.454Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2016/07/13/gos-march-to-low-latency-gc/</loc>
-    <lastmod>2016-11-13T09:22:59.438Z</lastmod>
   </url>
   
   <url>

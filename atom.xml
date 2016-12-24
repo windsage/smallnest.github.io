@@ -4,7 +4,7 @@
   <subtitle><![CDATA[大道至简 Simplicity is the ultimate form of sophistication]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://colobu.com/"/>
-  <updated>2016-12-14T00:08:15.289Z</updated>
+  <updated>2016-12-24T09:25:24.943Z</updated>
   <id>http://colobu.com/</id>
   
   <author>
@@ -13,6 +13,251 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[一个有特色的有限状态机]]></title>
+    <link href="http://colobu.com/2016/12/24/a-featured-fsm/"/>
+    <id>http://colobu.com/2016/12/24/a-featured-fsm/</id>
+    <published>2016-12-24T07:12:48.000Z</published>
+    <updated>2016-12-24T09:25:02.627Z</updated>
+    <content type="html"><![CDATA[<p><a href="https://github.com/smallnest/gofsm" target="_blank" rel="external">gofsm</a>是一个简单、小巧而又特色的有限状态机（FSM）。</p>
+<p>github已经有了很几个状态机的实现，比如下面的几个，还为什么要再发明轮子呢？</p>
+<p>原因在于这些状态机有一个特点，就是一个状态机维护一个对象的状态，这样一个状态机就和一个具体的图像实例关联在一起，在有些情况下，这没有什么问题，而且是很好的设计，而且比较符合状态机的定义。但是在有些情况下，当我们需要维护成千上百个对象的时候，需要创建成千上百个状态机对象，这其实是很大的浪费，因为在大部分情况下，对象本身自己会维护/保持自己当前的状态，我们只需把对象当前的状态传递给一个共用的状态机就可以了，也就是gofsm本身是“stateless”，本身它包维护一个或者多个对象的状态，所有需要的输入由调用者输入，它只负责状态的转换的逻辑，所以它的实现非常的简洁实用，这是创建gofsm的一个目的。</p>
+<p>第二个原因它提供了Moore和Mealy两种状态机的统一接口，并且提供了UML状态机风格的Action处理，以程序员更熟悉的方式处理状态的改变。</p>
+<p>第三个原因，当我们谈论起状态机的时候，我们总会画一个状态转换图，大家可以根据这这张图进行讨论、设计、实现和验证状态的迁移。但是对于代码来说，实现真的和你的设计是一致的吗，你怎么保证？gofsm提供了一个简单的方法，那就是它可以输出图片或者pdf文件，你可以利用输出的状态机图和你的设计进行比较，看看实现和设计是否一致。</p>
+<p><img src="/2016/12/24/a-featured-fsm/state.png" alt="gofsm生成的闸门状态图"><br><a id="more"></a></p>
+<h2 id="有限状态机">有限状态机</h2>
+<p>有限状态机（finite-state machine）常常用于计算机程序和时序逻辑电路的设计数学模型。它被看作是一种抽象的机器，可以有有限个状态。任意时刻这个机器只有唯一的一个状态，这个状态称为当前状态。当有外部的事件或者条件被触发，它可以从一个状态转换到另一个状态，这就是转换（transition）。一个FSM就是由所有的状态、初始状态和每个转换的触发条件所定义。有时候，当这个转换发生的时候，我们可以要执行一些事情，我们称之为动作（Action）。</p>
+<p>现实情况中，我们实际上遇到了很多的这种状态机的情况，只不过我们并没有把它们抽象出来，比如路口的红绿灯，总是在红、黄、绿的状态之间转变，比如电梯的状态，包括开、关、上、下等几个状态。</p>
+<p>有限状态机可以有效清晰的为一大堆的问题建立模型，大量应用于电子设计、通讯协议、语言解析和其它的工程应用中，比如TCP/IP协议栈。</p>
+<p><img src="tcpfsm.png" alt="图像来源 http://www.tcpipguide.com"></p>
+<p>以一个转门为例，这种专门在一些会展、博物馆、公园的门口很常见，顾客可以投币或者刷卡刷票进入，我们下面以投币(Coin)统称这个触发事件。如果你不投币，闸门是锁着的，你推不动它的转臂，而且投一次币只能进去一个人，过去之后闸门又是锁着的，挺智能的 ：）。</p>
+<p><img src="turnstile.jpg" alt="图片来源 wikipedia"></p>
+<p>如果我们抽象出来它的状态图，可以用下图表示：<br><img src="wiki-fsm.png" alt="图片来源 wikipedia"></p>
+<p>它有两个状态：<code>Locked</code>、<code>Unlocked</code>。有两个输入（input）会影响它的状态，投币(coin)和推动转臂（push）。</p>
+<ol>
+<li>在Locked状态， push没有作用。不管比push多少次闸门的状态还是lock</li>
+<li>在Locked状态，投币会让闸门开锁，闸门可以让一个人通过</li>
+<li>在Unlocked状态，投币不起作用，闸门还是开着</li>
+<li>在Unlocked状态，如果有人push通过，人通过后闸门会由Unlocked状态转变成Locked状态。</li>
+</ol>
+<p>这是一个简单的闸门的状态转换，却是一个很好的理解状态的典型例子。</p>
+<p>以表格来表示：</p>
+<table><tbody><tr><th>Current State</th><th>Input</th><th>Next State</th><th>Output</th></tr><tr><th rowspan="2">Locked</th><td>coin</td><td>Unlocked</td><td>Unlock turnstile so customer can push through</td></tr><tr><td>push</td><td>Locked</td><td>None</td></tr><tr><th rowspan="2">Unlocked</th><td>coin</td><td>Unlocked</td><td>None</td></tr><tr><td>push</td><td>Locked</td><td>When customer has pushed through, lock turnstile</td></tr></tbody></table>
+
+
+<p>UML也有状态图的改变，它扩展了FSM的概念，提供了层次化的嵌套状态（Hierarchically nested states）和正交区域（orthogonal regions），当然这和本文没有太多的关系，有兴趣的读者可以找UML的资料看看。但是它提供了一个很好的概念，也就是动作（Action）。就像Mealy状态机所需要的一样，动作依赖系统的状态和触发事件，而它的Entry Action和Exit Action，却又像Moore 状态机一样，不依赖输入，只依赖状态。所以UML的动作有三种，一种是事件被处理的时候，状态机会执行特定的动作，比如改变变量、执行I/O、调用方法、触发另一个事件等。而离开一个状态，可以执行Exit action，进入一个状态，则执行Entry action。记住，收到一个事件，对象的状态不会改变，比如上边闸门的例子，在Locked状态下push多少次状态都没改变，这这种情况下，不会执行Exit和Entry action。</p>
+<p>gofsm提供了这种扩展的模型，当然如果你不想使用这种扩展，你也可以不去实现Entry和Exit。</p>
+<p>可以提到了两种状态机，这两种状态机是这样来区分的：</p>
+<ul>
+<li><strong>Moore machine</strong><br>Moore状态机只使用entry action，输出只依赖状态，不依赖输入。</li>
+<li><strong>Mealy machine</strong><br>Mealy状态机只使用input action，输出依赖输入input和状态state。使用这种状态机通常可以减少状态的数量。</li>
+</ul>
+<p>gofsm提供了一个通用的接口，你可以根据需要确定使用哪个状态机。从软件开发的实践上来看，有时候你并不一定要关注状态机的区分，而是清晰的抽象、设计你所关注的对象的状态、触发条件以及要执行的动作。</p>
+<h2 id="gofsm">gofsm</h2>
+<p>gofsm参考了 <a href="https://github.com/elimisteve/fsm" target="_blank" rel="external">elimisteve/fsm</a> 的实现，实现了一种单一状态机处理多个对象的方法，并且提供了输出状态图的功能。</p>
+<p>它除了定义对象的状态外，还定义了触发事件以及处理的Action，这些都是通过字符串来表示的，在使用的时候很容易的和你的对象、方法对应起来。</p>
+<p>使用gofsm也很简单，当然第一步将库拉到本地：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">go get -u github.com/smallnest/gofsm</div></pre></td></tr></table></figure>
+
+<p>我们以上面的闸门为例，看看gofsm是如何使用的。</p>
+<p>注意下面的单个状态机可以处理并行地的处理多个闸门的状态改变，虽然例子中只生成了一个闸门对象。</p>
+<p>首先定义一个闸门对象,它包含一个State，表示它当前的状态：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> Turnstile <span class="keyword">struct</span> {</div><div class="line">	ID         <span class="typename">uint64</span></div><div class="line">	EventCount <span class="typename">uint64</span> <span class="comment">//事件统计</span></div><div class="line">	CoinCount  <span class="typename">uint64</span> <span class="comment">//投币事件统计</span></div><div class="line">	PassCount  <span class="typename">uint64</span> <span class="comment">//顾客通过事件统计</span></div><div class="line">	State      <span class="typename">string</span> <span class="comment">//当前状态</span></div><div class="line">	States     []<span class="typename">string</span> <span class="comment">//历史经过的状态</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>状态机的初始化简单直接：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> initFSM() *StateMachine {</div><div class="line">	delegate := &DefaultDelegate{p: &TurnstileEventProcessor{}}</div><div class="line"></div><div class="line">	transitions := []Transition{</div><div class="line">		Transition{From: <span class="string">"Locked"</span>, Event: <span class="string">"Coin"</span>, To: <span class="string">"Unlocked"</span>, Action: <span class="string">"check"</span>},</div><div class="line">		Transition{From: <span class="string">"Locked"</span>, Event: <span class="string">"Push"</span>, To: <span class="string">"Locked"</span>, Action: <span class="string">"invalid-push"</span>},</div><div class="line">		Transition{From: <span class="string">"Unlocked"</span>, Event: <span class="string">"Push"</span>, To: <span class="string">"Locked"</span>, Action: <span class="string">"pass"</span>},</div><div class="line">		Transition{From: <span class="string">"Unlocked"</span>, Event: <span class="string">"Coin"</span>, To: <span class="string">"Unlocked"</span>, Action: <span class="string">"repeat-check"</span>},</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="keyword">return</span> NewStateMachine(delegate, transitions...)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>你定义好转换对应关系<code>transitions</code>,一个<code>Transition</code>代表一个转换，从某个状态到另外一个状态，触发的事件名，要执行的Action。<br>因为Action是字符串，所以你需要实现<code>delegate</code>将Action和对应的要处理的方法对应起来。</p>
+<p>注意from和to的状态可以一样，在这种情况下，状态没有发生改变，只是需要处理Action就可以了。</p>
+<p>如果Action为空，也就是不需要处理事件，只是发生状态的改变而已。</p>
+<p>处理Action的类型如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> TurnstileEventProcessor <span class="keyword">struct</span>{}</div><div class="line"></div><div class="line"><span class="keyword">func</span> (p *TurnstileEventProcessor) OnExit(fromState <span class="typename">string</span>, args []<span class="keyword">interface</span>{}) {</div><div class="line">	……</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> (p *TurnstileEventProcessor) Action(action <span class="typename">string</span>, fromState <span class="typename">string</span>, toState <span class="typename">string</span>, args []<span class="keyword">interface</span>{}) {</div><div class="line">	……</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> (p *TurnstileEventProcessor) OnEnter(toState <span class="typename">string</span>, args []<span class="keyword">interface</span>{}) {</div><div class="line">    ……</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>然后我们就可以触发一些事件看看闸门的状态机是否正常工作：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line">ts := &Turnstile{</div><div class="line">	ID:    <span class="number"> 1</span>,</div><div class="line">	State:  <span class="string">"Locked"</span>,</div><div class="line">	States: []<span class="typename">string</span>{<span class="string">"Locked"</span>},</div><div class="line">}</div><div class="line">fsm := initFSM()</div><div class="line"></div><div class="line"><span class="comment">//推门</span></div><div class="line"><span class="comment">//没刷卡/投币不可进入</span></div><div class="line">err := fsm.Trigger(ts.State, <span class="string">"Push"</span>, ts)</div><div class="line"><span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">	t.Errorf(<span class="string">"trigger err: %v"</span>, err)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">//推门</span></div><div class="line"><span class="comment">//没刷卡/投币不可进入</span></div><div class="line">err = fsm.Trigger(ts.State, <span class="string">"Push"</span>, ts)</div><div class="line"><span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">	t.Errorf(<span class="string">"trigger err: %v"</span>, err)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">//刷卡或者投币</span></div><div class="line"><span class="comment">//不容易啊，终于解锁了</span></div><div class="line">err = fsm.Trigger(ts.State, <span class="string">"Coin"</span>, ts)</div><div class="line"><span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">	t.Errorf(<span class="string">"trigger err: %v"</span>, err)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">//刷卡或者投币</span></div><div class="line"><span class="comment">//这时才解锁</span></div><div class="line">err = fsm.Trigger(ts.State, <span class="string">"Coin"</span>, ts)</div><div class="line"><span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">	t.Errorf(<span class="string">"trigger err: %v"</span>, err)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">//推门</span></div><div class="line"><span class="comment">//这时才能进入，进入后闸门被锁</span></div><div class="line">err = fsm.Trigger(ts.State, <span class="string">"Push"</span>, ts)</div><div class="line"><span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">	t.Errorf(<span class="string">"trigger err: %v"</span>, err)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="comment">//推门</span></div><div class="line"><span class="comment">//无法进入，闸门已锁</span></div><div class="line">err = fsm.Trigger(ts.State, <span class="string">"Push"</span>, ts)</div><div class="line"><span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">	t.Errorf(<span class="string">"trigger err: %v"</span>, err)</div><div class="line">}</div><div class="line"></div><div class="line">lastState := Turnstile{</div><div class="line">	ID:        <span class="number"> 1</span>,</div><div class="line">	EventCount:<span class="number"> 6</span>,</div><div class="line">	CoinCount: <span class="number"> 2</span>,</div><div class="line">	PassCount: <span class="number"> 1</span>,</div><div class="line">	State:      <span class="string">"Locked"</span>,</div><div class="line">	States:     []<span class="typename">string</span>{<span class="string">"Locked"</span>, <span class="string">"Unlocked"</span>, <span class="string">"Locked"</span>},</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">if</span> !compareTurnstile(&lastState, ts) {</div><div class="line">	t.Errorf(<span class="string">"Expected last state: %+v, but got %+v"</span>, lastState, ts)</div><div class="line">} <span class="keyword">else</span> {</div><div class="line">	t.Logf(<span class="string">"最终的状态: %+v"</span>, ts)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>如果想将状态图输出图片，可以调用下面的方法，它实际是调用graphviz生成的，所以请确保你的机器上是否安装了这个软件，你可以执行<code>dot -h</code>检查一下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fsm.Export(<span class="string">"state.png"</span>)</div></pre></td></tr></table></figure>
+
+<p>生成的图片就是文首的闸门的状态机的图片。</p>
+<p>如果你想定制graphviz的参数，你可以调用另外一个方法：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> (m *StateMachine) ExportWithDetails(outfile <span class="typename">string</span>, format <span class="typename">string</span>, layout <span class="typename">string</span>, scale <span class="typename">string</span>, more <span class="typename">string</span>) error</div></pre></td></tr></table></figure>
+
+<h2 id="其它Go语言实现的FSM">其它Go语言实现的FSM</h2>
+<p>如果你发现gofsm的功能需要改进，或者有一些想法、或者发现了bug，请不用迟疑，在<a href="https://github.com/smallnest/gofsm/issues" target="_blank" rel="external">issue</a>中提交你的意见和建议，我会及时的进行反馈。</p>
+<p>如果你觉得本项目有用，或者将来可能会使用，请star这个项目 <a href="https://github.com/smallnest/gofsm" target="_blank" rel="external">smallnest/gofsm</a>。</p>
+<p>如果你想比较其它的Go语言实现的fsm，可以参考下面的列表：</p>
+<ul>
+<li><a href="https://github.com/elimisteve/fsm" target="_blank" rel="external">elimisteve/fsm</a></li>
+<li><a href="https://github.com/looplab/fsm" target="_blank" rel="external">looplab/fsm</a></li>
+<li><a href="https://github.com/vaughan0/go-fsm" target="_blank" rel="external">vaughan0/go-fsm</a></li>
+<li><a href="https://github.com/WatchBeam/fsm" target="_blank" rel="external">WatchBeam/fsm</a></li>
+<li><a href="https://github.com/DiscoViking/fsm" target="_blank" rel="external">DiscoViking/fsm</a></li>
+<li><a href="https://github.com/autocube/hsm" target="_blank" rel="external">autocube/hsm</a></li>
+<li><a href="https://github.com/theckman/go-fsm" target="_blank" rel="external">theckman/go-fsm</a></li>
+<li><a href="https://github.com/Zumata/fsm" target="_blank" rel="external">Zumata/fsm</a></li>
+<li><a href="https://github.com/syed/go-fsm" target="_blank" rel="external">syed/go-fsm</a></li>
+<li><a href="https://github.com/go-rut/fsm" target="_blank" rel="external">go-rut/fsm</a></li>
+<li><a href="https://github.com/yandd/fsm" target="_blank" rel="external">yandd/fsm</a></li>
+<li><a href="https://github.com/go-trellis/fsm" target="_blank" rel="external">go-trellis/fsm</a></li>
+<li>……</li>
+</ul>
+<h2 id="参考资料">参考资料</h2>
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank" rel="external">https://en.wikipedia.org/wiki/Finite-state_machine</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><a href="https://github.com/smallnest/gofsm" target="_blank" rel="external">gofsm</a>是一个简单、小巧而又特色的有限状态机（FSM）。</p>
+<p>github已经有了很几个状态机的实现，比如下面的几个，还为什么要再发明轮子呢？</p>
+<p>原因在于这些状态机有一个特点，就是一个状态机维护一个对象的状态，这样一个状态机就和一个具体的图像实例关联在一起，在有些情况下，这没有什么问题，而且是很好的设计，而且比较符合状态机的定义。但是在有些情况下，当我们需要维护成千上百个对象的时候，需要创建成千上百个状态机对象，这其实是很大的浪费，因为在大部分情况下，对象本身自己会维护/保持自己当前的状态，我们只需把对象当前的状态传递给一个共用的状态机就可以了，也就是gofsm本身是“stateless”，本身它包维护一个或者多个对象的状态，所有需要的输入由调用者输入，它只负责状态的转换的逻辑，所以它的实现非常的简洁实用，这是创建gofsm的一个目的。</p>
+<p>第二个原因它提供了Moore和Mealy两种状态机的统一接口，并且提供了UML状态机风格的Action处理，以程序员更熟悉的方式处理状态的改变。</p>
+<p>第三个原因，当我们谈论起状态机的时候，我们总会画一个状态转换图，大家可以根据这这张图进行讨论、设计、实现和验证状态的迁移。但是对于代码来说，实现真的和你的设计是一致的吗，你怎么保证？gofsm提供了一个简单的方法，那就是它可以输出图片或者pdf文件，你可以利用输出的状态机图和你的设计进行比较，看看实现和设计是否一致。</p>
+<p><img src="/2016/12/24/a-featured-fsm/state.png" alt="gofsm生成的闸门状态图"><br>]]>
+    
+    </summary>
+    
+      <category term="Go" scheme="http://colobu.com/categories/Go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[调试利器：dump goroutine 的 stacktrace]]></title>
+    <link href="http://colobu.com/2016/12/21/how-to-dump-goroutine-stack-traces/"/>
+    <id>http://colobu.com/2016/12/21/how-to-dump-goroutine-stack-traces/</id>
+    <published>2016-12-21T05:33:37.000Z</published>
+    <updated>2016-12-24T07:10:57.979Z</updated>
+    <content type="html"><![CDATA[<p>Stack trace是指堆栈回溯信息，在当前时间，以当前方法的执行点开始，回溯调用它的方法的方法的执行点，然后继续回溯，这样就可以跟踪整个方法的调用,大家比较熟悉的是JDK所带的<code>jstack</code>工具，可以把Java的所有线程的stack trace都打印出来。</p>
+<p>它有什么用呢？用处非常的大，当应用出现一些状况的时候，比如某个模块不执行， 锁竞争、CPU占用非常高等问题， 又没有足够的log信息可以分析，那么可以查看stack trace信息，看看线程都被阻塞或者运行在那些代码上，然后定位问题所在。</p>
+<p>对于Go开发的程序，有没有类似<code>jstack</code>这样的利器呢，目前我还没有看到，但是我们可以通过其它途径也很方便的输出goroutine的stack trace信息。</p>
+<p>本文介绍了几种方法，尤其是最后介绍的方法比较有用。</p>
+<a id="more"></a>
+<h2 id="异常退出情况下输出stacktrace">异常退出情况下输出stacktrace</h2>
+<h3 id="通过panic">通过panic</h3>
+<p>如果应用中有没recover的panic,或者应用在运行的时候出现运行时的异常，那么程序自动会将当前的goroutine的stack trace打印出来。</p>
+<p>比如下面的程序，如果你运行会抛出一个panic。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"time"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">func</span> main() {</div><div class="line">	<span class="keyword">go</span> a()</div><div class="line">	m1()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m1() {</div><div class="line">	m2()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m2() {</div><div class="line">	m3()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m3() {</div><div class="line">	<span class="built_in">panic</span>(<span class="string">"panic from m3"</span>)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> a() {</div><div class="line">	time.Sleep(time.Hour)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>输出下面的stack trace:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">dump <span class="keyword">go</span> run p.<span class="keyword">go</span></div><div class="line"><span class="built_in">panic</span>: <span class="built_in">panic</span> from m3</div><div class="line"></div><div class="line">goroutine<span class="number"> 1</span> [running]:</div><div class="line"><span class="built_in">panic</span><span class="number">(0</span>x596a0,<span class="number"> 0</span>xc42000a1a0)</div><div class="line">	/usr/local/Cellar/<span class="keyword">go</span><span class="number">/1.7</span><span class="number">.4</span>/libexec/src/runtime/<span class="built_in">panic</span>.<span class="keyword">go</span><span class="number">:500</span><span class="number"> +0</span>x1a1</div><div class="line">main.m3()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/p.<span class="keyword">go</span><span class="number">:21</span><span class="number"> +0</span>x6d</div><div class="line">main.m2()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/p.<span class="keyword">go</span><span class="number">:17</span><span class="number"> +0</span>x14</div><div class="line">main.m1()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/p.<span class="keyword">go</span><span class="number">:13</span><span class="number"> +0</span>x14</div><div class="line">main.main()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/p.<span class="keyword">go</span><span class="number">:9</span><span class="number"> +0</span>x3a</div><div class="line">exit status<span class="number"> 2</span></div></pre></td></tr></table></figure>
+
+<p>从这个信息中我们可以看到p.go的第9行是main方法，它在这一行调用m1方法，m1方法在第13行调用m2方法，m2方法在第17行调用m3方法，m3方法在第21出现panic， 它们运行在goroutine 1中，当前goroutine 1的状态是running状态。</p>
+<p>如果想让它把所有的goroutine信息都输出出来，可以设置 <code>GOTRACEBACK=1</code>:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">GOTRACEBACK<span class="number">=1</span> <span class="keyword">go</span> run p.<span class="keyword">go</span></div><div class="line"><span class="built_in">panic</span>: <span class="built_in">panic</span> from m3</div><div class="line"></div><div class="line">goroutine<span class="number"> 1</span> [running]:</div><div class="line"><span class="built_in">panic</span><span class="number">(0</span>x596a0,<span class="number"> 0</span>xc42000a1b0)</div><div class="line">	/usr/local/Cellar/<span class="keyword">go</span><span class="number">/1.7</span><span class="number">.4</span>/libexec/src/runtime/<span class="built_in">panic</span>.<span class="keyword">go</span><span class="number">:500</span><span class="number"> +0</span>x1a1</div><div class="line">main.m3()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/p.<span class="keyword">go</span><span class="number">:21</span><span class="number"> +0</span>x6d</div><div class="line">main.m2()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/p.<span class="keyword">go</span><span class="number">:17</span><span class="number"> +0</span>x14</div><div class="line">main.m1()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/p.<span class="keyword">go</span><span class="number">:13</span><span class="number"> +0</span>x14</div><div class="line">main.main()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/p.<span class="keyword">go</span><span class="number">:9</span><span class="number"> +0</span>x3a</div><div class="line"></div><div class="line">goroutine<span class="number"> 4</span> [sleep]:</div><div class="line">time.Sleep<span class="number">(0</span>x34630b8a000)</div><div class="line">	/usr/local/Cellar/<span class="keyword">go</span><span class="number">/1.7</span><span class="number">.4</span>/libexec/src/runtime/time.<span class="keyword">go</span><span class="number">:59</span><span class="number"> +0</span>xe1</div><div class="line">main.a()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/p.<span class="keyword">go</span><span class="number">:25</span><span class="number"> +0</span>x30</div><div class="line">created by main.main</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/p.<span class="keyword">go</span><span class="number">:8</span><span class="number"> +0</span>x35</div><div class="line">exit status<span class="number"> 2</span></div></pre></td></tr></table></figure>
+
+<p>同样你也可以分析这个stack trace的信息，得到方法调用点的情况，同时这个信息将两个goroutine的stack trace都打印出来了，而且goroutine 4的状态是sleep状态。</p>
+<p>Go官方文档对这个环境变量有<a href="https://golang.org/pkg/runtime/" target="_blank" rel="external">介绍</a>：</p>
+<blockquote>
+<p>The GOTRACEBACK variable controls the amount of output generated when a Go program fails due to an unrecovered panic or an unexpected runtime condition. By default, a failure prints a stack trace for the current goroutine, eliding functions internal to the run-time system, and then exits with exit code 2. The failure prints stack traces for all goroutines if there is no current goroutine or the failure is internal to the run-time. GOTRACEBACK=none omits the goroutine stack traces entirely. GOTRACEBACK=single (the default) behaves as described above. GOTRACEBACK=all adds stack traces for all user-created goroutines. GOTRACEBACK=system is like “all” but adds stack frames for run-time functions and shows goroutines created internally by the run-time. GOTRACEBACK=crash is like “system” but crashes in an operating system-specific manner instead of exiting. For example, on Unix systems, the crash raises SIGABRT to trigger a core dump. For historical reasons, the GOTRACEBACK settings 0, 1, and 2 are synonyms for none, all, and system, respectively. The runtime/debug package&#39;s SetTraceback function allows increasing the amount of output at run time, but it cannot reduce the amount below that specified by the environment variable. See <a href="https://golang.org/pkg/runtime/debug/#SetTraceback" target="_blank" rel="external">https://golang.org/pkg/runtime/debug/#SetTraceback</a>.</p>
+</blockquote>
+<p>你可以设置 <code>none</code>、<code>all</code>、<code>system</code>、<code>single</code>、<code>crash</code>，历史原因， 你可以可是设置数字<code>0</code>、<code>1</code>、<code>2</code>，分别代表<code>none</code>、<code>all</code>、<code>system</code>。</p>
+<h3 id="通过SIGQUIT信号">通过SIGQUIT信号</h3>
+<p>如果程序没有发生panic,但是程序有问题，&quot;假死“不工作，我们想看看哪儿出现了问题，可以给程序发送<code>SIGQUIT</code>信号，也可以输出stack trace信息。<br>比如下面的程序:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"time"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">func</span> main() {</div><div class="line">	<span class="keyword">go</span> a()</div><div class="line">	m1()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m1() {</div><div class="line">	m2()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m2() {</div><div class="line">	m3()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m3() {</div><div class="line">	time.Sleep(time.Hour)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> a() {</div><div class="line">	time.Sleep(time.Hour)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>你可以运行<code>kill -SIGQUIT &lt;pid&gt;</code> 杀死这个程序，程序在退出的时候输出strack trace。</p>
+<h2 id="正常情况下输出stacktrace">正常情况下输出stacktrace</h2>
+<p>上面的情况是必须要求程序退出才能打印出stack trace信息，但是有时候我们只是需要跟踪分析一下程序的问题，而不希望程序中断运行。所以我们需要其它的方法来执行。</p>
+<p>你可以暴漏一个命令、一个API或者监听一个信号，然后调用相应的方法把stack trace打印出来。</p>
+<h3 id="打印出当前goroutine的_stacktrace">打印出当前goroutine的 stacktrace</h3>
+<p>通过<code>debug.PrintStack()</code>方法可以将当前所在的goroutine的stack trace打印出来，如下面的程序。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"runtime/debug"</span></div><div class="line">	<span class="string">"time"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">func</span> main() {</div><div class="line">	<span class="keyword">go</span> a()</div><div class="line">	m1()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m1() {</div><div class="line">	m2()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m2() {</div><div class="line">	m3()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m3() {</div><div class="line">	debug.PrintStack()</div><div class="line">	time.Sleep(time.Hour)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> a() {</div><div class="line">	time.Sleep(time.Hour)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="打印出所有goroutine的_stacktrace">打印出所有goroutine的 stacktrace</h3>
+<p>可以通过<code>pprof.Lookup(&quot;goroutine&quot;).WriteTo</code>将所有的goroutine的stack trace都打印出来，如下面的程序：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"os"</span></div><div class="line">	<span class="string">"runtime/pprof"</span></div><div class="line">	<span class="string">"time"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">func</span> main() {</div><div class="line">	<span class="keyword">go</span> a()</div><div class="line">	m1()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m1() {</div><div class="line">	m2()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m2() {</div><div class="line">	m3()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m3() {</div><div class="line">	pprof.Lookup(<span class="string">"goroutine"</span>).WriteTo(os.Stdout,<span class="number"> 1</span>)</div><div class="line">	time.Sleep(time.Hour)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> a() {</div><div class="line">	time.Sleep(time.Hour)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="较完美的输出_stacktrace">较完美的输出 stacktrace</h3>
+<p>你可以使用<code>runtime.Stack</code>得到所有的goroutine的stack trace信息，事实上前面<code>debug.PrintStack()</code>也是通过这个方法获得的。</p>
+<p>为了更方便的随时的得到应用所有的goroutine的stack trace信息，我们可以监听<code>SIGUSER1</code>信号，当收到这个信号的时候就将stack trace打印出来。发送信号也很简单，通过<code>kill -SIGUSER1 &lt;pid&gt;</code>就可以，不必担心<code>kill</code>会将程序杀死，它只是发了一个信号而已。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"fmt"</span></div><div class="line">	<span class="string">"os"</span></div><div class="line">	<span class="string">"os/signal"</span></div><div class="line">	<span class="string">"runtime"</span></div><div class="line">	<span class="string">"syscall"</span></div><div class="line">	<span class="string">"time"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">func</span> main() {</div><div class="line">	setupSigusr1Trap()</div><div class="line"></div><div class="line">	<span class="keyword">go</span> a()</div><div class="line">	m1()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m1() {</div><div class="line">	m2()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m2() {</div><div class="line">	m3()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> m3() {</div><div class="line">	time.Sleep(time.Hour)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> a() {</div><div class="line">	time.Sleep(time.Hour)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> setupSigusr1Trap() {</div><div class="line">	c := <span class="built_in">make</span>(<span class="keyword">chan</span> os.Signal,<span class="number"> 1</span>)</div><div class="line">	signal.Notify(c, syscall.SIGUSR1)</div><div class="line">	<span class="keyword">go</span> <span class="keyword">func</span>() {</div><div class="line">		<span class="keyword">for</span> <span class="keyword">range</span> c {</div><div class="line">			DumpStacks()</div><div class="line">		}</div><div class="line">	}()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> DumpStacks() {</div><div class="line">	buf := <span class="built_in">make</span>([]<span class="typename">byte</span>,<span class="number"> 16384</span>)</div><div class="line">	buf = buf[:runtime.Stack(buf, <span class="constant">true</span>)]</div><div class="line">	fmt.Printf(<span class="string">"=== BEGIN goroutine stack dump ===\n%s\n=== END goroutine stack dump ==="</span>, buf)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>输出结果很直观，方便检查。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">=== <span class="operator"><span class="keyword">BEGIN</span> goroutine stack dump ===</span></div><div class="line">goroutine <span class="number">36</span> [running]:</div><div class="line">main.DumpStacks()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/d3.<span class="keyword">go</span>:<span class="number">47</span> +<span class="number">0x77</span></div><div class="line">main.setupSigusr1Trap.func1(<span class="number">0xc420070060</span>)</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/d3.<span class="keyword">go</span>:<span class="number">40</span> +<span class="number">0x73</span></div><div class="line">created <span class="keyword">by</span> main.setupSigusr1Trap</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/d3.<span class="keyword">go</span>:<span class="number">42</span> +<span class="number">0xec</span></div><div class="line"></div><div class="line">goroutine <span class="number">1</span> [<span class="keyword">sleep</span>]:</div><div class="line"><span class="keyword">time</span>.<span class="keyword">Sleep</span>(<span class="number">0x34630b8a000</span>)</div><div class="line">	/usr/<span class="keyword">local</span>/Cellar/<span class="keyword">go</span>/<span class="number">1.7</span><span class="number">.4</span>/libexec/src/runtime/<span class="keyword">time</span>.<span class="keyword">go</span>:<span class="number">59</span> +<span class="number">0xe1</span></div><div class="line">main.m3()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/d3.<span class="keyword">go</span>:<span class="number">28</span> +<span class="number">0x30</span></div><div class="line">main.m2()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/d3.<span class="keyword">go</span>:<span class="number">24</span> +<span class="number">0x14</span></div><div class="line">main.m1()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/d3.<span class="keyword">go</span>:<span class="number">20</span> +<span class="number">0x14</span></div><div class="line">main.main()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/d3.<span class="keyword">go</span>:<span class="number">16</span> +<span class="number">0x3f</span></div><div class="line"></div><div class="line">goroutine <span class="number">34</span> [syscall]:</div><div class="line">os/signal.signal_recv(<span class="number">0xff280</span>)</div><div class="line">	/usr/<span class="keyword">local</span>/Cellar/<span class="keyword">go</span>/<span class="number">1.7</span><span class="number">.4</span>/libexec/src/runtime/sigqueue.<span class="keyword">go</span>:<span class="number">116</span> +<span class="number">0x157</span></div><div class="line">os/signal.loop()</div><div class="line">	/usr/<span class="keyword">local</span>/Cellar/<span class="keyword">go</span>/<span class="number">1.7</span><span class="number">.4</span>/libexec/src/os/signal/signal_unix.<span class="keyword">go</span>:<span class="number">22</span> +<span class="number">0x22</span></div><div class="line">created <span class="keyword">by</span> os/signal.init<span class="number">.1</span></div><div class="line">	/usr/<span class="keyword">local</span>/Cellar/<span class="keyword">go</span>/<span class="number">1.7</span><span class="number">.4</span>/libexec/src/os/signal/signal_unix.<span class="keyword">go</span>:<span class="number">28</span> +<span class="number">0x41</span></div><div class="line"></div><div class="line">goroutine <span class="number">35</span> [<span class="keyword">select</span>, locked <span class="keyword">to</span> thread]:</div><div class="line">runtime.gopark(<span class="number">0xb5cc8</span>, <span class="number">0x0</span>, <span class="number">0xab3ef</span>, <span class="number">0x6</span>, <span class="number">0x18</span>, <span class="number">0x2</span>)</div><div class="line">	/usr/<span class="keyword">local</span>/Cellar/<span class="keyword">go</span>/<span class="number">1.7</span><span class="number">.4</span>/libexec/src/runtime/proc.<span class="keyword">go</span>:<span class="number">259</span> +<span class="number">0x13a</span></div><div class="line">runtime.selectgoImpl(<span class="number">0xc42008d730</span>, <span class="number">0x0</span>, <span class="number">0x18</span>)</div><div class="line">	/usr/<span class="keyword">local</span>/Cellar/<span class="keyword">go</span>/<span class="number">1.7</span><span class="number">.4</span>/libexec/src/runtime/<span class="keyword">select</span>.<span class="keyword">go</span>:<span class="number">423</span> +<span class="number">0x11d9</span></div><div class="line">runtime.selectgo(<span class="number">0xc42008d730</span>)</div><div class="line">	/usr/<span class="keyword">local</span>/Cellar/<span class="keyword">go</span>/<span class="number">1.7</span><span class="number">.4</span>/libexec/src/runtime/<span class="keyword">select</span>.<span class="keyword">go</span>:<span class="number">238</span> +<span class="number">0x1c</span></div><div class="line">runtime.ensureSigM.func1()</div><div class="line">	/usr/<span class="keyword">local</span>/Cellar/<span class="keyword">go</span>/<span class="number">1.7</span><span class="number">.4</span>/libexec/src/runtime/signal1_unix.<span class="keyword">go</span>:<span class="number">304</span> +<span class="number">0x2d1</span></div><div class="line">runtime.goexit()</div><div class="line">	/usr/<span class="keyword">local</span>/Cellar/<span class="keyword">go</span>/<span class="number">1.7</span><span class="number">.4</span>/libexec/src/runtime/asm_amd64.s:<span class="number">2086</span> +<span class="number">0x1</span></div><div class="line"></div><div class="line">goroutine <span class="number">37</span> [<span class="keyword">sleep</span>]:</div><div class="line"><span class="keyword">time</span>.<span class="keyword">Sleep</span>(<span class="number">0x34630b8a000</span>)</div><div class="line">	/usr/<span class="keyword">local</span>/Cellar/<span class="keyword">go</span>/<span class="number">1.7</span><span class="number">.4</span>/libexec/src/runtime/<span class="keyword">time</span>.<span class="keyword">go</span>:<span class="number">59</span> +<span class="number">0xe1</span></div><div class="line">main.a()</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/d3.<span class="keyword">go</span>:<span class="number">32</span> +<span class="number">0x30</span></div><div class="line">created <span class="keyword">by</span> main.main</div><div class="line">	/Users/yuepan/<span class="keyword">go</span>/src/github.com/smallnest/dump/d3.<span class="keyword">go</span>:<span class="number">15</span> +<span class="number">0x3a</span></div><div class="line"></div><div class="line">=== <span class="keyword">END</span> goroutine stack dump ===</div></pre></td></tr></table></figure>
+
+<p>当然，这段代码也不是我原创的，这是docker代码库中的一段<a href="https://github.com/docker/docker/blob/95fcf76cc64a4acf95c168e8d8607e3acf405c13/pkg/signal/trap.go" target="_blank" rel="external">代码</a>，很简单，也很强大。</p>
+<h2 id="参考文档">参考文档</h2>
+<ol>
+<li><a href="http://stackoverflow.com/questions/19094099/how-to-dump-goroutine-stacktraces" target="_blank" rel="external">http://stackoverflow.com/questions/19094099/how-to-dump-goroutine-stacktraces</a></li>
+<li><a href="https://golang.org/pkg/runtime/" target="_blank" rel="external">https://golang.org/pkg/runtime/</a></li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Stack trace是指堆栈回溯信息，在当前时间，以当前方法的执行点开始，回溯调用它的方法的方法的执行点，然后继续回溯，这样就可以跟踪整个方法的调用,大家比较熟悉的是JDK所带的<code>jstack</code>工具，可以把Java的所有线程的stack trace都打印出来。</p>
+<p>它有什么用呢？用处非常的大，当应用出现一些状况的时候，比如某个模块不执行， 锁竞争、CPU占用非常高等问题， 又没有足够的log信息可以分析，那么可以查看stack trace信息，看看线程都被阻塞或者运行在那些代码上，然后定位问题所在。</p>
+<p>对于Go开发的程序，有没有类似<code>jstack</code>这样的利器呢，目前我还没有看到，但是我们可以通过其它途径也很方便的输出goroutine的stack trace信息。</p>
+<p>本文介绍了几种方法，尤其是最后介绍的方法比较有用。</p>
+]]>
+    
+    </summary>
+    
+      <category term="Go" scheme="http://colobu.com/categories/Go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Github和gitlab的自动连接]]></title>
+    <link href="http://colobu.com/2016/12/20/detect-and-link-references-in-github/"/>
+    <id>http://colobu.com/2016/12/20/detect-and-link-references-in-github/</id>
+    <published>2016-12-20T07:46:46.000Z</published>
+    <updated>2016-12-24T07:10:57.959Z</updated>
+    <content type="html"><![CDATA[<p>Github 和 Gitlab 提供了一些可能有些人还不了解的语法，可以自动为文字添建连接，关联相关的一些对象，以及执行相应的操作。本文记录了这些小技巧，可以在需要的时候查询。</p>
+<a id="more"></a>
+<h3 id="Github">Github</h3>
+<p><a href="https://help.github.com/articles/autolinked-references-and-urls/" target="_blank" rel="external">Github帮助文档</a>中指出了下面的一些技巧。</p>
+<p>1、URL</p>
+<p>标准的URL地址可以自动加上连接，<br>比如 <code>Visit https://github.com</code>可以生成<br>Visit <a href="https://github.com" target="_blank" rel="external">https://github.com</a></p>
+<p>2、引用 Issues 和 pull requests</p>
+<table><thead><tr><th>Reference type</th><th>Raw reference</th><th>Short link</th></tr></thead><tbody><tr><td>Issue or pull request URL</td><td><a href="https://github.com/jlord/sheetsee.js/issues/26" target="_blank" rel="external">https://github.com/jlord/sheetsee.js/issues/26</a></td><td><a href="https://github.com/jlord/sheetsee.js/issues/26" target="_blank" rel="external">#26</a></td></tr><tr><td><code>#</code> and issue or pull request number</td><td>#26</td><td><a href="https://github.com/jlord/sheetsee.js/issues/26" target="_blank" rel="external">#26</a></td></tr><tr><td><code>GH-</code> and issue or pull request number</td><td>GH-26</td><td><a href="https://github.com/jlord/sheetsee.js/issues/26" target="_blank" rel="external">GH-26</a></td></tr><tr><td><code>Username/Repository#</code> and issue or pull request number</td><td>jlord/sheetsee.js#26</td><td><a href="https://github.com/jlord/sheetsee.js/issues/26" target="_blank" rel="external">jlord/sheetsee.js#26</a></td></tr></tbody></table>
+
+<p>3、引用commit</p>
+<table><thead><tr><th>Reference type</th><th>Raw reference</th><th>Short link</th></tr></thead><tbody><tr><td>Commit URL</td><td><a href="https://github.com/jlord/sheetsee.js/commit/a5c3785ed8d6a35868bc169f07e40e889087fd2e" target="_blank" rel="external">https://github.com/jlord/sheetsee.js/commit/a5c3785ed8d6a35868bc169f07e40e889087fd2e</a></td><td><a href="https://github.com/jlord/sheetsee.js/commit/a5c3785ed8d6a35868bc169f07e40e889087fd2e" target="_blank" rel="external">a5c3785</a></td></tr><tr><td>SHA</td><td>a5c3785ed8d6a35868bc169f07e40e889087fd2e</td><td><a href="https://github.com/jlord/sheetsee.js/commit/a5c3785ed8d6a35868bc169f07e40e889087fd2e" target="_blank" rel="external">a5c3785</a></td></tr><tr><td>User@SHA</td><td>jlord@a5c3785ed8d6a35868bc169f07e40e889087fd2e</td><td><a href="https://github.com/jlord/sheetsee.js/commit/a5c3785ed8d6a35868bc169f07e40e889087fd2e" target="_blank" rel="external">jlord@a5c3785</a></td></tr><tr><td>Username/Repository@SHA</td><td>User/Repository@SHA: jlord/sheetsee.js@a5c3785ed8d6a35868bc169f07e40e889087fd2e</td><td><a href="https://github.com/jlord/sheetsee.js/commit/a5c3785ed8d6a35868bc169f07e40e889087fd2e" target="_blank" rel="external">jlord/sheetsee.js@a5c3785</a></td></tr></tbody></table>
+
+<p>4、在commit的时候自动关闭issue</p>
+<p>文档 <a href="https://help.github.com/articles/closing-issues-via-commit-messages/" target="_blank" rel="external">Closing issues via commit messages</a>指出，<br>在commit message中使用下面的关键字加issue号会关闭这个issue，当然这个issue必须和这个commit在同一个库中：</p>
+<ul>
+<li>close</li>
+<li>closes</li>
+<li>closed</li>
+<li>fix</li>
+<li>fixes</li>
+<li>fixed</li>
+<li>resolve</li>
+<li>resolves</li>
+<li>resolved</li>
+</ul>
+<p>如果要关闭不同的仓库中的issue,需要使用<code>username/repository#issue_number</code>语法，比如<code>Closes example_user/example_repo#76</code>。</p>
+<p>要关闭多个issue,需要使用多次关键字，比如<code>This closes #34, closes #23, and closes example_user/example_repo#42</code>。</p>
+<h3 id="Gitlab">Gitlab</h3>
+<p>gitlab <a href="https://github.com/gitlabhq/gitlabhq/issues/527" target="_blank" rel="external">issue #527</a>描述了gitlab类似的语法，可以自动添建连接。</p>
+<p>可以在下面的场景中</p>
+<ul>
+<li>commit messages</li>
+<li>notes/comments/wall posts</li>
+<li>issues</li>
+<li>merge requests</li>
+<li>milestones</li>
+<li>wiki pages</li>
+</ul>
+<p>使用下面的语法：</p>
+<ul>
+<li>issues (#123)</li>
+<li>merge request (!123)</li>
+<li>commits (1234567)</li>
+<li>team members (@foo)</li>
+<li>snippets ($123)</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Github 和 Gitlab 提供了一些可能有些人还不了解的语法，可以自动为文字添建连接，关联相关的一些对象，以及执行相应的操作。本文记录了这些小技巧，可以在需要的时候查询。</p>
+]]>
+    
+    </summary>
+    
+      <category term="工具" scheme="http://colobu.com/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[使用算法检测英超中的食物链]]></title>
@@ -124,7 +369,7 @@
     <link href="http://colobu.com/2016/11/28/techempower-benchmarks-round13/"/>
     <id>http://colobu.com/2016/11/28/techempower-benchmarks-round13/</id>
     <published>2016-11-28T07:35:11.000Z</published>
-    <updated>2016-11-28T11:43:50.582Z</updated>
+    <updated>2016-12-24T07:10:58.032Z</updated>
     <content type="html"><![CDATA[<p>TechEmpower最近发布了他们的第13轮的web框架的性能测试，得到了一些有价值的测试结果。</p>
 <p>由于年初前一轮的测试遭遇到了硬件的瓶颈，微软 Azure 和 ServerCentral 分别提供了云主机和物理主机环境，所以第13轮的测试是在新的测试环境中进行的，所以你把这轮的测试结果和以前的测试进行比较的话可能不太合适。</p>
 <dl><br><dt>ServerCentral</dt><br><dd>物理机环境,由 <a href="https://www.servercentral.com/" target="_blank" rel="external">ServerCentral</a>提供。 Dell R910 (4x 10-Core E7-4850 CPUs) 为应用服务器; Dell R420 (2x 4-Core E5-2406 CPUs) 为数据库服务器; 10G网络</dd><br><dt>Azure</dt><br><dd>云测试主机由 Microsoft Azure D3v2 实例提供; 10网络</dd><br></dl>
@@ -1713,401 +1958,6 @@
     </summary>
     
       <category term="架构" scheme="http://colobu.com/categories/%E6%9E%B6%E6%9E%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[[转]CDN的原理以及其中的一些技术]]></title>
-    <link href="http://colobu.com/2016/09/23/CDN-introduction/"/>
-    <id>http://colobu.com/2016/09/23/CDN-introduction/</id>
-    <published>2016-09-23T02:29:14.000Z</published>
-    <updated>2016-11-13T09:22:58.317Z</updated>
-    <content type="html"><![CDATA[<p>这是 Xu Ruochen 总结的通过DNS实现的CDN的一篇条理清晰的文章， 原文链接: <a href="http://www.cstdlib.com/tech/2015/08/18/what-is-cdn/" target="_blank" rel="external">CDN的原理以及其中的一些技术</a>。</p>
-<p>CDN，全称Content Delivery Network，主要作用是为源站减少访问压力的同时，为客户端提供更快速的内容响应。除此之外，CDN还能对源站进行安全防护。 其实真正为CDN付费的是源站，所以CDN的用户其实是源站，例如新浪微博，youku视频，淘宝网啊之类的。而客户端，是CDN的用户的用户。 所以CDN是夹在源站和源站的用户之间的，以下称客户端均指源站的用户。</p>
-<a id="more"></a>
-<h3 id="工作原理">工作原理</h3>
-<h4 id="传统网站访问过程">传统网站访问过程</h4>
-<p>要说CDN的工作原理，就得先说说Internet资源的访问过程。传统的来说，在浏览器访问网站应当有这么一些步骤：</p>
-<ol>
-<li>在浏览器键入网址www.taobao.com</li>
-<li>浏览器请求dns服务器，查询到www.taobao.com对应的IP</li>
-<li>浏览器向服务器发起TCP连接</li>
-<li>浏览器通过建立的TCP连接发送HTTP协议报文</li>
-<li>服务器向浏览器发送页面内容</li>
-<li>浏览器将页面展现出来</li>
-<li>对于上面提到的第2步，其实还是有需要来更加详细的说明一下dns的解析过程，因为它是CDN能工作的基本条件。</li>
-</ol>
-<p>对于上面提到的第2步，其实还是有需要来更加详细的说明一下dns的解析过程，因为它是CDN能工作的基本条件。</p>
-<h4 id="DNS工作过程">DNS工作过程</h4>
-<p>DNS的工作过程容易被人忽略，一般只知道DNS的输入是一个网址，输出的是一个IP，在这里我也正好给自己总结记录一下。 <a href="http://www.ietf.org/rfc/rfc1035.txt" target="_blank" rel="external">DNS的协议</a>主要是基于UDP的，所以dns server的qps一般都是很惊人的，比web server（http是基于tcp的）的qps是高出几个量级的。有个基本概念就是dns的记录类型，常见的dns记录类型有A，AAAA，CNAME等。中A记录是域名到IPV4地址的；AAAA记录是域名到IPV6地址的；CNAME记录类似于查询过程中的转发，意思是你去问问这个人，他管这事。好的，下面继续说说DNS的工作过程。</p>
-<ol>
-<li>在浏览器键入<code>www.taobao.com</code>,其实真正dns协议里用到的是<code>www.taobao.com</code>.最后还有一个点，可能是因为美观等原因，一般都不显示</li>
-<li>查询本地缓存（host文件或者是浏览器的缓存）中有没有该域名对应的记录，有的话就直接用了</li>
-<li>向运营商的DNS服务器发起dns解析的请求，一般称运营商的DNS服务器为<code>local dns</code></li>
-<li>local dns会查询本地的缓存，local dns设置的缓存时间是有讲究的，过长过短都不好。另外local dns的查询是运营商的事，这里面水很深，外部不可控</li>
-<li>local dns如果没有缓存，会把域名从右往左扫描，依次请求对应的服务器，例如对于域名<code>www.taobao.com</code>.，先去问负责.的根域名服务器，就是传说中全球只有几台的那些服务器，他们会答复<code>.com</code>是谁管理的，然后local dns又去找管理<code>.com</code>的服务器（假设名字为S1），去问问<code>taobao.com</code>是谁管，一般来说，在S1查到的记录是一条cname记录（阿里毕竟大公司，自己管理自己旗下的域名），然后就转到了阿里自己的DNS服务器上来了，一般称之为权威服务器</li>
-<li>权威服务器是阿里自己建的，然后根据公司内部的一些配置啊，调整啊，查到<code>www.taobao.com</code>.对应的服务器是谁，返回一个IP地址</li>
-<li>local dns缓存这个IP地址，并且回复浏览器</li>
-<li>浏览器和对应的IP地址的服务器简历TCP连接，发送HTTP报文</li>
-</ol>
-<p>买过域名的朋友都知道，假如你在万网买了<code>cstdlib.com</code>，然后你想启用一个二级域名<code>go.cstdlib.com</code>，那么你要去万网的控制台（已经和阿里云合并）设置一条A记录的解析，将<code>go.cstdlib.com</code>指向你想要的IP。每次增加二级域名的过程都是这样子。那么，如果你知道了DNS的解析过程，你可以这么做：</p>
-<ol>
-<li>在服务器D1上起一个dns server，作为cstdlib.com的dns权威服务器</li>
-<li>在万网的控制台新增一条CNAME记录，将cstdlib.com的解析转到D1来</li>
-<li>D1想返回什么IP就返回什么IP<br>这样一来，一切尽在掌控，毕竟D1是你的，而且以后你再也不用去万网的控制台了，这就是自建DNS服务器。</li>
-</ol>
-<h4 id="CDN选择优质节点">CDN选择优质节点</h4>
-<p>回到正题，CDN如何为用户选择时延更小的源站。这次不以访问淘宝为例了，因为阿里有自己的CDN，要是以访问淘宝为例，容易混淆CDN的提供者和源站。 这次举例以新浪微博为源站，假设微博使用了阿里的CDN（并不是假设，新闻在这里），那么阿里CDN会告诉微博，你要我给你加速一张图片是吧，那你就把这个图片解析到我的服务器来（可以CNAME，也可以直接写阿里CDN的url），那么，阿里CDN的dns权威服务器，会收到这么一个解析请求，<code>请告诉我，新浪微博的1.png的源站在哪</code>。这时CDN系统就要大展身手了。</p>
-<p>假设我们现在是阿里CDN的dns权威服务器，有人问我们<code>新浪微博的1.png的源站在哪</code>，那我会这么做：先看看问我的这个人IP是多少（回忆一下dns解析的过程，我们看到的应该是local dns的IP），然后根据这个IP查到他是哪里的，北京还是广州，上海还是深圳。如果是北京，那好，我就给你返回北京的源站的地址；如果是上海，那我就给你返回上海的源站的地址，这样就实现了就近访问。</p>
-<p>在把IP地址对应到地理位置的过程中，需要用到IP库，阿里CDN的IP地址库贱贱的，因为阿里CDN的负责人叔度在ArchSummit架构师峰会上说，他们可以用淘宝的包裹记录来校准，真是机智。</p>
-<p>当然，就近只是一个要考虑的因素之一，还有很多因素需要考虑的，例如网络成本，流量分布，源站负载等。这是个很复杂的过程，我只是举了一个直观的方面来说。</p>
-<h4 id="CDN减少源站压力">CDN减少源站压力</h4>
-<p>刚才说了CDN是如何选择优质节点的，那么对于客户端，算是有个交代了。所以接下来考虑怎么给源站一个交代：减小源站压力。如果每一个用户请求都让他直接去源站拿的话，那源站将会承受巨大的压力，所以要考虑为源站提供一个HTTP的缓存，通过提升缓存的命中率来减小源站的压力。</p>
-<p>比如刚才第一个用户请求了1.png，那么CDN先把这张图片缓存（缓存简单可以认为是一个哈希表，key是url，value是response）起来，下次再有人要1.png，就直接返回给他，从而减少回源流量。</p>
-<p>HTTP缓存服务器是一个很复杂的功能。下面还是贴一张叔度在ArchSummit架构师峰会上用到的PPT吧，来说一下这里面大概的技术，阿里的HTTP缓存服务器叫Swfit，正好和苹果的那个语言重名了。</p>
-<p><img src="cdn-node.png" alt=""></p>
-<p>图中是一个CDN节点，用户的请求从LVS（LVS是一个四层的负载均衡组件，作者是章文嵩博士，现任阿里云CTO. 现在到滴滴了）的入口来，先由LVS做一次4层的负载均衡，然后转到一台Tengine（阿里在nginx的基础上开发的服务器）上，Tengine做一致性hash，选择一台Swift（阿里使用的HTTP缓存服务器），然后Swift去做缓存回源。接下来仍然贴一张叔度在ArchSummit架构师峰会上用到的PPT，一起看看Swift的架构。</p>
-<p><img src="swift.png" alt=""></p>
-<p>首先可以看到，Swift是一个多线程的程序，每个线程起一个epoll来充分发挥多核的处理能力。并且尽量减少线程间的上下文切换，一个请求尽量在一个线程处理。然后图里面还能看到内存缓存，SSD缓存，SATA缓存。据叔度说，Swift会有热点淘汰的机制，将热文件放在内存里，次热文件放在SSD上，最后才是SATA盘，然后会有热点淘汰和提升机制。</p>
-<p>同时叔度在ArchSummit峰会上还提出，Tengine和Swift是通过Spdy协议来通信的，从而优化HTTP的效率。所以，CDN在技术上还是很有深度的，网络，IO，多线程，TCP/IP，HTTP这些后台常见的名词在这里面体现的淋漓尽致。</p>
-<h4 id="边边角角">边边角角</h4>
-<p>其实在DNS查询过程有一个这样的问题，权威服务器接收请求的时候，只能得到local DNS的IP，并不知道client IP。这是个很蛋疼的东西，所以google提出了EDNS的协议，会带上client IP，但是其实不怎么实用，因为这相当于大家缓存DNS查询结果的时候多了一维client IP，一维数组变二维数组，简直是内存的灾难。所以，大家平常就别用8.8.8.8这样的DNS服务器了，不然别人以为你是在美国，然后用美国的源站和你通信，肯定慢成狗啊。</p>
-<h4 id="总结">总结</h4>
-<p>总结一下CDN的工作原理：通过权威dns服务器来实现优质节点的选择，通过缓存来减少源站的压力。</p>
-<h4 id="推荐阅读">推荐阅读</h4>
-<p>最后推荐一下阿里CDN的负责人叔度在ArchSummit上的演讲，把阿里CDN架构讲的很清楚。本文很多内容来自该演讲。链接在<a href="http://www.infoq.com/cn/presentations/alibaba-cloud-cdn-technology-evolution/" target="_blank" rel="external">这里</a>。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>这是 Xu Ruochen 总结的通过DNS实现的CDN的一篇条理清晰的文章， 原文链接: <a href="http://www.cstdlib.com/tech/2015/08/18/what-is-cdn/" target="_blank" rel="external">CDN的原理以及其中的一些技术</a>。</p>
-<p>CDN，全称Content Delivery Network，主要作用是为源站减少访问压力的同时，为客户端提供更快速的内容响应。除此之外，CDN还能对源站进行安全防护。 其实真正为CDN付费的是源站，所以CDN的用户其实是源站，例如新浪微博，youku视频，淘宝网啊之类的。而客户端，是CDN的用户的用户。 所以CDN是夹在源站和源站的用户之间的，以下称客户端均指源站的用户。</p>
-]]>
-    
-    </summary>
-    
-      <category term="CDN" scheme="http://colobu.com/tags/CDN/"/>
-    
-      <category term="dns" scheme="http://colobu.com/tags/dns/"/>
-    
-      <category term="架构" scheme="http://colobu.com/categories/%E6%9E%B6%E6%9E%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Go官方库RPC开发指南]]></title>
-    <link href="http://colobu.com/2016/09/18/go-net-rpc-guide/"/>
-    <id>http://colobu.com/2016/09/18/go-net-rpc-guide/</id>
-    <published>2016-09-18T05:39:27.000Z</published>
-    <updated>2016-11-13T09:22:59.405Z</updated>
-    <content type="html"><![CDATA[<p>Go官方提供了一个<a href="https://golang.org/pkg/net/rpc/" target="_blank" rel="external">RPC库</a>: <code>net/rpc</code>。包rpc提供了通过网络访问一个对象的方法的能力。服务器需要注册对象， 通过对象的类型名暴露这个服务。注册后这个对象的输出方法就可以远程调用，这个库封装了底层传输的细节，包括序列化。服务器可以注册多个不同类型的对象，但是注册相同类型的多个对象的时候回出错。</p>
-<blockquote>
-<p>我最近写了一本电子书: <a href="https://www.gitbook.com/book/smallnest/go-rpc/details" target="_blank" rel="external">Go RPC开发指南</a>,介绍Go RPC开发的相关技术，这是其中的一章，专门介绍官方库 <code>net/rpc</code>的使用。</p>
-</blockquote>
-<a id="more"></a>
-<p>同时，如果对象的方法要能远程访问，它们必须满足一定的条件，否则这个对象的方法回呗忽略。</p>
-<p>这些条件是：</p>
-<ul>
-<li>方法的类型是可输出的 (the method&#39;s type is exported)</li>
-<li>方法本身也是可输出的 （the method is exported）</li>
-<li>方法必须由两个参数，必须是输出类型或者是内建类型 (the method has two arguments, both exported or builtin types)</li>
-<li>方法的第二个参数是指针类型 (the method&#39;s second argument is a pointer)</li>
-<li>方法返回类型为 error (the method has return type error)</li>
-</ul>
-<p>所以一个输出方法的格式如下：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> (t *T) MethodName(argType T1, replyType *T2) error</div></pre></td></tr></table></figure>
-
-<p>这里的<code>T</code>、<code>T1</code>、<code>T2</code>能够被<code>encoding/gob</code>序列化，即使使用其它的序列化框架，将来这个需求可能回被弱化。</p>
-<p>这个方法的第一个参数代表调用者(client)提供的参数，<br>第二个参数代表要返回给调用者的计算结果，</p>
-<p>方法的返回值如果不为空， 那么它作为一个字符串返回给调用者。<br>如果返回error，则reply参数不会返回给调用者。</p>
-<p>服务器通过调用<code>ServeConn</code>在一个连接上处理请求，更典型地， 它可以创建一个network listener然后accept请求。</p>
-<p>对于HTTP listener来说，可以调用 <code>HandleHTTP</code> 和 <code>http.Serve</code>。细节会在下面介绍。</p>
-<p>客户端可以调用<code>Dial</code>和<code>DialHTTP</code>建立连接。 客户端有两个方法调用服务: <code>Call</code> 和 <code>Go</code>，可以同步地或者异步地调用服务。<br>当然，调用的时候，需要吧服务名、方法名和参数传递给服务器。异步方法调用<code>Go</code> 通过 <code>Done</code> channel通知调用结果返回。</p>
-<p>除非显示的设置<code>codec</code>,否则这个库默认使用包<code>encoding/gob</code>作为序列化框架。</p>
-<h2 id="简单例子">简单例子</h2>
-<p>首选介绍一个简单的例子。<br>这个例子中提供了对两个数相乘和相除的两个方法。</p>
-<p>第一步你需要定义传入参数和返回参数的数据结构：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> server</div><div class="line"></div><div class="line"><span class="keyword">type</span> Args <span class="keyword">struct</span> {</div><div class="line">	A, B <span class="typename">int</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">type</span> Quotient <span class="keyword">struct</span> {</div><div class="line">	Quo, Rem <span class="typename">int</span></div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>第二步定义一个服务对象，这个服务对象可以很简单， 比如类型是<code>int</code>或者是<code>interface{}</code>,重要的是它输出的方法。<br>这里我们定义一个算术类型<code>Arith</code>，其实它是一个int类型，但是这个int的值我们在后面方法的实现中也没用到，所以它基本上就起一个辅助的作用。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">type</span> Arith <span class="keyword">int</span></div></pre></td></tr></table></figure>
-
-<p>第三步实现这个类型的两个方法， 乘法和除法：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> (t *Arith) Multiply(args *Args, reply *<span class="typename">int</span>) error {</div><div class="line">	*reply = args.A * args.B</div><div class="line">	<span class="keyword">return</span> <span class="constant">nil</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> (t *Arith) Divide(args *Args, quo *Quotient) error {</div><div class="line">	<span class="keyword">if</span> args.B ==<span class="number"> 0</span> {</div><div class="line">		<span class="keyword">return</span> errors.New(<span class="string">"divide by zero"</span>)</div><div class="line">	}</div><div class="line"></div><div class="line">	quo.Quo = args.A / args.B</div><div class="line">	quo.Rem = args.A % args.B</div><div class="line">	<span class="keyword">return</span> <span class="constant">nil</span></div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>目前为止，我们的准备工作已经完成，喝口茶继续下面的步骤。</p>
-<p>第四步实现RPC服务器:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">arith := <span class="built_in">new</span>(Arith)</div><div class="line">rpc.Register(arith)</div><div class="line">rpc.HandleHTTP()</div><div class="line"></div><div class="line">l, e := net.Listen(<span class="string">"tcp"</span>, <span class="string">":1234"</span>)</div><div class="line"></div><div class="line"><span class="keyword">if</span> e != <span class="constant">nil</span> {</div><div class="line">	log.Fatal(<span class="string">"listen error:"</span>, e)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">go</span> http.Serve(l, <span class="constant">nil</span>)</div></pre></td></tr></table></figure>
-
-<p>这里我们生成了一个Arith对象，并使用<code>rpc.Register</code>注册这个服务，然后通过HTTP暴露出来。<br>客户端可以看到服务<code>Arith</code>以及它的两个方法<code>Arith.Multiply</code>和<code>Arith.Divide</code>。</p>
-<p>第五步创建一个客户端，建立客户端和服务器端的连接:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">client, err := rpc.DialHTTP(<span class="string">"tcp"</span>, serverAddress + <span class="string">":1234"</span>)</div><div class="line"><span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">	log.Fatal(<span class="string">"dialing:"</span>, err)</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>然后客户端就可以进行远程调用了。比如同步的方式：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">args := &server.Args<span class="number">{7</span><span class="number">,8</span>}</div><div class="line"><span class="keyword">var</span> reply <span class="typename">int</span></div><div class="line">err = client.Call(<span class="string">"Arith.Multiply"</span>, args, &reply)</div><div class="line"></div><div class="line"><span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">	log.Fatal(<span class="string">"arith error:"</span>, err)</div><div class="line">}</div><div class="line"></div><div class="line">fmt.Printf(<span class="string">"Arith: %d*%d=%d"</span>, args.A, args.B, reply)</div></pre></td></tr></table></figure>
-
-<p>或者异步的方式：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">quotient := <span class="built_in">new</span>(Quotient)</div><div class="line">divCall := client.Go(<span class="string">"Arith.Divide"</span>, args, quotient, <span class="constant">nil</span>)</div><div class="line">replyCall := &lt;-divCall.Done	<span class="comment">// will be equal to divCall</span></div><div class="line"><span class="comment">// check errors, print, etc.</span></div></pre></td></tr></table></figure>
-
-<h2 id="服务器代码分析">服务器代码分析</h2>
-<p>首先， ｀net/rpc｀定义了一个缺省的Server,所以Server的很多方法你可以直接调用，这对于一个简单的Server的实现更方便，但是你如果需要配置不同的Server，</p>
-<p>比如不同的监听地址或端口，就需要自己生成Server:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> DefaultServer = NewServer()</div></pre></td></tr></table></figure>
-
-<p>Server有多种Socket监听的方式:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> (server *Server) Accept(lis net.Listener)</div><div class="line"><span class="keyword">func</span> (server *Server) HandleHTTP(rpcPath, debugPath <span class="typename">string</span>)</div><div class="line"><span class="keyword">func</span> (server *Server) ServeCodec(codec ServerCodec)</div><div class="line"><span class="keyword">func</span> (server *Server) ServeConn(conn io.ReadWriteCloser)</div><div class="line"><span class="keyword">func</span> (server *Server) ServeHTTP(w http.ResponseWriter, req *http.Request)</div><div class="line"><span class="keyword">func</span> (server *Server) ServeRequest(codec ServerCodec) error</div></pre></td></tr></table></figure>
-
-<p>其中, <code>ServeHTTP</code> 实现了处理 http请求的业务逻辑， 它首先处理http的 <code>CONNECT</code>请求， 接收后就Hijacker这个连接conn， 然后调用<code>ServeConn</code>在这个连接上　处理这个客户端的请求。</p>
-<p>它其实是实现了 <code>http.Handler</code>接口，我们一般不直接调用这个方法。</p>
-<p>｀Server.HandleHTTP｀设置rpc的上下文路径，｀rpc.HandleHTTP｀使用默认的上下文路径｀DefaultRPCPath｀、 <code>DefaultDebugPath</code>。</p>
-<p>这样，当你启动一个http server的时候 ｀http.ListenAndServe｀，上面设置的上下文将用作RPC传输，这个上下文的请求会教给<code>ServeHTTP</code>来处理。</p>
-<p>以上是RPC over http的实现，可以看出 <code>net/rpc</code>只是利用 http CONNECT建立连接，这和普通的 RESTful api还是不一样的。</p>
-<p>｀Accept｀用来处理一个监听器，一直在监听客户端的连接，一旦监听器接收了一个连接，则还是交给<code>ServeConn</code>在另外一个goroutine中去处理：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> (server *Server) Accept(lis net.Listener) {</div><div class="line">	<span class="keyword">for</span> {</div><div class="line">		conn, err := lis.Accept()</div><div class="line">		<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">			log.Print(<span class="string">"rpc.Serve: accept:"</span>, err.Error())</div><div class="line">			<span class="keyword">return</span></div><div class="line">		}</div><div class="line"></div><div class="line">		<span class="keyword">go</span> server.ServeConn(conn)</div><div class="line">	}</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>可以看出，很重要的一个方法就是<code>ServeConn</code>:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">func</span> (server *Server) ServeConn(conn io.ReadWriteCloser) {</div><div class="line">	buf := bufio.NewWriter(conn)</div><div class="line"></div><div class="line">	srv := &gobServerCodec{</div><div class="line">		rwc:    conn,</div><div class="line">		dec:    gob.NewDecoder(conn),</div><div class="line">		enc:    gob.NewEncoder(buf),</div><div class="line">		encBuf: buf,</div><div class="line">	}</div><div class="line"></div><div class="line">	server.ServeCodec(srv)</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>连接其实是交给一个<code>ServerCodec</code>去处理，这里默认使用<code>gobServerCodec</code>去处理，这是一个未输出默认的编解码器，你可以使用其它的编解码器，我们下面再介绍，</p>
-<p>这里我们可以看看<code>ServeCodec</code>是怎么实现的：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">func</span> (server *Server) ServeCodec(codec ServerCodec) {</div><div class="line">	sending := <span class="built_in">new</span>(sync.Mutex)</div><div class="line"></div><div class="line">	<span class="keyword">for</span> {</div><div class="line">		service, mtype, req, argv, replyv, keepReading, err := server.readRequest(codec)</div><div class="line">		<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">			<span class="keyword">if</span> debugLog && err != io.EOF {</div><div class="line">				log.Println(<span class="string">"rpc:"</span>, err)</div><div class="line">			}</div><div class="line"></div><div class="line">			<span class="keyword">if</span> !keepReading {</div><div class="line">				<span class="keyword">break</span></div><div class="line">			}</div><div class="line"></div><div class="line">			<span class="comment">// send a response if we actually managed to read a header.</span></div><div class="line"></div><div class="line">			<span class="keyword">if</span> req != <span class="constant">nil</span> {</div><div class="line">				server.sendResponse(sending, req, invalidRequest, codec, err.Error())</div><div class="line">				server.freeRequest(req)</div><div class="line">			}</div><div class="line"></div><div class="line">			<span class="keyword">continue</span></div><div class="line">		}</div><div class="line"></div><div class="line">		<span class="keyword">go</span> service.call(server, sending, mtype, req, argv, replyv, codec)</div><div class="line">	}</div><div class="line"></div><div class="line">	codec.Close()</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>它其实一直从连接中读取请求，然后调用<code>go service.call</code>在另外的goroutine中处理服务调用。</p>
-<p>我们从中可以学到：</p>
-<ol>
-<li><p>对象重用。 Request和Response都是可重用的，通过Lock处理竞争。这在大并发的情况下很有效。 有兴趣的读者可以参考<a href="https://github.com/valyala/fasthttp" target="_blank" rel="external">fasthttp</a>的实现。</p>
-</li>
-<li><p>使用了大量的goroutine。 和Java中的线程不同，你可以创建非常多的goroutine, 并发处理非常好。 如果使用一定数量的goutine作为worker池去处理这个case，可能还会有些性能的提升，但是更复杂了。使用goroutine已经获得了非常好的性能。</p>
-</li>
-<li><p>业务处理是异步的, 服务的执行不会阻塞其它消息的读取。</p>
-</li>
-</ol>
-<p>注意一个codec实例必然和一个connnection相关，因为它需要从connection中读取request和发送response。</p>
-<p>go的rpc官方库的消息(request和response)的定义很简单， 就是消息头(header)+内容体(body)。</p>
-<p>请求的消息头的定义如下，包括服务的名称和序列号：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">type</span> Request <span class="keyword">struct</span> {</div><div class="line">        ServiceMethod <span class="typename">string</span> <span class="comment">// format: "Service.Method"</span></div><div class="line">        Seq           <span class="typename">uint64</span> <span class="comment">// sequence number chosen by client</span></div><div class="line"></div><div class="line">        <span class="comment">// contains filtered or unexported fields</span></div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>消息体就是传入的参数。</p>
-<p>返回的消息头的定义如下：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">type</span> Response <span class="keyword">struct</span> {</div><div class="line">        ServiceMethod <span class="typename">string</span> <span class="comment">// echoes that of the Request</span></div><div class="line">        Seq           <span class="typename">uint64</span> <span class="comment">// echoes that of the request</span></div><div class="line">        Error         <span class="typename">string</span> <span class="comment">// error, if any.</span></div><div class="line">        <span class="comment">// contains filtered or unexported fields</span></div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>消息体是reply类型的序列化后的值。</p>
-<p>Server还提供了两个注册服务的方法:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> (server *Server) Register(rcvr <span class="keyword">interface</span>{}) error</div><div class="line"><span class="keyword">func</span> (server *Server) RegisterName(name <span class="typename">string</span>, rcvr <span class="keyword">interface</span>{}) error</div></pre></td></tr></table></figure>
-
-<p>第二个方法为服务起一个别名，否则服务名已它的类型命名,它们俩底层调用<code>register</code>进行服务的注册。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> (server *Server) register(rcvr <span class="keyword">interface</span>{}, name <span class="typename">string</span>, useName <span class="typename">bool</span>) error</div></pre></td></tr></table></figure>
-
-<p>受限于Go语言的特点， 我们不可能在接到客户端的请求的时候，根据反射动态的创建一个对象，就是Java那样，</p>
-<p>因此在Go语言中，我们需要预先创建一个服务map这是在编译的时候完成的:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server.serviceMap = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="typename">string</span>]*service)</div></pre></td></tr></table></figure>
-
-<p>同时每个服务还有一个方法map: map[string]*methodType,通过suitableMethods建立:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> suitableMethods(typ reflect.Type, reportErr <span class="typename">bool</span>) <span class="keyword">map</span>[<span class="typename">string</span>]*methodType</div></pre></td></tr></table></figure>
-
-<p>这样rpc在读取请求header，通过查找这两个map，就可以得到要调用的服务及它的对应方法了。</p>
-<p>方法的调用:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">func (s *service) call(server *<span class="type">Server</span>, sending *sync.<span class="type">Mutex</span>, mtype *methodType, req *<span class="type">Request</span>, argv, replyv reflect.<span class="type">Value</span>, codec <span class="type">ServerCodec</span>) {</div><div class="line">	mtype.<span class="type">Lock</span>()</div><div class="line">	mtype.numCalls++</div><div class="line">	mtype.<span class="type">Unlock</span>()</div><div class="line">	function := mtype.<span class="keyword">method</span>.<span class="type">Func</span></div><div class="line"></div><div class="line">	// <span class="type">Invoke</span> the <span class="keyword">method</span>, providing a new value <span class="keyword">for</span> the reply.</div><div class="line">	returnValues := function.<span class="type">Call</span>([]reflect.<span class="type">Value</span>{s.rcvr, argv, replyv})</div><div class="line"></div><div class="line">	// <span class="type">The</span> <span class="keyword">return</span> value <span class="keyword">for</span> the <span class="keyword">method</span> <span class="keyword">is</span> an error.</div><div class="line">	errInter := returnValues[<span class="number">0</span>].<span class="type">Interface</span>()</div><div class="line"></div><div class="line">	errmsg := <span class="string">""</span></div><div class="line">	<span class="keyword">if</span> errInter != <span class="keyword">nil</span> {</div><div class="line">		errmsg = errInter.(error).<span class="type">Error</span>()</div><div class="line">	}</div><div class="line"></div><div class="line">	server.sendResponse(sending, req, replyv.<span class="type">Interface</span>(), codec, errmsg)</div><div class="line">	server.freeRequest(req)</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<h2 id="客户端代码分析">客户端代码分析</h2>
-<p>客户端要建立和服务器的连接，可以有以下几种方式：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> Dial(network, address <span class="typename">string</span>) (*Client, error)</div><div class="line"> <span class="keyword">func</span> DialHTTP(network, address <span class="typename">string</span>) (*Client, error)</div><div class="line"> <span class="keyword">func</span> DialHTTPPath(network, address, path <span class="typename">string</span>) (*Client, error)</div><div class="line"> <span class="keyword">func</span> NewClient(conn io.ReadWriteCloser) *Client</div><div class="line"> <span class="keyword">func</span> NewClientWithCodec(codec ClientCodec) *Client</div></pre></td></tr></table></figure>
-
-<p><code>DialHTTP</code> 和 <code>DialHTTPPath</code>是通过HTTP的方式和服务器建立连接，他俩的区别之在于是否设置上下文路径:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> DialHTTPPath(network, address, path <span class="typename">string</span>) (*Client, error) {</div><div class="line">	<span class="keyword">var</span> err error</div><div class="line">	conn, err := net.Dial(network, address)</div><div class="line">	<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">		<span class="keyword">return</span> <span class="constant">nil</span>, err</div><div class="line">	}</div><div class="line"></div><div class="line">	io.WriteString(conn, <span class="string">"CONNECT "</span>+path+<span class="string">" HTTP/1.0\n\n"</span>)</div><div class="line">	<span class="comment">// Require successful HTTP response</span></div><div class="line">	<span class="comment">// before switching to RPC protocol.</span></div><div class="line"></div><div class="line">	resp, err := http.ReadResponse(bufio.NewReader(conn), &http.Request{Method: <span class="string">"CONNECT"</span>})</div><div class="line">	<span class="keyword">if</span> err == <span class="constant">nil</span> && resp.Status == connected {</div><div class="line">		<span class="keyword">return</span> NewClient(conn), <span class="constant">nil</span></div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="keyword">if</span> err == <span class="constant">nil</span> {</div><div class="line">		err = errors.New(<span class="string">"unexpected HTTP response: "</span> + resp.Status)</div><div class="line">	}</div><div class="line"></div><div class="line">	conn.Close()</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="constant">nil</span>, &net.OpError{</div><div class="line">		Op:   <span class="string">"dial-http"</span>,</div><div class="line">		Net:  network + <span class="string">" "</span> + address,</div><div class="line">		Addr: <span class="constant">nil</span>,</div><div class="line">		Err:  err,</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>首先发送 <code>CONNECT</code> 请求，如果连接成功则通过<code>NewClient(conn)</code>创建client。</p>
-<p>而<code>Dial</code>则通过TCP直接连接服务器：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">func</span> Dial(network, address <span class="typename">string</span>) (*Client, error) {</div><div class="line">	conn, err := net.Dial(network, address)</div><div class="line"></div><div class="line">	<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">		<span class="keyword">return</span> <span class="constant">nil</span>, err</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="keyword">return</span> NewClient(conn), <span class="constant">nil</span></div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>根据服务是over HTTP还是 over TCP选择合适的连接方式。</p>
-<p><code>NewClient</code>则创建一个缺省codec为glob序列化库的客户端:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> NewClient(conn io.ReadWriteCloser) *Client {</div><div class="line">	encBuf := bufio.NewWriter(conn)</div><div class="line">	client := &gobClientCodec{conn, gob.NewDecoder(conn), gob.NewEncoder(encBuf), encBuf}</div><div class="line">	<span class="keyword">return</span> NewClientWithCodec(client)</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>如果你想用其它的序列化库，你可以调用<code>NewClientWithCodec</code>方法&lt;:&gt;&lt;/:&gt;</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> NewClientWithCodec(codec ClientCodec) *Client {</div><div class="line">	client := &Client{</div><div class="line">		codec:   codec,</div><div class="line">		pending: <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="typename">uint64</span>]*Call),</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="keyword">go</span> client.input()</div><div class="line">	<span class="keyword">return</span> client</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>重要的是<code>input</code>方法，它已一个死循环的方式不断地从连接中读取response,然后调用map中读取等待的Call.Done channel通知完成。</p>
-<p>消息的结构和服务器一致，都是Header+Body的方式。</p>
-<p>客户端的调用有两个方法: <code>Go</code> 和 <code>Call</code>。 <code>Go</code>方法是异步的，它返回一个 Call指针对象， 它的Done是一个channel，如果服务返回，</p>
-<p>Done就可以得到返回的对象(实际是Call对象，包含Reply和error信息)。 <code>Go</code>是同步的方式调用，它实际是调用<code>Call</code>实现的，</p>
-<p>我们可以看看它是怎么实现的，可以了解一下异步变同步的方式：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> (client *Client) Call(serviceMethod <span class="typename">string</span>, args <span class="keyword">interface</span>{}, reply <span class="keyword">interface</span>{}) error {</div><div class="line">	call := &lt;-client.Go(serviceMethod, args, reply, <span class="built_in">make</span>(<span class="keyword">chan</span> *Call,<span class="number"> 1</span>)).Done</div><div class="line">	<span class="keyword">return</span> call.Error</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>从一个Channel中读取对象会被阻塞住，直到有对象可以读取，这种实现很简单，也很方便。</p>
-<p>其实从服务器端的代码和客户端的代码实现我们还可以学到锁Lock的一种实用方式，也就是尽快的释放锁，而不是<code>defer mu.Unlock</code>直到函数执行到最后才释放，那样锁占用的时间太长了。</p>
-<h2 id="codec／序列化框架">codec／序列化框架</h2>
-<p>前面我们介绍了rpc框架默认使用gob序列化库，很多情况下我们追求更好的效率的情况下，或者追求更通用的序列化格式，我们可能采用其它的序列化方式， 比如protobuf, json, xml等。</p>
-<p>gob序列化库有个要求，就是对于接口类型的值，你需要注册具体的实现类型：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> Register(value <span class="keyword">interface</span>{})</div><div class="line"><span class="keyword">func</span> RegisterName(name <span class="typename">string</span>, value <span class="keyword">interface</span>{})</div></pre></td></tr></table></figure>
-
-<p>初次使用rpc的人容易犯这个错误，导致序列化不成功。</p>
-<p>Go官方库实现了<a href="http://json-rpc.org/wiki/specification" target="_blank" rel="external">JSON-RPC 1.0</a>。JSON-RPC是一个通过JSON格式进行消息传输的RPC规范，因此可以进行跨语言的调用。</p>
-<p>Go的<code>net/rpc/jsonrpc</code>库可以将JSON-RPC的请求转换成自己内部的格式，比如request header的处理：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> (c *serverCodec) ReadRequestHeader(r *rpc.Request) error {</div><div class="line">	c.req.reset()</div><div class="line"></div><div class="line">	<span class="keyword">if</span> err := c.dec.Decode(&c.req); err != <span class="constant">nil</span> {</div><div class="line">		<span class="keyword">return</span> err</div><div class="line">	}</div><div class="line"></div><div class="line">	r.ServiceMethod = c.req.Method</div><div class="line">	c.mutex.Lock()</div><div class="line">	c.seq++</div><div class="line">	c.pending[c.seq] = c.req.Id</div><div class="line">	c.req.Id = <span class="constant">nil</span></div><div class="line">	r.Seq = c.seq</div><div class="line">	c.mutex.Unlock()</div><div class="line">	<span class="keyword">return</span> <span class="constant">nil</span></div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>JSON-RPC 2.0官方库布支持，但是有第三方开发者提供了实现，比如:</p>
-<ul>
-<li><a href="https://github.com/powerman/rpc-codec" target="_blank" rel="external">https://github.com/powerman/rpc-codec</a></li>
-<li><a href="https://github.com/dwlnetnl/generpc" target="_blank" rel="external">https://github.com/dwlnetnl/generpc</a></li>
-</ul>
-<p>一些其它的codec如 <a href="https://godoc.org/github.com/skynetservices/skynet/rpc/bsonrpc" target="_blank" rel="external">bsonrpc</a>、<a href="https://godoc.org/github.com/hashicorp/net-rpc-msgpackrpc" target="_blank" rel="external">messagepack</a>、<a href="https://github.com/mars9/codec" target="_blank" rel="external">protobuf</a>等。</p>
-<p>如果你使用其它特定的序列化框架，你可以参照这些实现来写一个你自己的rpc codec。</p>
-<p>关于Go序列化库的性能的比较你可以参考 <a href="https://github.com/smallnest/gosercomp" target="_blank" rel="external">gosercomp</a>。</p>
-<h2 id="其它">其它</h2>
-<p>有一个提案 <a href="https://github.com/golang/go/issues/16844" target="_blank" rel="external">deprecate net/rpc</a>：</p>
-<blockquote>
-<p>The package has outstanding bugs that are hard to fix, and cannot support TLS without major work. So although it has a nice API and allows one to use native Go types without an IDL, it should probably be retired.</p>
-<p>The proposal is to freeze the package, retire the many bugs filed against it, and add documentation indicating that it is frozen and that suggests alternatives such as GRPC.</p>
-</blockquote>
-<p>但我认为net/rpc的设计相当的优秀，性能超好，如果不继续开发就太可惜了。提案中提到的一些bug和TLS并不是不能修复，可能Go team缺乏相应的资源，或者开发者兴趣不在这里而已。我相信这个提案有很大的反对意见。</p>
-<p>目前看来 ｀gRPC｀ 的性能远远逊于 <code>net/rpc</code>, 不仅仅是吞吐率，还包括CPU的占有率。</p>
-<p>更多Go RPC开发技术请阅读： <a href="https://www.gitbook.com/book/smallnest/go-rpc/details" target="_blank" rel="external">Go RPC开发指南</a>。</p>
-<h2 id="参考文档">参考文档</h2>
-<ol>
-<li><a href="https://golang.org/pkg/net/rpc/" target="_blank" rel="external">https://golang.org/pkg/net/rpc/</a></li>
-<li><a href="https://golang.org/pkg/encoding/gob/" target="_blank" rel="external">https://golang.org/pkg/encoding/gob/</a></li>
-<li><a href="https://golang.org/pkg/net/rpc/jsonrpc/" target="_blank" rel="external">https://golang.org/pkg/net/rpc/jsonrpc/</a></li>
-<li><a href="https://github.com/golang/go/issues/16844" target="_blank" rel="external">https://github.com/golang/go/issues/16844</a></li>
-</ol>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>Go官方提供了一个<a href="https://golang.org/pkg/net/rpc/" target="_blank" rel="external">RPC库</a>: <code>net/rpc</code>。包rpc提供了通过网络访问一个对象的方法的能力。服务器需要注册对象， 通过对象的类型名暴露这个服务。注册后这个对象的输出方法就可以远程调用，这个库封装了底层传输的细节，包括序列化。服务器可以注册多个不同类型的对象，但是注册相同类型的多个对象的时候回出错。</p>
-<blockquote>
-<p>我最近写了一本电子书: <a href="https://www.gitbook.com/book/smallnest/go-rpc/details" target="_blank" rel="external">Go RPC开发指南</a>,介绍Go RPC开发的相关技术，这是其中的一章，专门介绍官方库 <code>net/rpc</code>的使用。</p>
-</blockquote>
-]]>
-    
-    </summary>
-    
-      <category term="Go" scheme="http://colobu.com/categories/Go/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[分布式RPC框架性能大比拼]]></title>
-    <link href="http://colobu.com/2016/09/05/benchmarks-of-popular-rpc-frameworks/"/>
-    <id>http://colobu.com/2016/09/05/benchmarks-of-popular-rpc-frameworks/</id>
-    <published>2016-09-05T13:18:30.000Z</published>
-    <updated>2016-11-28T07:51:37.845Z</updated>
-    <content type="html"><![CDATA[<p><a href="http://dubbo.io" target="_blank" rel="external">Dubbo</a> 是阿里巴巴公司开源的一个Java高性能优秀的服务框架，使得应用可通过高性能的 RPC 实现服务的输出和输入功能，可以和 Spring框架无缝集成。不过，略有遗憾的是，据说在淘宝内部，dubbo由于跟淘宝另一个类似的框架HSF（非开源）有竞争关系，导致dubbo团队已经解散（参见<a href="http://www.oschina.net/news/55059/druid-1-0-9" target="_blank" rel="external">http://www.oschina.net/news/55059/druid-1-0-9</a> 中的评论），反到是当当网的扩展版本仍在持续发展，墙内开花墙外香。其它的一些知名电商如当当、京东、国美维护了自己的分支或者在dubbo的基础开发，但是官方的库缺乏维护，相关的依赖类比如Spring，Netty还是很老的版本(Spring 3.2.16.RELEASE, netty 3.2.5.Final),倒是有些网友写了升级Spring和Netty的插件。</p>
-<p><a href="https://github.com/weibocom/motan" target="_blank" rel="external">Motan</a>是新浪微博开源的一个Java 框架。它诞生的比较晚，起于2013年，2016年5月开源。Motan 在微博平台中已经广泛应用，每天为数百个服务完成近千亿次的调用。</p>
-<p><a href="https://github.com/smallnest/rpcx" target="_blank" rel="external">rpcx</a>是Go语言生态圈的Dubbo， 比Dubbo更轻量，实现了Dubbo的许多特性，借助于Go语言优秀的并发特性和简洁语法，可以使用较少的代码实现分布式的RPC服务。</p>
-<p><a href="http://www.grpc.io/" target="_blank" rel="external">gRPC</a>是Google开发的高性能、通用的开源RPC框架，其由Google主要面向移动应用开发并基于HTTP/2协议标准而设计，基于ProtoBuf(Protocol Buffers)序列化协议开发，且支持众多开发语言。本身它不是分布式的，所以要实现上面的框架的功能需要进一步的开发。</p>
-<p><a href="https://thrift.apache.org" target="_blank" rel="external">thrift</a>是Apache的一个跨语言的高性能的服务框架，也得到了广泛的应用。</p>
-<blockquote>
-<p>后续还会增加更多的 RPC 框架的比较，敬请收藏本文网址</p>
-</blockquote>
-<a id="more"></a>
-<p>以下是它们的功能比较：</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Dubbo</th>
-<th>Montan</th>
-<th>rpcx</th>
-<th>gRPC</th>
-<th>Thrift</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>开发语言</td>
-<td>Java</td>
-<td>Java</td>
-<td>Go</td>
-<td>跨语言</td>
-<td>跨语言</td>
-</tr>
-<tr>
-<td>分布式(服务治理)</td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-<td>×</td>
-<td>×</td>
-</tr>
-<tr>
-<td>多序列化框架支持</td>
-<td>√<br>&nbsp;</td>
-<td>√ <br>(当前支持Hessian2、Json,可扩展)</td>
-<td>√<br>&nbsp;</td>
-<td>× <br>(只支持protobuf)</td>
-<td>× (thrift格式)</td>
-</tr>
-<tr>
-<td>多种注册中心</td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-<td>×</td>
-<td>×</td>
-</tr>
-<tr>
-<td>管理中心</td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-<td>×</td>
-<td>×</td>
-</tr>
-<tr>
-<td>跨编程语言</td>
-<td>×</td>
-<td>× (支持php client和C server)</td>
-<td>×</td>
-<td>√</td>
-<td>√</td>
-</tr>
-</tbody>
-</table>
-<p>对于RPC的考察， 性能是很重要的一点，因为RPC框架经常用在服务的大并发调用的环境中，性能的好坏决定服务的质量以及公司在硬件部署上的花费。</p>
-<p>本文通过一个统一的服务，测试这四种框架实现的完整的服务器端和客户端的性能。<br>这个服务传递的消息体有一个protobuf文件定义：</p>
-<figure class="highlight proto"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">syntax = <span class="string">"proto2"</span>;</div><div class="line"></div><div class="line"><span class="keyword">package</span> main;</div><div class="line"></div><div class="line"><span class="keyword">option</span> optimize_for = SPEED;</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">message</span> <span class="title">BenchmarkMessage</span> </span>{</div><div class="line">  <span class="keyword">required</span> <span class="built_in">string</span> field1 = <span class="number">1</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">string</span> field9 = <span class="number">9</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">string</span> field18 = <span class="number">18</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">bool</span> field80 = <span class="number">80</span> [default=<span class="literal">false</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">bool</span> field81 = <span class="number">81</span> [default=<span class="literal">true</span>];</div><div class="line">  <span class="keyword">required</span> <span class="built_in">int32</span> field2 = <span class="number">2</span>;</div><div class="line">  <span class="keyword">required</span> <span class="built_in">int32</span> field3 = <span class="number">3</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field280 = <span class="number">280</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field6 = <span class="number">6</span> [default=<span class="number">0</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int64</span> field22 = <span class="number">22</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">string</span> field4 = <span class="number">4</span>;</div><div class="line">  <span class="keyword">repeated</span> <span class="built_in">fixed64</span> field5 = <span class="number">5</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">bool</span> field59 = <span class="number">59</span> [default=<span class="literal">false</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">string</span> field7 = <span class="number">7</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field16 = <span class="number">16</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field130 = <span class="number">130</span> [default=<span class="number">0</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">bool</span> field12 = <span class="number">12</span> [default=<span class="literal">true</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">bool</span> field17 = <span class="number">17</span> [default=<span class="literal">true</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">bool</span> field13 = <span class="number">13</span> [default=<span class="literal">true</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">bool</span> field14 = <span class="number">14</span> [default=<span class="literal">true</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field104 = <span class="number">104</span> [default=<span class="number">0</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field100 = <span class="number">100</span> [default=<span class="number">0</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field101 = <span class="number">101</span> [default=<span class="number">0</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">string</span> field102 = <span class="number">102</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">string</span> field103 = <span class="number">103</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field29 = <span class="number">29</span> [default=<span class="number">0</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">bool</span> field30 = <span class="number">30</span> [default=<span class="literal">false</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field60 = <span class="number">60</span> [default=-<span class="number">1</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field271 = <span class="number">271</span> [default=-<span class="number">1</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field272 = <span class="number">272</span> [default=-<span class="number">1</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field150 = <span class="number">150</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field23 = <span class="number">23</span> [default=<span class="number">0</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">bool</span> field24 = <span class="number">24</span> [default=<span class="literal">false</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field25 = <span class="number">25</span> [default=<span class="number">0</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">bool</span> field78 = <span class="number">78</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field67 = <span class="number">67</span> [default=<span class="number">0</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field68 = <span class="number">68</span>;</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field128 = <span class="number">128</span> [default=<span class="number">0</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">string</span> field129 = <span class="number">129</span> [default=<span class="string">"xxxxxxxxxxxxxxxxxxxxx"</span>];</div><div class="line">  <span class="keyword">optional</span> <span class="built_in">int32</span> field131 = <span class="number">131</span> [default=<span class="number">0</span>];</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>相应的Thrift定义文件为</p>
-<figure class="highlight thrift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">namespace</span> java com.colobu.thrift</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">BenchmarkMessage</span></span></div><div class="line">{</div><div class="line">  <span class="number">1</span>:  <span class="built_in">string</span> field1,</div><div class="line">  <span class="number">2</span>:  <span class="built_in">i32</span> field2,</div><div class="line">  <span class="number">3</span>:  <span class="built_in">i32</span> field3,</div><div class="line">  <span class="number">4</span>:  <span class="built_in">string</span> field4,</div><div class="line">  <span class="number">5</span>:  <span class="built_in">i64</span> field5,</div><div class="line">  <span class="number">6</span>:  <span class="built_in">i32</span> field6,</div><div class="line">  <span class="number">7</span>:  <span class="built_in">string</span> field7,</div><div class="line">  <span class="number">9</span>:  <span class="built_in">string</span> field9,</div><div class="line">  <span class="number">12</span>:  <span class="built_in">bool</span> field12,</div><div class="line">  <span class="number">13</span>:  <span class="built_in">bool</span> field13,</div><div class="line">  <span class="number">14</span>:  <span class="built_in">bool</span> field14,</div><div class="line">  <span class="number">16</span>:  <span class="built_in">i32</span> field16,</div><div class="line">  <span class="number">17</span>:  <span class="built_in">bool</span> field17,</div><div class="line">  <span class="number">18</span>:  <span class="built_in">string</span> field18,</div><div class="line">  <span class="number">22</span>:  <span class="built_in">i64</span> field22,</div><div class="line">  <span class="number">23</span>:  <span class="built_in">i32</span> field23,</div><div class="line">  <span class="number">24</span>:  <span class="built_in">bool</span> field24,</div><div class="line">  <span class="number">25</span>:  <span class="built_in">i32</span> field25,</div><div class="line">  <span class="number">29</span>:  <span class="built_in">i32</span> field29,</div><div class="line">  <span class="number">30</span>:  <span class="built_in">bool</span> field30,</div><div class="line">  <span class="number">59</span>:  <span class="built_in">bool</span> field59,</div><div class="line">  <span class="number">60</span>:  <span class="built_in">i32</span> field60,</div><div class="line">  <span class="number">67</span>:  <span class="built_in">i32</span> field67,</div><div class="line">  <span class="number">68</span>:  <span class="built_in">i32</span> field68,</div><div class="line">  <span class="number">78</span>:  <span class="built_in">bool</span> field78,</div><div class="line">  <span class="number">80</span>:  <span class="built_in">bool</span> field80,</div><div class="line">  <span class="number">81</span>:  <span class="built_in">bool</span> field81,</div><div class="line">  <span class="number">100</span>:  <span class="built_in">i32</span> field100,</div><div class="line">  <span class="number">101</span>:  <span class="built_in">i32</span> field101,</div><div class="line">  <span class="number">102</span>:  <span class="built_in">string</span> field102,</div><div class="line">  <span class="number">103</span>:  <span class="built_in">string</span> field103,</div><div class="line">  <span class="number">104</span>:  <span class="built_in">i32</span> field104,</div><div class="line">  <span class="number">128</span>:  <span class="built_in">i32</span> field128,</div><div class="line">  <span class="number">129</span>:  <span class="built_in">string</span> field129,</div><div class="line">  <span class="number">130</span>:  <span class="built_in">i32</span> field130,</div><div class="line">  <span class="number">131</span>:  <span class="built_in">i32</span> field131,</div><div class="line">  <span class="number">150</span>:  <span class="built_in">i32</span> field150,</div><div class="line">  <span class="number">271</span>:  <span class="built_in">i32</span> field271,</div><div class="line">  <span class="number">272</span>:  <span class="built_in">i32</span> field272,</div><div class="line">  <span class="number">280</span>:  <span class="built_in">i32</span> field280,</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">service</span> <span class="title">Greeter</span> </span>{</div><div class="line"></div><div class="line">    BenchmarkMessage say(<span class="number">1</span>:BenchmarkMessage name);</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>事实上这个文件摘自gRPC项目的测试用例，使用反射为每个字段赋值，使用protobuf序列化后的大小为 581 个字节左右。因为Dubbo和Motan缺省不支持Protobuf,所以序列化和反序列化是在代码中手工实现的。</p>
-<p>服务很简单：</p>
-<figure class="highlight proto"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">service</span> <span class="title">Hello</span> </span>{</div><div class="line">  <span class="comment">// Sends a greeting</span></div><div class="line">  <span class="function"><span class="keyword">rpc</span> Say (BenchmarkMessage) <span class="keyword">returns</span> (BenchmarkMessage) {}</span></div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>接收一个BenchmarkMessage，更改它前两个字段的值为&quot;OK&quot; 和 100，这样客户端得到服务的结果后能够根据结果判断服务是否正常的执行。<br>Dubbo的测试代码改自 <a href="https://github.com/alibaba/dubbo/tree/master/dubbo-demo" target="_blank" rel="external">dubo-demo</a>,<br>Motan的测试代码改自 <a href="https://github.com/weibocom/motan/tree/master/motan-demo" target="_blank" rel="external">motan-demo</a>。<br>rpcx和gRPC的测试代码在 <a href="https://github.com/smallnest/rpcx/tree/master/_benchmarks" target="_blank" rel="external">rpcx benchmark</a>。<br>Thrift使用Java进行测试。</p>
-<p>正如左耳朵耗子对Dubbo批评一样，Dubbo官方的测试不正规 (<a href="http://coolshell.cn/articles/17381.html" target="_blank" rel="external">性能测试应该怎么做？</a>)。<br>本文测试将用吞吐率、相应时间平均值、响应时间中位数、响应时间最大值进行比较(响应时间最小值都为0，不必比较)，当然最好以Top Percentile的指标进行比较，但是我没有找到Go语言的很好的统计这个库，所以暂时比较中位数。<br>另外测试中服务的成功率都是100%。</p>
-<p>测试是在两台机器上执行的，一台机器做服务器，一台机器做客户端。</p>
-<p>两台机器的配置都是一样的，比较老的服务器：</p>
-<ul>
-<li><strong>CPU</strong>:    Intel(R) Xeon(R) CPU E5-2620 v2 @ 2.10GHz, 24 cores</li>
-<li><strong>Memory</strong>: 16G</li>
-<li><strong>OS</strong>:     Linux 2.6.32-358.el6.x86_64, CentOS 6.4</li>
-<li><strong>Go</strong>:     1.7</li>
-<li><strong>Java</strong>:   1.8</li>
-<li><strong>Dubbo</strong>:  2.5.4-SNAPSHOT (2016-09-05)</li>
-<li><strong>Motan</strong>:  0.2.2-SNAPSHOT (2016-09-05)</li>
-<li><strong>gRPC</strong>:   1.0.0</li>
-<li><strong>rpcx</strong>:   2016-09-05</li>
-<li><strong>thrift</strong>: 0.9.3 (java)</li>
-</ul>
-<p>分别在client并发数为100、500、1000、2000 和 5000的情况下测试，记录吞吐率(每秒调用次数, Throughput)、响应时间(Latency) 、成功率。<br>(更精确的测试还应该记录CPU使用率、内存使用、网络带宽、IO等，本文中未做比较)</p>
-<p>首先看在四种并发下各RPC框架的吞吐率：<br><img src="throughput.png" alt="吞吐率"><br>rpcx的性能遥遥领先，并且其它三种框架在并发client很大的情况下吞吐率会下降。<br>thrift比rpcx性能差一点，但是还不错，远好于gRPC,dubbo和motan,但是随着client的增多，性能也下降的很厉害，在client较少的情况下吞吐率挺好。</p>
-<p>在这四种并发的情况下平均响应：<br><img src="mean-latency.png" alt="平均响应时间"><br>这个和吞吐率的表现是一致的，还是rpcx最好，平均响应时间小于30ms, Dubbo在并发client多的情况下响应时间很长。<br>我们知道，在微服务流行的今天，一个单一的RPC的服务可能会被不同系统所调用，这些不同的系统会创建不同的client。如果调用的系统很多，就有可能创建很多的client。<br>这里统计的是这些client总的吞吐率和总的平均时间。</p>
-<p>平均响应时间可能掩盖一些真相，尤其是当响应时间的分布不是那么平均，所以我们还可以关注另外一个指标，就是中位数。<br>这里的中位数指小于这个数值的测试数和大于这个数值的测试数相等。<br><img src="median-latency.png" alt="响应时间中位数"><br>gRPC框架的表现最好。</p>
-<p>另外一个就是比较一下最长的响应时间，看看极端情况下各框架的表现：<br><img src="max-latency.png" alt="最大响应时间"><br>rpcx的最大响应时间都小于1秒，Motan的表现也不错，都小于2秒，其它两个框架表现不是太好。</p>
-<p>本文以一个相同的测试case测试了四种RPC框架的性能，得到了这四种框架在不同的并发条件下的性能表现。期望读者能提出宝贵的意见，以便完善这个测试，并能增加更多的RPC框架的测试。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p><a href="http://dubbo.io" target="_blank" rel="external">Dubbo</a> 是阿里巴巴公司开源的一个Java高性能优秀的服务框架，使得应用可通过高性能的 RPC 实现服务的输出和输入功能，可以和 Spring框架无缝集成。不过，略有遗憾的是，据说在淘宝内部，dubbo由于跟淘宝另一个类似的框架HSF（非开源）有竞争关系，导致dubbo团队已经解散（参见<a href="http://www.oschina.net/news/55059/druid-1-0-9" target="_blank" rel="external">http://www.oschina.net/news/55059/druid-1-0-9</a> 中的评论），反到是当当网的扩展版本仍在持续发展，墙内开花墙外香。其它的一些知名电商如当当、京东、国美维护了自己的分支或者在dubbo的基础开发，但是官方的库缺乏维护，相关的依赖类比如Spring，Netty还是很老的版本(Spring 3.2.16.RELEASE, netty 3.2.5.Final),倒是有些网友写了升级Spring和Netty的插件。</p>
-<p><a href="https://github.com/weibocom/motan" target="_blank" rel="external">Motan</a>是新浪微博开源的一个Java 框架。它诞生的比较晚，起于2013年，2016年5月开源。Motan 在微博平台中已经广泛应用，每天为数百个服务完成近千亿次的调用。</p>
-<p><a href="https://github.com/smallnest/rpcx" target="_blank" rel="external">rpcx</a>是Go语言生态圈的Dubbo， 比Dubbo更轻量，实现了Dubbo的许多特性，借助于Go语言优秀的并发特性和简洁语法，可以使用较少的代码实现分布式的RPC服务。</p>
-<p><a href="http://www.grpc.io/" target="_blank" rel="external">gRPC</a>是Google开发的高性能、通用的开源RPC框架，其由Google主要面向移动应用开发并基于HTTP/2协议标准而设计，基于ProtoBuf(Protocol Buffers)序列化协议开发，且支持众多开发语言。本身它不是分布式的，所以要实现上面的框架的功能需要进一步的开发。</p>
-<p><a href="https://thrift.apache.org" target="_blank" rel="external">thrift</a>是Apache的一个跨语言的高性能的服务框架，也得到了广泛的应用。</p>
-<blockquote>
-<p>后续还会增加更多的 RPC 框架的比较，敬请收藏本文网址</p>
-</blockquote>
-]]>
-    
-    </summary>
-    
-      <category term="高并发编程" scheme="http://colobu.com/categories/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
     
   </entry>
   
