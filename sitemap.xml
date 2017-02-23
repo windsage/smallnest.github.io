@@ -2,6 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://colobu.com/2017/02/07/write-idiomatic-golang-codes/</loc>
+    <lastmod>2017-02-23T00:52:04.885Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/about/index.html</loc>
+    <lastmod>2017-02-23T00:49:59.464Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/01/26/how-to-go-get-behind-GFW/</loc>
+    <lastmod>2017-02-23T00:49:59.445Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/02/01/golang-summaries/</loc>
+    <lastmod>2017-02-23T00:49:59.439Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2016/06/20/dive-into-go-5/</loc>
+    <lastmod>2017-02-23T00:49:59.430Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/02/22/HTTP-Response-Snippets-for-Go/</loc>
+    <lastmod>2017-02-23T00:49:59.421Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2016/04/14/Golang-Channels/</loc>
+    <lastmod>2017-02-23T00:49:59.403Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/01/26/A-Guide-To-The-Kafka-Protocol/</loc>
+    <lastmod>2017-02-23T00:49:59.394Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2016/06/16/dive-into-go-3/</loc>
     <lastmod>2017-01-05T14:05:45.093Z</lastmod>
   </url>
@@ -72,12 +112,12 @@
   </url>
   
   <url>
-    <loc>http://colobu.com/2016/11/11/microservices-anti-patterns-and-pitfalls/</loc>
+    <loc>http://colobu.com/2016/11/04/create-a-compressed-TCP-by-Go/</loc>
     <lastmod>2016-11-17T07:58:44.713Z</lastmod>
   </url>
   
   <url>
-    <loc>http://colobu.com/2016/11/04/create-a-compressed-TCP-by-Go/</loc>
+    <loc>http://colobu.com/2016/11/11/microservices-anti-patterns-and-pitfalls/</loc>
     <lastmod>2016-11-17T07:58:44.713Z</lastmod>
   </url>
   
@@ -89,11 +129,6 @@
   <url>
     <loc>http://colobu.com/documents/index.html</loc>
     <lastmod>2016-11-13T09:23:00.610Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/about/index.html</loc>
-    <lastmod>2016-11-13T09:23:00.603Z</lastmod>
   </url>
   
   <url>
@@ -857,11 +892,6 @@
   </url>
   
   <url>
-    <loc>http://colobu.com/2016/06/20/dive-into-go-5/</loc>
-    <lastmod>2016-11-13T09:22:59.272Z</lastmod>
-  </url>
-  
-  <url>
     <loc>http://colobu.com/2016/06/20/dive-into-go-4/</loc>
     <lastmod>2016-11-13T09:22:59.266Z</lastmod>
   </url>
@@ -1374,11 +1404,6 @@
   <url>
     <loc>http://colobu.com/2016/04/14/Golang-Generics-Proposal/</loc>
     <lastmod>2016-11-13T09:22:58.503Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2016/04/14/Golang-Channels/</loc>
-    <lastmod>2016-11-13T09:22:58.498Z</lastmod>
   </url>
   
   <url>
