@@ -103,6 +103,337 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-how-to-improve-performance-20-times" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/09/04/how-to-improve-performance-20-times/" class="article-date">
+  <time datetime="2014-09-04T00:32:50.000Z" itemprop="datePublished">2014年09月04日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/04/how-to-improve-performance-20-times/">调优历程： 我是怎样将一个系统的性能提高20倍的?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+		<img class="article-post-image" src="/images/logos/Java_Coffee.png">
+	  
+      
+        <p>调优历程： 我是怎样将一个系统的性能提高20倍的?<br>最近从米国接收一个新的项目， 项目使用Spring + CXF 处理遵循行业规范的消息，并根据一定的规则将消息转发给其它的一个或者多个产品。<br>因为刚接手， 先对其进行功能的测试和测试其benchmark。 结果Beanchmark在AWS x3.xlarge机器上10个并发只能达到几十个TPS。<br>基于我前面的<a href="/2014/08/22/Benchmark-of-some-popular-frameworks/">文章</a>的对tomcat和其它框架的性能数据， 可以很自信的说， 这不科学。<br>经过一番紧张的基于性能考虑的调整，单台服务器终于达到了100个并发每秒能处理3000 多个的请求。<br>
+        
+          <p class="article-more-link">
+            <a href="/2014/09/04/how-to-improve-performance-20-times/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2014/09/04/how-to-improve-performance-20-times/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Performance/">Performance</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Java-8-lambdas-notes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/09/01/Java-8-lambdas-notes/" class="article-date">
+  <time datetime="2014-09-01T05:45:02.000Z" itemprop="datePublished">2014年09月01日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/01/Java-8-lambdas-notes/">Java 8 lambdas读书笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+		<img class="article-post-image" src="http://akamaicovers.oreilly.com/images/0636920030713/lrg.jpg">
+	  
+      
+        <p>Java 8 Lambdas是O&#39;Reilly 2014年3月出版的一本介绍最新Java Lambda技术的书。网上评价也不错。正好我需要找一本全面介绍Java Lambda数据， 来整理一下我脑海中的关于Java Lambda非系统的知识点。</p>
+<p>Lambda对于我来讲，并不是一个很新的技术。因为微软很早就在C#中加入了Lambda的特性。 而Java Lambda的语法和C#的语法非常的相像。 这篇文章算是对Java Lambda语法的一个整理。</p>
+<p>这本书一共十个章节。 第一章是简单介绍，没有实质内容。 第二章主要介绍了Java <code>Lambda</code>的语法。第三章介绍了<code>Stream</code>接口。第四章介绍了<code>Functional Interface</code>。第五章 首先介绍了方法引用，然后主要介绍了集合类新的Stream处理方式。 第六章 介绍了数据的并行处理。 第七章介绍了测试，调试和重构技术。第八章介绍了使用lambda的设计和架构原则。<br>第九章介绍了并发编程中的Lambda的应用。 第十章 前瞻，无实质内容<br>
+        
+          <p class="article-more-link">
+            <a href="/2014/09/01/Java-8-lambdas-notes/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2014/09/01/Java-8-lambdas-notes/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lambda/">Lambda</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-modern-web-development-tools" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/08/29/modern-web-development-tools/" class="article-date">
+  <time datetime="2014-08-29T07:22:55.000Z" itemprop="datePublished">2014年08月29日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/前端开发/">前端开发</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/08/29/modern-web-development-tools/">Web开发利器:介绍一款快速开发套件 (Node, Grunt, Bower和Yeoman)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+      
+        <p>最近看到javacodegeeks上的一篇文章<a href="http://www.javacodegeeks.com/2014/08/node-grunt-bower-and-yeoman-a-modern-web-devs-toolkit.html" target="_blank" rel="external">Node, Grunt, Bower and Yeoman – A Modern web dev’s Toolkit</a>， 文章介绍了一个web开发的工具集。 正好我今年以来也在使用这套工具集开发Web应用程序，也一直想写一篇文章总结一下这套开发套件的用法，借此机会，参考这篇文章，总结一下我使用这套工具的经验。<br>在的文章中，作者使用angular 框架开发，而我，遵循公司的选择，使用Ember.js作为我的开发框架。同时使用Compass进行SCSS的编译。这些地方会有所不同。</p>
+<p>像Node.js， 已经不算新鲜的玩意了。Node.js第一个版本于2009年发布，现在有很多的公司也采用Node作为后端开发工具。 至于Node.js是否代表先进的开发方向， 目前还有很大的争论。但是基于Node.js的生态圈已经形成，一大波的优秀的的Node.js 模块已经涌现。但是像Grunt, Bower等工具，也有不少的朋友并不了解。所以这篇文章特别介绍一下它们。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2014/08/29/modern-web-development-tools/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2014/08/29/modern-web-development-tools/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bower/">Bower</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Grunt/">Grunt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node/">Node</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Yeoman/">Yeoman</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hot-articles-on-javacodegeek" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/08/29/hot-articles-on-javacodegeek/" class="article-date">
+  <time datetime="2014-08-29T00:38:38.000Z" itemprop="datePublished">2014年08月29日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/08/29/hot-articles-on-javacodegeek/">Javacodegeeks网站上关注度最高的几篇文章</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+		<img class="article-post-image" src="http://a3ab771892fd198a96736e50.javacodegeeks.netdna-cdn.com/wp-content/uploads/2012/12/JavaCodeGeeks-logo.png">
+	  
+      
+        <p><a href="http://www.javacodegeeks.com" target="_blank" rel="external">Javacodegeeks</a> 网站提供了一系列优秀的关于Java语言的论文。 本文整理罗列了关注度比较高的几篇文章。很多优秀的文章已经被翻译成了中文，读者可以对照着阅读。</p>
+<ul>
+<li><a href="http://www.javacodegeeks.com/2014/04/java-interview-questions-and-answers.html" target="_blank" rel="external">115 Java Interview Questions and Answers – The ULTIMATE List</a> 由Sotirios-Efstathios Maneas发表于2014年4月。 文章列出了常见的Java面试题，但是我觉得关于Swing/AWT的问题可以删除了，还有多少现代的公司使用这种技术？ 倒是可以将泛型，反射等技术的问题加上。 很遗憾的是这篇文章并没有设计并发编程的问题。</li>
+</ul>
+<p>中文翻译请参考： <a href="http://www.importnew.com/11908.html" target="_blank" rel="external">115个Java面试题和答案(上)</a>, <a href="http://www.importnew.com/11028.html" target="_blank" rel="external">115个Java面试题和答案(下)</a><br>importnew还翻译了DZone网站的另外一篇Java面试题相关的文章： <a href="http://www.importnew.com/12516.html" target="_blank" rel="external">Java面试参考指南(一)</a>和 <a href="http://www.importnew.com/12522.html" target="_blank" rel="external">Java面试参考指南（二）</a></p>
+<ul>
+<li><a href="http://www.javacodegeeks.com/2014/05/java-8-features-tutorial.html" target="_blank" rel="external">Java 8 Features – The ULTIMATE Guide</a><br>文章参考了大量的关于Java 8的文章， 算是对Java 8的特性的一个相当不错总结。 </li>
+</ul>
+<p>中文翻译请参考： <a href="http://www.importnew.com/11908.html" target="_blank" rel="external">Java 8新特性终极指南</a></p>
+<ul>
+<li><p><a href="http://www.javacodegeeks.com/2013/02/40-java-collections-interview-questions-and-answers.html" target="_blank" rel="external">40 Java Collections Interview Questions and Answers</a><br>Pankaj Kumar 发表于2013年2月。 罗列了非常多的Java集合面试题， 很多题目经常会在面试中问到。</p>
+</li>
+<li><p><a href="http://www.javacodegeeks.com/2014/05/spring-interview-questions-and-answers.html" target="_blank" rel="external">69 Spring Interview Questions and Answers – The ULTIMATE List</a><br>Theodora Fragkouli发表于2014年5月。 非常好的Spring面试题。 自我感觉Spring面试题不好出， 涉及范围广， 深度不好控制， 官方文档介绍的相当全。 这篇文章给了我们好的参考。</p>
+</li>
+</ul>
+<p>中文翻译请参考： <a href="http://www.importnew.com/11657.html" target="_blank" rel="external">关于Spring的69个面试问答——终极列表 </a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2014/08/29/hot-articles-on-javacodegeek/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-CSS-display-float-clear-overflow-visibility" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/08/28/CSS-display-float-clear-overflow-visibility/" class="article-date">
+  <time datetime="2014-08-28T03:12:40.000Z" itemprop="datePublished">2014年08月28日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/前端开发/">前端开发</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/08/28/CSS-display-float-clear-overflow-visibility/">CSS的几个属性display,float,clear,overflow,visibility</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+		<img class="article-post-image" src="http://www.w3.org/Icons/ValidatorSuite/vs-icon-100">
+	  
+      
+        <p>整理了几个CSS常用的属性。</p>
+<h3 id="display属性:block/inline/none">display属性:block/inline/none</h3>
+<p>display：block(作用是把行属性标签显示成块属性标签，可以设置宽高) ；<br>display：inline(作用是把块属性标签显示成行属性标签，这时块属性标签就不能设置宽高啦)；<br>display：none(作用是使所控制的标签不显示)<br>visibility：hidden(是设置元素的框的不可见，但是在布局中的位置是不变的)<br>它和display：none的区别就在于后者不会占用那个位置，下一个元素会直接覆盖它，而前者是会占用那个布局，只是不显示内容，是    一片空白；并且下载的时候对于display：none就不会把不显示的元素给下载下来，而visibility：hidden则会把不显示的元素给下 载下来；</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2014/08/28/CSS-display-float-clear-overflow-visibility/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2014/08/28/CSS-display-float-clear-overflow-visibility/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-sass-basics" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/08/26/sass-basics/" class="article-date">
@@ -153,6 +484,10 @@
 
 	  
         <a href="http://colobu.com/2014/08/26/sass-basics/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
       
 
       
@@ -215,6 +550,10 @@
 
 	  
         <a href="http://colobu.com/2014/08/26/java-serializer-comparison/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
       
 
       
@@ -286,6 +625,10 @@
 
 	  
         <a href="http://colobu.com/2014/08/22/Benchmark-of-some-popular-frameworks/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
       
 
       
@@ -361,6 +704,10 @@
         <a href="http://colobu.com/2014/08/19/npm-local-mirror/#comments" class="article-comment-link">评论</a>
       
 
+    
+    
+      
+
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/">npm</a></li></ul>
 
@@ -429,6 +776,10 @@
         <a href="http://colobu.com/2014/08/17/MathJax-quick-reference/#comments" class="article-comment-link">评论</a>
       
 
+    
+    
+      
+
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MathJax/">MathJax</a></li></ul>
 
@@ -440,338 +791,9 @@
 
 
   
-    <article id="post-android-components-collection" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/08/15/android-components-collection/" class="article-date">
-  <time datetime="2014-08-15T00:36:08.000Z" itemprop="datePublished">2014年08月15日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/15/android-components-collection/">最流行的android组件大全</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-		<img class="article-post-image" src="/images/logos/Android_Robot.png">
-	  
-      
-        <p><strong>最后更新</strong><br>2016-02-16 最近几个月忙于写书，终于将新年的第一次整理完成。新加的项目在文章最后。<br>2015-11-24 增加 更多的开源项目。实现项目图片延时加载，提高页面显示速度。<br>2015-10-26 增加 更多的开源项目。<br>2015-09-15 增加 更多的开源项目。<br>2015-08-21 增加 awssome android XXXXX,在文章的前面。<br>2015-08-12 增加 很大一堆开源UI库等，在文章最后。<br>2015-06-05 增加 <em>FlyRefresh......</em>等一堆新的项目。以后新增加的项目放在文章最后<br>2015-04-20 增加 <em>CircleProgress, MultiImageSelector, ArcLayout, richeditor-android</em></p>
-<p>Android 是目前最流行的移动操作系统之一。 随着新版本的不断发布， Android的功能也日益强大， 涌现了很多流行的应用程序， 也催生了一大批的优秀的组件。<br>本文试图将目前流行的组件收集起来以供参考， 如果你发现本文还没有列出的组件，欢迎在评论中贴出来，我会定期的更新本文。</p>
-<p><em>部分图片需要翻墙才能显示</em></p>
-<ul>
-<li><p>很好的中文教程<br><a href="https://github.com/kesenhoo/android-training-course-in-chinese" target="_blank" rel="external">Google Android官方培训课程中文版</a></p>
-</li>
-<li><p><a href="https://github.com/JStumpp/awesome-android" target="_blank" rel="external">awesome-android</a>， android列表。</p>
-</li>
-<li><p>另，github上的一个项目， 收集了好多的Android开源项目。<br><a href="https://github.com/Trinea/android-open-project" target="_blank" rel="external">android-open-project</a>。</p>
-</li>
-<li><p>另,<br><a href="https://github.com/cesards/AndroidElementals" target="_blank" rel="external">AndroidElementals</a><br>巴塞罗那的一位工程师整理的Android开源项目列表。</p>
-</li>
-<li><p>另, 一个分类特别好的网站<br><a href="http://android-arsenal.com/free" target="_blank" rel="external">http://android-arsenal.com/free</a></p>
-</li>
-</ul>
-<p>以下是我收集和精选的Android开源项目。<br>
-        
-          <p class="article-more-link">
-            <a href="/2014/08/15/android-components-collection/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2014/08/15/android-components-collection/#comments" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/控件/">控件</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/组件/">组件</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-How-to-use-bloom-filter-to-build-a-large-in-memory-cache-in-Java" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/08/13/How-to-use-bloom-filter-to-build-a-large-in-memory-cache-in-Java/" class="article-date">
-  <time datetime="2014-08-13T02:43:32.000Z" itemprop="datePublished">2014年08月13日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/13/How-to-use-bloom-filter-to-build-a-large-in-memory-cache-in-Java/">&lt;翻译&gt; 如何利用Bloom Filter在Java中构建大规模基于内存的缓存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-      
-        <p>原文地址: <a href="http://www.javacodegeeks.com/2014/07/how-to-use-bloom-filter-to-build-a-large-in-memory-cache-in-java.html" target="_blank" rel="external">http://www.javacodegeeks.com/2014/07/how-to-use-bloom-filter-to-build-a-large-in-memory-cache-in-java.html</a></p>
-<p>缓存(Cache)是用来解决当下软件性能问题时需要考虑的一个很重要的手段。 你的程序可能有密集的CPU操作，而你却不想一遍又一遍的折磨CPU。 相反， 你会将结果抽取出来并缓存到内存中。 有时候系统的瓶颈也可能是IO操作， 比如你不想重复执行数据库的查询，而是把查询结果缓存起来， 只是在数据库的数据改变的时候才去更新缓存。</p>
-<p>类似地还有一些其它需要cache的情况如处理收到的request时我们需要执行一个快速的查询。例如， 你需要判断一个URL是否指向了一个恶意网站。 可能有非常多的（恶意网站的）URL， 如果我们将所有的恶意网址都缓存起来， 需要很大的空间。 又比如我们需要识别用户输入的字符串中是否包含美国的一个地方。 比如用户输入<code>华盛顿的博物馆</code>， 这个字符串中<code>华盛顿</code>是美国的一个地名。 我们要把美国所有的地名缓存起来以供查找？ 缓存会变得多大？没有数据库支持的这样做是否有效？<br>这就是我们淘汰map数据结构而去宣召一个更先进数据结构-boomfilter。 你可以把blommfilter看作类似java collection中的类。 可以把数据项放到它里面，可以检查某个数据项是否已经存在。  如果Bloomfilter说数据项不存在， 那数据项的确不存在， 不必怀疑。 但是如果它说数据项存在， 可能是误报， 有可能数据项真的不存在。 如果我们考虑周全， 就能减少误报的可能。</p>
-
-        
-          <p class="article-more-link">
-            <a href="/2014/08/13/How-to-use-bloom-filter-to-build-a-large-in-memory-cache-in-Java/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2014/08/13/How-to-use-bloom-filter-to-build-a-large-in-memory-cache-in-Java/#comments" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bloom-filter/">bloom filter</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cache/">cache</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-cardinality-estimation" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/08/13/cardinality-estimation/" class="article-date">
-  <time datetime="2014-08-13T02:12:49.000Z" itemprop="datePublished">2014年08月13日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/算法/">算法</a>
-  </div>
-
-	
-  <div class="article-author"> by 张洋</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/13/cardinality-estimation/">&lt;转&gt; 基数估计算法概览</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-      
-        <p>转自淘宝张洋的<a href="http://blog.codinglabs.org/articles/cardinality-estimation.html" target="_blank" rel="external">基数估计算法概览</a><br>翻译自<a href="http://blog.notdot.net/2012/09/Dam-Cool-Algorithms-Cardinality-Estimation" target="_blank" rel="external">Damn Cool Algorithms: Cardinality Estimation</a>.<br>在淘宝的应用考虑参考 <a href="http://www.google.com.tw/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=3&amp;cad=rja&amp;uact=8&amp;ved=0CCcQFjAC&amp;url=http%3A%2F%2Fclub.alibabatech.org%2Fresource_download.do%3FtopicId%3D113&amp;ei=jsfqU-vsHpe68gW94IKQCw&amp;usg=AFQjCNFGjSE73AywIpWHb0Ev4olnerOn0w&amp;bvm=bv.72938740,d.dGc" target="_blank" rel="external">基数估计算法在大数据场景下的应用</a>.</p>
-<p>假如你有一个巨大的含有重复数据项数据集，这个数据集过于庞大以至于无法全部放到内存中处理。现在你想知道这个数据集里有多少不同的元素，但是数据集没有排好序，而且对如此大的一个数据集进行排序和计数几乎是不可行的。你要如何估计数据集中有多少不同的数据项？很多应用场景都涉及这个问题，例如设计数据库的查询策略：一个良好的数据库查询策略不但和总的数据量有关，同时也依赖于数据中不同数据项的数量。</p>
-<p>我建议在继续阅读本文前你可以稍微是思考一下这个问题，因为接下来我们要谈的算法相当有创意，而且实在是不怎么直观。<br>
-        
-          <p class="article-more-link">
-            <a href="/2014/08/13/cardinality-estimation/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2014/08/13/cardinality-estimation/#comments" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/基数估计/">基数估计</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Copy-properties-between-java-beans" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/08/11/Copy-properties-between-java-beans/" class="article-date">
-  <time datetime="2014-08-11T07:32:55.000Z" itemprop="datePublished">2014年08月11日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/11/Copy-properties-between-java-beans/">java bean对象之间复制属性</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-      
-        <p>在现在的企业级Java应用程序中， Java Bean被广泛的应用。 一堆的相关的划分也应运而生， 如DTO, DAO, BO, POJO, VO等。这里不去管这些概念的细节， 如果你感兴趣，可以google之， 比如<a href="http://stackoverflow.com/questions/1612334/difference-between-dto-vo-pojo-javabeans" target="_blank" rel="external">这篇文章</a>。 这里要讨论的问题是如何在不同的Java Bean对象之间复制它们的属性？<br>这有几种情况需要考虑：</p>
-<ul>
-<li>源对象和目标对象的类型可能不同</li>
-<li>只想复制部分的对象</li>
-<li>要复制的对象的属性名字不同</li>
-<li>如何实现深复制 (deep copy)?</li>
-</ul>
-
-        
-          <p class="article-more-link">
-            <a href="/2014/08/11/Copy-properties-between-java-beans/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2014/08/11/Copy-properties-between-java-beans/#comments" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Using-MongoDB-as-Quartz-Jobstore" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/08/11/Using-MongoDB-as-Quartz-Jobstore/" class="article-date">
-  <time datetime="2014-08-11T06:25:47.000Z" itemprop="datePublished">2014年08月11日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/11/Using-MongoDB-as-Quartz-Jobstore/">使用MongoDB作为Quartz JobStore</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-      
-        <p>Quartz 是 OpenSymphony 开源组织在任务调度领域的一个开源项目，完全基于 Java 实现。该项目于 2009 年被 Terracotta 收购，目前是 Terracotta 旗下的一个项目。你可以到 <a href="http://www.quartz-scheduler.org/站点下载" target="_blank" rel="external">http://www.quartz-scheduler.org/站点下载</a> Quartz 的发布版本及其源代码。目前最新的版本是2.2.1。</p>
-<p>作为一个优秀的开源调度框架，Quartz 具有以下特点：</p>
-<ul>
-<li>强大的调度功能，例如支持丰富多样的调度方法，可以满足各种常规及特殊需求；</li>
-<li>灵活的应用方式，例如支持任务和调度的多种组合方式，支持调度数据的多种存储方式；</li>
-<li>分布式和集群能力，Terracotta 收购后在原来功能基础上作了进一步提升。本文暂不讨论该部分内容</li>
-</ul>
-<p>另外，作为 Spring 默认的调度框架，Quartz 很容易与 Spring 集成。</p>
-<p>下面是Quartz中的一些术语：</p>
-<ul>
-<li>scheduler： 任务调度器</li>
-<li>trigger： 触发器，用于定义任务调度时间规则</li>
-<li>job： 任务，即被调度的任务</li>
-<li>misfire： 错过的，指本来应该被执行但实际没有被执行的任务调度</li>
-</ul>
-
-        
-          <p class="article-more-link">
-            <a href="/2014/08/11/Using-MongoDB-as-Quartz-Jobstore/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2014/08/11/Using-MongoDB-as-Quartz-Jobstore/#comments" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mongo/">Mongo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Quartz/">Quartz</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/29/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/31/">下一页 &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/29/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/31/">下一页 &raquo;</a>
     </nav>
   
 </section>
@@ -793,7 +815,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DOTNET/">DOTNET</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><span class="category-list-count">57</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">58</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端开发/">前端开发</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构/">架构</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/管理/">管理</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络编程/">网络编程</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/高并发编程/">高并发编程</a><span class="category-list-count">20</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DOTNET/">DOTNET</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">58</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端开发/">前端开发</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构/">架构</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/管理/">管理</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络编程/">网络编程</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/高并发编程/">高并发编程</a><span class="category-list-count">20</span></li></ul>
     </div>
   </div>
 
@@ -811,7 +833,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -823,23 +845,23 @@
       <ul>
         
           <li>
-            <a href="/2017/02/22/HTTP-Response-Snippets-for-Go/">[译]Go HTTTP Response代码片段</a>
+            <a href="/2017/03/22/Slice-Tricks/">[译]Go Slice 秘籍</a>
           </li>
         
           <li>
-            <a href="/2017/02/07/write-idiomatic-golang-codes/">编写地道的Go代码</a>
+            <a href="/2017/03/16/Protobuf3-language-guide/">[转]Protobuf3 语法指南</a>
           </li>
         
           <li>
-            <a href="/2017/02/01/golang-summaries/">Golang 知识点总结</a>
+            <a href="/2017/03/09/implement-TryLock-in-Go/">为 Go Mutex 实现 TryLock 方法</a>
           </li>
         
           <li>
-            <a href="/2017/01/26/A-Guide-To-The-Kafka-Protocol/">Kafka通讯协议指南</a>
+            <a href="/2017/03/07/what-is-in-linux-cached/">谁吃了我的Linux内存?</a>
           </li>
         
           <li>
-            <a href="/2017/01/26/how-to-go-get-behind-GFW/">如何在长城后面go get一些库</a>
+            <a href="/2017/03/02/a-short-survey-of-golang-pprof/">[译] Go 可视化性能分析工具</a>
           </li>
         
       </ul>
@@ -855,7 +877,7 @@
         
           <li>
 			 
-            <a href="http://old.colobu.com" target="_blank">旧的博客</a>
+            <a href="http://old.colobu.com" target="_blank">以前的博客</a>
 			
           </li>
         
@@ -943,18 +965,6 @@
 			
           </li>
         
-          <li>
-			 
-			&nbsp;
-			
-          </li>
-        
-          <li>
-			 
-            <a href="http://www.503error.com/" target="_blank">503error</a>
-			
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -963,25 +973,14 @@
       <div class="widget-wrap">
     <h3 class="widget-title">热评文章</h3>
     <div class="widget">
-		<div class="ds-top-threads" data-range="monthly" data-num-items="5"></div>
-    </div>
-  </div>
-
-  
-      <div class="widget-wrap">
-    <h3 class="widget-title">最新评论</h3>
-    <div class="widget">
-		<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="70"></ul>
-		<script type="text/javascript">
-		var duoshuoQuery = {short_name:"colobu"};
-		(function() {
-			var ds = document.createElement('script');
-			ds.type = 'text/javascript';ds.async = true;
-			ds.src = 'http://static.duoshuo.com/embed.js';
-			ds.charset = 'UTF-8';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-		})();
-		</script>
+<div id="hot-news-wrap"></div>
+<script>var yunModuleEnv = true;</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+<script>
+  var yunTieProductKey = "bb59dc3c143c4469940a0163afdb38d8";  
+  var yunHotNewsWrap = "hot-news-wrap";   //放置的DOM节点ID 或 样式类
+  Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vZXh0ZW5kL2hvdF9uZXdzX3NjcmlwdC5odG1s", true);
+</script>
     </div>
   </div>
 

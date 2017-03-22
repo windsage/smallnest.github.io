@@ -103,6 +103,329 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-create-minimal-golang-docker-images" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/10/12/create-minimal-golang-docker-images/" class="article-date">
+  <time datetime="2015-10-12T04:21:19.000Z" itemprop="datePublished">2015年10月12日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Docker/">Docker</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/12/create-minimal-golang-docker-images/">创建超小的Golang docker 镜像</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+		<img class="article-post-image" src="/images/logos/docker.png">
+	  
+      
+        <p><a href="http://www.docker.io/" target="_blank" rel="external">Docker</a>是PaaS供应商dotCloud开源的一个基于LXC 的高级容器引擎，源代码托管在 GitHub 上, 基于Go语言开发并遵从Apache 2.0协议开源。正如DockerPool在免费Docker电子书<a href="http://dockerpool.com/static/books/docker_practice/index.html" target="_blank" rel="external">Docker —— 从入门到实践</a>中这样提到的：</p>
+<blockquote>
+<p>作为一种新兴的虚拟化方式，Docker 跟传统的虚拟化方式相比具有众多的优势。</p>
+<p>首先，Docker 容器的启动可以在秒级实现，这相比传统的虚拟机方式要快得多。 其次，Docker 对系统资源的利用率很高，一台主机上可以同时运行数千个 Docker 容器。</p>
+<p>容器除了运行其中应用外，基本不消耗额外的系统资源，使得应用的性能很高，同时系统的开销尽量小。传统虚拟机方式运行 10 个不同的应用就要起 10 个虚拟机，而Docker 只需要启动 10 个隔离的应用即可。</p>
+</blockquote>
+<p>Docker让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）。几乎没有性能开销,可以很容易地在机器和数据中心中运行。最重要的是,他们不依赖于任何语言、框架包括系统。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2015/10/12/create-minimal-golang-docker-images/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2015/10/12/create-minimal-golang-docker-images/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Linux-Signals" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/10/09/Linux-Signals/" class="article-date">
+  <time datetime="2015-10-09T07:21:28.000Z" itemprop="datePublished">2015年10月09日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/09/Linux-Signals/">Linux Signal及Golang中的信号处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+      
+        <p>信号(Signal)是Linux, 类Unix和其它POSIX兼容的操作系统中用来进程间通讯的一种方式。一个信号就是一个异步的通知，发送给某个进程，或者同进程的某个线程，告诉它们某个事件发生了。<br>当信号发送到某个进程中时，操作系统会中断该进程的正常流程，并进入相应的信号处理函数执行操作，完成后再回到中断的地方继续执行。<br>如果目标进程先前注册了某个信号的处理程序(signal handler),则此处理程序会被调用，否则缺省的处理程序被调用。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2015/10/09/Linux-Signals/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2015/10/09/Linux-Signals/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-go-cross-compiling" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/28/go-cross-compiling/" class="article-date">
+  <time datetime="2015-09-28T06:10:33.000Z" itemprop="datePublished">2015年09月28日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Go/">Go</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/28/go-cross-compiling/">交叉编译Go程序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+		<img class="article-post-image" src="/images/logos/golang.png">
+	  
+      
+        <p>Go 1.5以前，交叉编译程序还是有一点麻烦的，你需要<a href="http://dave.cheney.net/2013/07/09/an-introduction-to-cross-compilation-with-go-1-1" target="_blank" rel="external">massive scripts t</a>来编译和宿主机器不同的程序。</p>
+<p>正如<a href="http://dave.cheney.net/2015/03/03/cross-compilation-just-got-a-whole-lot-better-in-go-1-5" target="_blank" rel="external"> comes with support for all architectures built in</a>文章中介绍的， Go 1.5可就简单的多了，你只需设置 <strong>GOOS</strong> 和 <strong>GOARCH </strong> 两个环境变量就能生成所需平台的Go程序。</p>
+<p>比如使用下面的代码测试：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></div><div class="line"><span class="keyword">import</span> <span class="string">"runtime"</span></div><div class="line"></div><div class="line"><span class="keyword">func</span> main() {</div><div class="line">    fmt.Printf(<span class="string">"OS: %s\nArchitecture: %s\n"</span>, runtime.GOOS, runtime.GOARCH)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>编译它： <code>$ GOOS=darwin GOARCH=386 go build test.go</code><br>就可以生成运行在<code>OS X</code>上的程序。<br>
+        
+          <p class="article-more-link">
+            <a href="/2015/09/28/go-cross-compiling/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2015/09/28/go-cross-compiling/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Golang-Serializer-Benchmark-Comparison" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/28/Golang-Serializer-Benchmark-Comparison/" class="article-date">
+  <time datetime="2015-09-28T05:39:23.000Z" itemprop="datePublished">2015年09月28日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Go/">Go</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/28/Golang-Serializer-Benchmark-Comparison/">几种Go序列化库的性能比较</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+		<img class="article-post-image" src="/images/logos/golang.png">
+	  
+      
+        <p>序列化库在网络传输，RPC，数据库访问等环境中经常用到，它的性能的好坏直接影响着整个产品的性能。<br>本文列出了几种高性能的Go语言的序列化库，并通过一个简单的无循环引用的数据结构测试它们的性能。<br>测试代码: <a href="https://github.com/smallnest/gosercomp" target="_blank" rel="external">gosercomp at github</a></p>
+<blockquote>
+<p>03/14/2016 更新。 增加Thrift/Avro/Gencode的性能比较。<br>
+        
+          <p class="article-more-link">
+            <a href="/2015/09/28/Golang-Serializer-Benchmark-Comparison/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2015/09/28/Golang-Serializer-Benchmark-Comparison/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-laws-of-goang-reflection" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/23/laws-of-goang-reflection/" class="article-date">
+  <time datetime="2015-09-23T06:56:44.000Z" itemprop="datePublished">2015年09月23日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Go/">Go</a>
+  </div>
+
+	
+  <div class="article-author"> by Rob Pike</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/23/laws-of-goang-reflection/">Go 反射的规则</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+		<img class="article-post-image" src="/images/logos/golang.png">
+	  
+      
+        <p>原文: <a href="http://blog.golang.org/laws-of-reflection" target="_blank" rel="external">The Laws of Reflection</a><br>翻译: <a href="http://mikespook.com/2011/09/%E5%8F%8D%E5%B0%84%E7%9A%84%E8%A7%84%E5%88%99/" target="_blank" rel="external">反射的规则</a> by <a href="http://mikespook.com/author/mikespook/" target="_blank" rel="external">mikespook</a> 转载时略作修改</p>
+<h3 id="反射的规则">反射的规则</h3>
+<p>在运行时反射是程序检查其所拥有的结构，尤其是类型的一种能力；这是元编程的一种形式。它同时也是造成混淆的重要来源。</p>
+<p>在这篇文章中将试图明确解释在 Go 中的反射是如何工作的。每个语言的反射模型都不同（同时许多语言根本不支持反射）。不过这篇文章是关于 Go 的，因此接下来的内容“反射”这一词表示“在 Go 中的反射”。<br>
+        
+          <p class="article-more-link">
+            <a href="/2015/09/23/laws-of-goang-reflection/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2015/09/23/laws-of-goang-reflection/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-goreq-A-simplified-golang-http-client" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/09/21/goreq-A-simplified-golang-http-client/" class="article-date">
@@ -153,6 +476,10 @@
 
 	  
         <a href="http://colobu.com/2015/09/21/goreq-A-simplified-golang-http-client/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
       
 
       
@@ -209,6 +536,10 @@
 
 	  
         <a href="http://colobu.com/2015/09/16/Drag-and-Swipe-with-RecyclerView-2/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
       
 
       
@@ -271,6 +602,10 @@
         <a href="http://colobu.com/2015/09/16/Drag-and-Swipe-with-RecyclerView-1/#comments" class="article-comment-link">评论</a>
       
 
+    
+    
+      
+
       
     </footer>
   </div>
@@ -325,6 +660,10 @@
 
 	  
         <a href="http://colobu.com/2015/09/16/layout-animations-on-recyclerview/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
       
 
       
@@ -388,301 +727,11 @@
         <a href="http://colobu.com/2015/09/15/android-waveview/#comments" class="article-comment-link">评论</a>
       
 
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-set-null-for-a-string-property-by-Value" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/09/09/set-null-for-a-string-property-by-Value/" class="article-date">
-  <time datetime="2015-09-09T06:36:34.000Z" itemprop="datePublished">2015年09月09日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/09/set-null-for-a-string-property-by-Value/">在@Value注解中为String类型的字段设置null值</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-		<img class="article-post-image" src="/images/logos/Spring.png">
-	  
-      
-        <p>在Spring中可以使用<code>@Value</code>为<code>field</code>、<code>method</code>、<code>method/constructor</code>的参数设置缺省值。<br>但是，如果如何为一个字符串类型的字段设置null值呢？<br>下面的方法统统不对：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">   <span class="annotation">@Value</span>(<span class="string">"${app.name1:}"</span>)</div><div class="line">   <span class="keyword">private</span> String name1;</div><div class="line">   </div><div class="line"><span class="annotation">@Value</span>(<span class="string">"${app.name2:''}"</span>)</div><div class="line">   <span class="keyword">private</span> String name2;</div><div class="line">   </div><div class="line"><span class="annotation">@Value</span>(<span class="string">"${app.name3:null}"</span>)</div><div class="line"><span class="keyword">private</span> String name3;</div></pre></td></tr></table></figure>
-
-
-        
-          <p class="article-more-link">
-            <a href="/2015/09/09/set-null-for-a-string-property-by-Value/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2015/09/09/set-null-for-a-string-property-by-Value/#comments" class="article-comment-link">评论</a>
       
 
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-How-to-Write-Go-Code" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/09/07/How-to-Write-Go-Code/" class="article-date">
-  <time datetime="2015-09-07T06:30:58.000Z" itemprop="datePublished">2015年09月07日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Go/">Go</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/07/How-to-Write-Go-Code/">如何编写Go代码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-		<img class="article-post-image" src="/images/logos/golang.png">
-	  
-      
-        <p>官方原文: <a href="https://golang.org/doc/code.html" target="_blank" rel="external">How to Write Go Code</a>,<br>根据最新官方文档翻译。翻译参考<a href="http://www.cnblogs.com/wang_yb/" target="_blank" rel="external">wang_yb</a>的<a href="http://www.cnblogs.com/wang_yb/p/4333331.html" target="_blank" rel="external">如何写 go 代码 </a>。<br>因为官方文档有更新，我根据新版本的文档重新进行了翻译。</p>
-<p>本文演示如何开发一个简单的 go package, 以及 <a href="https://golang.org/cmd/go/" target="_blank" rel="external">go tool</a> 的使用方法,<br>即获取(fetch), 编译(build), 安装(install) go package 的标准方法和命令.</p>
-<p><em>go</em> tool 需要你按照一定的标准来组织代码. 请仔细阅读本文.<br>它介绍了用来构建和运行 Go 程序的最简单方法.</p>
-<p>介绍本文的视频参照: <a href="https://www.youtube.com/watch?v=XCsL89YtqCs。" target="_blank" rel="external">https://www.youtube.com/watch?v=XCsL89YtqCs。</a><br>
-        
-          <p class="article-more-link">
-            <a href="/2015/09/07/How-to-Write-Go-Code/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2015/09/07/How-to-Write-Go-Code/#comments" class="article-comment-link">评论</a>
-      
-
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-gotchas-and-common-mistakes-in-go-golang" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/09/07/gotchas-and-common-mistakes-in-go-golang/" class="article-date">
-  <time datetime="2015-09-07T03:28:54.000Z" itemprop="datePublished">2015年09月07日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Go/">Go</a>
-  </div>
-
-	
-  <div class="article-author"> by Kyle Quest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/07/gotchas-and-common-mistakes-in-go-golang/">Go的50度灰：Golang新开发者要注意的陷阱和常见错误</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-		<img class="article-post-image" src="/images/logos/golang.png">
-	  
-      
-        <p>原文: <a href="http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/" target="_blank" rel="external">50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs</a><br>翻译: <a href="http://www.shwley.com/index.php/archives/80/" target="_blank" rel="external">Go的50度灰：新Golang开发者要注意的陷阱、技巧和常见错误</a>, 译者: <a href="http://www.shwley.com/index.php/author/1/" target="_blank" rel="external">影风LEY </a></p>
-<p>Go是一门简单有趣的语言，但与其他语言类似，它会有一些技巧。。。这些技巧的绝大部分并不是Go的缺陷造成的。如果你以前使用的是其他语言，那么这其中的有些错误就是很自然的陷阱。其它的是由错误的假设和缺少细节造成的。</p>
-<p>如果你花时间学习这门语言，阅读官方说明、wiki、邮件列表讨论、大量的优秀博文和Rob Pike的展示，以及源代码，这些技巧中的绝大多数都是显而易见的。尽管不是每个人都是以这种方式开始学习的，但也没关系。如果你是Go语言新人，那么这里的信息将会节约你大量的调试代码的时间。<br>
-        
-          <p class="article-more-link">
-            <a href="/2015/09/07/gotchas-and-common-mistakes-in-go-golang/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2015/09/07/gotchas-and-common-mistakes-in-go-golang/#comments" class="article-comment-link">评论</a>
-      
-
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-LRU-cache-implemented-by-Java-LinkedHashMap" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/09/07/LRU-cache-implemented-by-Java-LinkedHashMap/" class="article-date">
-  <time datetime="2015-09-07T01:17:03.000Z" itemprop="datePublished">2015年09月07日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/07/LRU-cache-implemented-by-Java-LinkedHashMap/">使用LinkedHashMap实现LRU缓存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-      
-        <p>可能很多人已经知道了这个技术，但是对于我来说，虽然使用Java十余年了，最近才了解到<code>LinkedHashMap</code>这个类。使用这个类可以方便的实现一个本地的LRU Cache类。<br>
-        
-          <p class="article-more-link">
-            <a href="/2015/09/07/LRU-cache-implemented-by-Java-LinkedHashMap/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2015/09/07/LRU-cache-implemented-by-Java-LinkedHashMap/#comments" class="article-comment-link">评论</a>
-      
-
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-use-css-to-paint-triangle-and-parallelogram" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/25/use-css-to-paint-triangle-and-parallelogram/" class="article-date">
-  <time datetime="2015-08-25T05:38:32.000Z" itemprop="datePublished">2015年08月25日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/前端开发/">前端开发</a>
-  </div>
-
-	
-  <div class="article-author"> by 邹润阳</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/25/use-css-to-paint-triangle-and-parallelogram/">用 CSS 实现三角形与平行四边形</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-      
-        <p>原文：<a href="http://jerryzou.com/posts/use-css-to-paint-triangle-and-parallelogram/?utm_source=tuicool" target="_blank" rel="external">用 CSS 实现三角形与平行四边形</a>, 作者：<a href="mailto:jerry.zry@outlook.com" target="_blank" rel="external">邹润阳</a></p>
-<p>最近在逛某个技术网站的时候，感觉文章关键词上的样式好酷炫啊。于是我将那种写法照搬到了我的博客中，也许最近逛过我博客的小伙伴已经发现了它出现在哪儿了——分页的样式。来张截图：<br><img src="1.png" alt=""><br>你在首页的底部也可以看到这样一个分页栏；是不是看上去还不错？下面就来看看这是如何实现的吧~<br>
-        
-          <p class="article-more-link">
-            <a href="/2015/08/25/use-css-to-paint-triangle-and-parallelogram/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2015/08/25/use-css-to-paint-triangle-and-parallelogram/#comments" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
-
     </footer>
   </div>
   
@@ -693,7 +742,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/12/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/14/">下一页 &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/12/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/14/">下一页 &raquo;</a>
     </nav>
   
 </section>
@@ -715,7 +764,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DOTNET/">DOTNET</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><span class="category-list-count">57</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">58</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端开发/">前端开发</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构/">架构</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/管理/">管理</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络编程/">网络编程</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/高并发编程/">高并发编程</a><span class="category-list-count">20</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DOTNET/">DOTNET</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">58</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端开发/">前端开发</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构/">架构</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/管理/">管理</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络编程/">网络编程</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/高并发编程/">高并发编程</a><span class="category-list-count">20</span></li></ul>
     </div>
   </div>
 
@@ -733,7 +782,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -745,23 +794,23 @@
       <ul>
         
           <li>
-            <a href="/2017/02/22/HTTP-Response-Snippets-for-Go/">[译]Go HTTTP Response代码片段</a>
+            <a href="/2017/03/22/Slice-Tricks/">[译]Go Slice 秘籍</a>
           </li>
         
           <li>
-            <a href="/2017/02/07/write-idiomatic-golang-codes/">编写地道的Go代码</a>
+            <a href="/2017/03/16/Protobuf3-language-guide/">[转]Protobuf3 语法指南</a>
           </li>
         
           <li>
-            <a href="/2017/02/01/golang-summaries/">Golang 知识点总结</a>
+            <a href="/2017/03/09/implement-TryLock-in-Go/">为 Go Mutex 实现 TryLock 方法</a>
           </li>
         
           <li>
-            <a href="/2017/01/26/A-Guide-To-The-Kafka-Protocol/">Kafka通讯协议指南</a>
+            <a href="/2017/03/07/what-is-in-linux-cached/">谁吃了我的Linux内存?</a>
           </li>
         
           <li>
-            <a href="/2017/01/26/how-to-go-get-behind-GFW/">如何在长城后面go get一些库</a>
+            <a href="/2017/03/02/a-short-survey-of-golang-pprof/">[译] Go 可视化性能分析工具</a>
           </li>
         
       </ul>
@@ -777,7 +826,7 @@
         
           <li>
 			 
-            <a href="http://old.colobu.com" target="_blank">旧的博客</a>
+            <a href="http://old.colobu.com" target="_blank">以前的博客</a>
 			
           </li>
         
@@ -865,18 +914,6 @@
 			
           </li>
         
-          <li>
-			 
-			&nbsp;
-			
-          </li>
-        
-          <li>
-			 
-            <a href="http://www.503error.com/" target="_blank">503error</a>
-			
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -885,25 +922,14 @@
       <div class="widget-wrap">
     <h3 class="widget-title">热评文章</h3>
     <div class="widget">
-		<div class="ds-top-threads" data-range="monthly" data-num-items="5"></div>
-    </div>
-  </div>
-
-  
-      <div class="widget-wrap">
-    <h3 class="widget-title">最新评论</h3>
-    <div class="widget">
-		<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="70"></ul>
-		<script type="text/javascript">
-		var duoshuoQuery = {short_name:"colobu"};
-		(function() {
-			var ds = document.createElement('script');
-			ds.type = 'text/javascript';ds.async = true;
-			ds.src = 'http://static.duoshuo.com/embed.js';
-			ds.charset = 'UTF-8';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-		})();
-		</script>
+<div id="hot-news-wrap"></div>
+<script>var yunModuleEnv = true;</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+<script>
+  var yunTieProductKey = "bb59dc3c143c4469940a0163afdb38d8";  
+  var yunHotNewsWrap = "hot-news-wrap";   //放置的DOM节点ID 或 样式类
+  Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vZXh0ZW5kL2hvdF9uZXdzX3NjcmlwdC5odG1s", true);
+</script>
     </div>
   </div>
 

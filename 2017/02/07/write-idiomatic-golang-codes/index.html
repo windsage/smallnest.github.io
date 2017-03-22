@@ -141,7 +141,7 @@
 		目录 <span id="expanderSign">[−]</span>
 		</h1>
 	    <div id="article-entry-toc" data-role="collapsible" class="article-entry-toc">
-		  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#注释"><span class="toc-text">注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#声明slice"><span class="toc-text">声明slice</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于字符串大小写"><span class="toc-text">关于字符串大小写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#处理error而不是panic或者忽略"><span class="toc-text">处理error而不是panic或者忽略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#尽量减少代码缩进"><span class="toc-text">尽量减少代码缩进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一些名称"><span class="toc-text">一些名称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#package级的Error变量"><span class="toc-text">package级的Error变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#空字符串检查"><span class="toc-text">空字符串检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非空slice检查"><span class="toc-text">非空slice检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#省略不必要的变量"><span class="toc-text">省略不必要的变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#直接使用bool值"><span class="toc-text">直接使用bool值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#byte/string_slice相等性比较"><span class="toc-text">byte/string slice相等性比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检查是否包含子字符串"><span class="toc-text">检查是否包含子字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用类型转换而不是struct字面值"><span class="toc-text">使用类型转换而不是struct字面值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制slice"><span class="toc-text">复制slice</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不要在for中使用多此一举的true"><span class="toc-text">不要在for中使用多此一举的true</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#尽量缩短if"><span class="toc-text">尽量缩短if</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#append"><span class="toc-text">append</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简化range"><span class="toc-text">简化range</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则表达式中使用raw字符串避免转义字符"><span class="toc-text">正则表达式中使用raw字符串避免转义字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简化只包含单个case的select"><span class="toc-text">简化只包含单个case的select</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#slice的索引"><span class="toc-text">slice的索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用time-Since"><span class="toc-text">使用time.Since</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用strings-TrimPrefix／strings-TrimSuffix_掐头去尾"><span class="toc-text">使用strings.TrimPrefix／strings.TrimSuffix 掐头去尾</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用工具检查你的代码"><span class="toc-text">使用工具检查你的代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考文档"><span class="toc-text">参考文档</span></a></li></ol>
+		  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#注释"><span class="toc-text">注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#声明slice"><span class="toc-text">声明slice</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于字符串大小写"><span class="toc-text">关于字符串大小写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#处理error而不是panic或者忽略"><span class="toc-text">处理error而不是panic或者忽略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一些名称"><span class="toc-text">一些名称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#package级的Error变量"><span class="toc-text">package级的Error变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#空字符串检查"><span class="toc-text">空字符串检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非空slice检查"><span class="toc-text">非空slice检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#省略不必要的变量"><span class="toc-text">省略不必要的变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#直接使用bool值"><span class="toc-text">直接使用bool值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#byte/string_slice相等性比较"><span class="toc-text">byte/string slice相等性比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检查是否包含子字符串"><span class="toc-text">检查是否包含子字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用类型转换而不是struct字面值"><span class="toc-text">使用类型转换而不是struct字面值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制slice"><span class="toc-text">复制slice</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不要在for中使用多此一举的true"><span class="toc-text">不要在for中使用多此一举的true</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#尽量缩短if"><span class="toc-text">尽量缩短if</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#append_slice"><span class="toc-text">append slice</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#append"><span class="toc-text">append</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简化range"><span class="toc-text">简化range</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正则表达式中使用raw字符串避免转义字符"><span class="toc-text">正则表达式中使用raw字符串避免转义字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简化只包含单个case的select"><span class="toc-text">简化只包含单个case的select</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#slice的索引"><span class="toc-text">slice的索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用time-Since"><span class="toc-text">使用time.Since</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用strings-TrimPrefix／strings-TrimSuffix_掐头去尾"><span class="toc-text">使用strings.TrimPrefix／strings.TrimSuffix 掐头去尾</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用工具检查你的代码"><span class="toc-text">使用工具检查你的代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考文档"><span class="toc-text">参考文档</span></a></li></ol>
 	    </div>
 	  
 	  
@@ -180,13 +180,11 @@ https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_gener
 
 <p>这是因为这些字符串可能和其它字符串相连接，组合后的字符串如果中间有大写字母开头的单词很突兀，除非这些首字母大写单词是固定使用的单词。</p>
 <p>缩写词必须保持一致，比如都大写<code>URL</code>或者小写<code>url</code>。比如<code>HTTP</code>、<code>ID</code>等。<br>例如<code>sendOAuth</code>或者<code>oauthSend</code>。</p>
-<p>maxLength not MaxLength or MAX_LENGTH.</p>
 <p>常量一般声明为<code>MaxLength</code>,而不是以下划线分隔<code>MAX_LENGTH</code>或者<code>MAXLENGTH</code>。</p>
 <p>也就是Go语言一般使用<code>MixedCaps</code>或者<code>mixedCaps</code>命名的方式区分包含多个单词的名称。</p>
 <h3 id="处理error而不是panic或者忽略">处理error而不是panic或者忽略</h3>
 <p>为了编写强壮的代码，不用使用<code>_</code>忽略错误，而是要处理每一个错误，尽管代码写起来可能有些繁琐。</p>
 <p>尽量不要使用panic。</p>
-<h3 id="尽量减少代码缩进">尽量减少代码缩进</h3>
 <h3 id="一些名称">一些名称</h3>
 <p>有些单词可能有多种写法，在项目中应该保持一致，比如Golang采用的写法:</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// marshaling</span></div><div class="line"><span class="comment">// unmarshaling</span></div><div class="line"><span class="comment">// canceling</span></div><div class="line"><span class="comment">// cancelation</span></div></pre></td></tr></table></figure>
@@ -291,8 +289,25 @@ https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_gener
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> fn1() <span class="typename">bool</span>{</div><div class="line">    ...</div><div class="line">    b := fn()</div><div class="line"></div><div class="line">    <span class="keyword">if</span> !b {</div><div class="line">        <span class="keyword">return</span> <span class="constant">false</span></div><div class="line">    }</div><div class="line">	</div><div class="line">	... </div><div class="line">    <span class="keyword">return</span> <span class="constant">true</span></div><div class="line">	</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <p>也就是减少if的分支／缩进。</p>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated upstream</p>
+<h3 id="append_slice">append slice</h3>
+<p>=======</p>
 <h3 id="append">append</h3>
-<p>不要这样:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>Stashed changes<br>不要这样:</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">   <span class="keyword">var</span> a, b []<span class="typename">int</span></div><div class="line"><span class="keyword">for</span> _, v := <span class="keyword">range</span> a {</div><div class="line">	b = <span class="built_in">append</span>(b, v)</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <p>而是要这样</p>
@@ -352,6 +367,9 @@ https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_gener
 <li><a href="https://github.com/client9/misspell" target="_blank" rel="external">misspell</a></li>
 <li><a href="https://godoc.org/golang.org/x/tools/cmd/goimports" target="_blank" rel="external">goimports</a></li>
 <li><a href="https://github.com/kisielk/errcheck" target="_blank" rel="external">errcheck</a></li>
+<li><a href="https://github.com/opennota/check" target="_blank" rel="external">aligncheck</a></li>
+<li><a href="https://github.com/opennota/check" target="_blank" rel="external">structcheck</a></li>
+<li><a href="https://github.com/opennota/check" target="_blank" rel="external">varcheck</a></li>
 </ol>
 <h3 id="参考文档">参考文档</h3>
 <ol>
@@ -364,6 +382,9 @@ https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_gener
 <li><a href="https://go-zh.org" target="_blank" rel="external">https://go-zh.org</a></li>
 <li><a href="https://docs.google.com/presentation/d/1OT-dMNbiwOPeaivQOldok2hUUNMTvSC0GJ67JohLt5U/pub?start=false&amp;loop=false&amp;delayms=3000&amp;slide=id.g18b1f95882_1_135" target="_blank" rel="external">https://docs.google.com/presentation/d/1OT-dMNbiwOPeaivQOldok2hUUNMTvSC0GJ67JohLt5U/pub?start=false&amp;loop=false&amp;delayms=3000&amp;slide=id.g18b1f95882_1_135</a></li>
 <li><a href="https://github.com/d-smith/go-training/blob/master/idiomatic-go.md" target="_blank" rel="external">https://github.com/d-smith/go-training/blob/master/idiomatic-go.md</a></li>
+<li><a href="https://github.com/opennota/check" target="_blank" rel="external">https://github.com/opennota/check</a></li>
+<li><a href="http://golang-sizeof.tips" target="_blank" rel="external">http://golang-sizeof.tips</a></li>
+<li><a href="https://github.com/mibk/dupl" target="_blank" rel="external">https://github.com/mibk/dupl</a></li>
 </ol>
 
       
@@ -376,6 +397,10 @@ https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_gener
 
 	  
         <a href="http://colobu.com/2017/02/07/write-idiomatic-golang-codes/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
       
 
       
@@ -407,9 +432,17 @@ https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_gener
 
 
 <section id="comments">
-  <div class="ds-thread" data-thread-key="2017/02/07/write-idiomatic-golang-codes/" data-title="编写地道的Go代码" data-url="http://colobu.com/2017/02/07/write-idiomatic-golang-codes/"></div>
-
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
 </section>
+<script>
+  var cloudTieConfig = {
+    url: document.location.href, 
+    sourceId: "2017/02/07/write-idiomatic-golang-codes/",
+    productKey: "bb59dc3c143c4469940a0163afdb38d8",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
 
 </section>
         
@@ -430,7 +463,7 @@ https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_gener
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DOTNET/">DOTNET</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><span class="category-list-count">57</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">58</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端开发/">前端开发</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构/">架构</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/管理/">管理</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络编程/">网络编程</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/高并发编程/">高并发编程</a><span class="category-list-count">20</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DOTNET/">DOTNET</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">58</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端开发/">前端开发</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构/">架构</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/管理/">管理</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络编程/">网络编程</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/高并发编程/">高并发编程</a><span class="category-list-count">20</span></li></ul>
     </div>
   </div>
 
@@ -448,7 +481,7 @@ https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_gener
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -460,23 +493,23 @@ https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_gener
       <ul>
         
           <li>
-            <a href="/2017/02/22/HTTP-Response-Snippets-for-Go/">[译]Go HTTTP Response代码片段</a>
+            <a href="/2017/03/22/Slice-Tricks/">[译]Go Slice 秘籍</a>
           </li>
         
           <li>
-            <a href="/2017/02/07/write-idiomatic-golang-codes/">编写地道的Go代码</a>
+            <a href="/2017/03/16/Protobuf3-language-guide/">[转]Protobuf3 语法指南</a>
           </li>
         
           <li>
-            <a href="/2017/02/01/golang-summaries/">Golang 知识点总结</a>
+            <a href="/2017/03/09/implement-TryLock-in-Go/">为 Go Mutex 实现 TryLock 方法</a>
           </li>
         
           <li>
-            <a href="/2017/01/26/A-Guide-To-The-Kafka-Protocol/">Kafka通讯协议指南</a>
+            <a href="/2017/03/07/what-is-in-linux-cached/">谁吃了我的Linux内存?</a>
           </li>
         
           <li>
-            <a href="/2017/01/26/how-to-go-get-behind-GFW/">如何在长城后面go get一些库</a>
+            <a href="/2017/03/02/a-short-survey-of-golang-pprof/">[译] Go 可视化性能分析工具</a>
           </li>
         
       </ul>
@@ -492,7 +525,7 @@ https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_gener
         
           <li>
 			 
-            <a href="http://old.colobu.com" target="_blank">旧的博客</a>
+            <a href="http://old.colobu.com" target="_blank">以前的博客</a>
 			
           </li>
         
@@ -580,18 +613,6 @@ https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_gener
 			
           </li>
         
-          <li>
-			 
-			&nbsp;
-			
-          </li>
-        
-          <li>
-			 
-            <a href="http://www.503error.com/" target="_blank">503error</a>
-			
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -600,25 +621,14 @@ https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_gener
       <div class="widget-wrap">
     <h3 class="widget-title">热评文章</h3>
     <div class="widget">
-		<div class="ds-top-threads" data-range="monthly" data-num-items="5"></div>
-    </div>
-  </div>
-
-  
-      <div class="widget-wrap">
-    <h3 class="widget-title">最新评论</h3>
-    <div class="widget">
-		<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="70"></ul>
-		<script type="text/javascript">
-		var duoshuoQuery = {short_name:"colobu"};
-		(function() {
-			var ds = document.createElement('script');
-			ds.type = 'text/javascript';ds.async = true;
-			ds.src = 'http://static.duoshuo.com/embed.js';
-			ds.charset = 'UTF-8';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-		})();
-		</script>
+<div id="hot-news-wrap"></div>
+<script>var yunModuleEnv = true;</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+<script>
+  var yunTieProductKey = "bb59dc3c143c4469940a0163afdb38d8";  
+  var yunHotNewsWrap = "hot-news-wrap";   //放置的DOM节点ID 或 样式类
+  Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vZXh0ZW5kL2hvdF9uZXdzX3NjcmlwdC5odG1s", true);
+</script>
     </div>
   </div>
 

@@ -103,6 +103,320 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-dns-quickstart" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/29/dns-quickstart/" class="article-date">
+  <time datetime="2016-09-29T02:38:21.000Z" itemprop="datePublished">2016年09月29日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/架构/">架构</a>
+  </div>
+
+	
+  <div class="article-author"> by 阮一峰</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/29/dns-quickstart/">[转]DNS 原理入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+      
+        <p>转自 阮一峰 的 <a href="http://www.ruanyifeng.com/blog/2016/06/dns.html" target="_blank" rel="external">DNS 原理入门</a>。</p>
+<p>DNS 是互联网核心协议之一。不管是上网浏览，还是编程开发，都需要了解一点它的知识。<br>本文详细介绍DNS的原理，以及如何运用工具软件观察它的运作。我的目标是，读完此文后，你就能完全理解DNS。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2016/09/29/dns-quickstart/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2016/09/29/dns-quickstart/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-CDN-introduction" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/23/CDN-introduction/" class="article-date">
+  <time datetime="2016-09-23T02:29:14.000Z" itemprop="datePublished">2016年09月23日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/架构/">架构</a>
+  </div>
+
+	
+  <div class="article-author"> by Xu Ruochen</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/23/CDN-introduction/">[转]CDN的原理以及其中的一些技术</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+      
+        <p>这是 Xu Ruochen 总结的通过DNS实现的CDN的一篇条理清晰的文章， 原文链接: <a href="http://www.cstdlib.com/tech/2015/08/18/what-is-cdn/" target="_blank" rel="external">CDN的原理以及其中的一些技术</a>。</p>
+<p>CDN，全称Content Delivery Network，主要作用是为源站减少访问压力的同时，为客户端提供更快速的内容响应。除此之外，CDN还能对源站进行安全防护。 其实真正为CDN付费的是源站，所以CDN的用户其实是源站，例如新浪微博，youku视频，淘宝网啊之类的。而客户端，是CDN的用户的用户。 所以CDN是夹在源站和源站的用户之间的，以下称客户端均指源站的用户。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2016/09/23/CDN-introduction/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2016/09/23/CDN-introduction/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CDN/">CDN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dns/">dns</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-go-net-rpc-guide" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/18/go-net-rpc-guide/" class="article-date">
+  <time datetime="2016-09-18T05:39:27.000Z" itemprop="datePublished">2016年09月18日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Go/">Go</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/18/go-net-rpc-guide/">Go官方库RPC开发指南</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+      
+        <p>Go官方提供了一个<a href="https://golang.org/pkg/net/rpc/" target="_blank" rel="external">RPC库</a>: <code>net/rpc</code>。包rpc提供了通过网络访问一个对象的方法的能力。服务器需要注册对象， 通过对象的类型名暴露这个服务。注册后这个对象的输出方法就可以远程调用，这个库封装了底层传输的细节，包括序列化。服务器可以注册多个不同类型的对象，但是注册相同类型的多个对象的时候回出错。</p>
+<blockquote>
+<p>我最近写了一本电子书: <a href="https://www.gitbook.com/book/smallnest/go-rpc/details" target="_blank" rel="external">Go RPC开发指南</a>,介绍Go RPC开发的相关技术，这是其中的一章，专门介绍官方库 <code>net/rpc</code>的使用。</p>
+</blockquote>
+
+        
+          <p class="article-more-link">
+            <a href="/2016/09/18/go-net-rpc-guide/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2016/09/18/go-net-rpc-guide/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-benchmarks-of-popular-rpc-frameworks" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/05/benchmarks-of-popular-rpc-frameworks/" class="article-date">
+  <time datetime="2016-09-05T13:18:30.000Z" itemprop="datePublished">2016年09月05日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/高并发编程/">高并发编程</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/05/benchmarks-of-popular-rpc-frameworks/">分布式RPC框架性能大比拼</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+      
+        <p><a href="http://dubbo.io" target="_blank" rel="external">Dubbo</a> 是阿里巴巴公司开源的一个Java高性能优秀的服务框架，使得应用可通过高性能的 RPC 实现服务的输出和输入功能，可以和 Spring框架无缝集成。不过，略有遗憾的是，据说在淘宝内部，dubbo由于跟淘宝另一个类似的框架HSF（非开源）有竞争关系，导致dubbo团队已经解散（参见<a href="http://www.oschina.net/news/55059/druid-1-0-9" target="_blank" rel="external">http://www.oschina.net/news/55059/druid-1-0-9</a> 中的评论），反到是当当网的扩展版本仍在持续发展，墙内开花墙外香。其它的一些知名电商如当当、京东、国美维护了自己的分支或者在dubbo的基础开发，但是官方的库缺乏维护，相关的依赖类比如Spring，Netty还是很老的版本(Spring 3.2.16.RELEASE, netty 3.2.5.Final),倒是有些网友写了升级Spring和Netty的插件。</p>
+<p><a href="https://github.com/weibocom/motan" target="_blank" rel="external">Motan</a>是新浪微博开源的一个Java 框架。它诞生的比较晚，起于2013年，2016年5月开源。Motan 在微博平台中已经广泛应用，每天为数百个服务完成近千亿次的调用。</p>
+<p><a href="https://github.com/smallnest/rpcx" target="_blank" rel="external">rpcx</a>是Go语言生态圈的Dubbo， 比Dubbo更轻量，实现了Dubbo的许多特性，借助于Go语言优秀的并发特性和简洁语法，可以使用较少的代码实现分布式的RPC服务。</p>
+<p><a href="http://www.grpc.io/" target="_blank" rel="external">gRPC</a>是Google开发的高性能、通用的开源RPC框架，其由Google主要面向移动应用开发并基于HTTP/2协议标准而设计，基于ProtoBuf(Protocol Buffers)序列化协议开发，且支持众多开发语言。本身它不是分布式的，所以要实现上面的框架的功能需要进一步的开发。</p>
+<p><a href="https://thrift.apache.org" target="_blank" rel="external">thrift</a>是Apache的一个跨语言的高性能的服务框架，也得到了广泛的应用。</p>
+<blockquote>
+<p>后续还会增加更多的 RPC 框架的比较，敬请收藏本文网址</p>
+</blockquote>
+
+        
+          <p class="article-more-link">
+            <a href="/2016/09/05/benchmarks-of-popular-rpc-frameworks/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2016/09/05/benchmarks-of-popular-rpc-frameworks/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-go-io-Reader-and-io-Writer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/08/29/go-io-Reader-and-io-Writer/" class="article-date">
+  <time datetime="2016-08-29T03:18:31.000Z" itemprop="datePublished">2016年08月29日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Go/">Go</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/29/go-io-Reader-and-io-Writer/">Go语言中的io.Reader和io.Writer以及它们的实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+      
+        <p>在使用Go语言的过程中，无论你是实现web应用程序，还是控制台输入输出，又或者是网络操作，不可避免的会遇到IO操作，使用到io.Reader和io.Writer接口。也也许对这两个接口和相关的一些接口很熟悉了，但是你脑海里确很难形成一个对io接口的继承关系整天的概貌，原因在于godoc缺省并没有像javadoc一样显示官方库继承关系，这导致了我们对io接口的继承关系记忆不深，在使用的时候还经常需要翻文档加深记忆。本文试图梳理清楚Go io接口的继承关系，提供一个io接口的全貌。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2016/08/29/go-io-Reader-and-io-Writer/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+        <a href="http://colobu.com/2016/08/29/go-io-Reader-and-io-Writer/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
+      
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Java-Flame-Graphs" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/08/10/Java-Flame-Graphs/" class="article-date">
@@ -151,6 +465,10 @@
 
 	  
         <a href="http://colobu.com/2016/08/10/Java-Flame-Graphs/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
       
 
       
@@ -209,6 +527,10 @@
 
 	  
         <a href="http://colobu.com/2016/08/02/using-D3-js-to-make-amazing-web-maps/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
       
 
       
@@ -272,6 +594,10 @@
         <a href="http://colobu.com/2016/08/01/talk-about-quasar-again/#comments" class="article-comment-link">评论</a>
       
 
+    
+    
+      
+
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/quasar/">quasar</a></li></ul>
 
@@ -328,6 +654,10 @@
 
 	  
         <a href="http://colobu.com/2016/07/29/list-all-your-maven-dependencies/#comments" class="article-comment-link">评论</a>
+      
+
+    
+    
       
 
       
@@ -394,6 +724,10 @@
         <a href="http://colobu.com/2016/07/25/understanding-rxjava-thread-model/#comments" class="article-comment-link">评论</a>
       
 
+    
+    
+      
+
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rxjava/">rxjava</a></li></ul>
 
@@ -405,308 +739,9 @@
 
 
   
-    <article id="post-using-go-disruptor" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/07/22/using-go-disruptor/" class="article-date">
-  <time datetime="2016-07-22T08:17:49.000Z" itemprop="datePublished">2016年07月22日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Go/">Go</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/22/using-go-disruptor/">高性能的消息框架 go-disruptor</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-      
-        <p>Java程序员都知道，<a href="https://lmax-exchange.github.io/disruptor/" target="_blank" rel="external">Disruptor</a>是一个高性能的线程间通信的框架，即在同一个JVM进程中的多线程间消息传递,由LMAX开发。</p>
-<p>Disruptor性能是如此之高，LMAX利用它可以处理每秒6百万订单，用1微秒的延迟获得吞吐量为100K+。那么Go语言生态圈中有没有这样的库呢？</p>
-
-        
-          <p class="article-more-link">
-            <a href="/2016/07/22/using-go-disruptor/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2016/07/22/using-go-disruptor/#comments" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/disruptor/">disruptor</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Java-Fiber-Quasar" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/07/14/Java-Fiber-Quasar/" class="article-date">
-  <time datetime="2016-07-14T08:18:47.000Z" itemprop="datePublished">2016年07月14日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/14/Java-Fiber-Quasar/">Java中的纤程库 - Quasar</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-      
-        <p>最近遇到的一个问题大概是微服务架构中经常会遇到的一个问题：</p>
-<p>服务 <strong>A</strong> 是我们开发的系统，它的业务需要调用 <strong>B</strong>、<strong>C</strong>、<strong>D</strong> 等多个服务，这些服务是通过http的访问提供的。 问题是 <strong>B</strong>、<strong>C</strong>、<strong>D</strong> 这些服务都是第三方提供的，不能保证它们的响应时间，快的话十几毫秒，慢的话甚至1秒多，所以这些服务的Latency比较长。幸运地是这些服务都是集群部署的，容错率和并发支持都比较高，所以不担心它们的并发性能，唯一不爽的就是就是它们的Latency太高了。</p>
-<p><img src="/2016/07/14/Java-Fiber-Quasar/system.png" alt="简化的微服务架构"></p>
-<p>系统A会从Client接收Request, 每个Request的处理都需要多次调用B、C、D的服务，所以完成一个Request可能需要1到2秒的时间。为了让A能更好地支持并发数，系统中使用线程池处理这些Request。当然这是一个非常简化的模型，实际的业务处理比较复杂。</p>
-<p>可以预见，因为系统B、C、D的延迟，导致整个业务处理都很慢，即使使用线程池，但是每个线程还是会阻塞在B、C、D的调用上，导致I/O阻塞了这些线程， CPU利用率相对来说不是那么高。</p>
-<p>当然在测试的时候使用的是B、C、D的模拟器，没有预想到它们的响应是那么慢，因此测试数据的结果还不错，吞吐率还可以，但是在实际环境中问题就暴露出来了。</p>
-
-        
-          <p class="article-more-link">
-            <a href="/2016/07/14/Java-Fiber-Quasar/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2016/07/14/Java-Fiber-Quasar/#comments" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Comsat/">Comsat</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Fiber/">Fiber</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Quasar/">Quasar</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Setup-Nginx-and-RTMP-module" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/07/13/Setup-Nginx-and-RTMP-module/" class="article-date">
-  <time datetime="2016-07-13T07:59:01.000Z" itemprop="datePublished">2016年07月13日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/工具/">工具</a>
-  </div>
-
-	
-  <div class="article-author"> by Licson</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/13/Setup-Nginx-and-RTMP-module/">[转]使用Nginx 和 RTMP 模块搭建视频直播系统</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-      
-        <p>原文: <a href="https://licson.net/post/setting-up-adaptive-streaming-with-nginx/" target="_blank" rel="external">Setting Up Adaptive Streaming with Nginx</a> by <a href="https://licson.net/" target="_blank" rel="external">Licson</a>。</p>
-<blockquote>
-<p>最近我在为一个组织搭建视频直播系统。对于视频直播来说我是新手，经过一番调研，最终还是觉得Nginx + RTMP module是一个好的选择。<br>搭建这个系统还是很困难的。经过了好几天的测试和摸索，我得到了一种比较好的配置，值得给大家分享。</p>
-</blockquote>
-
-        
-          <p class="article-more-link">
-            <a href="/2016/07/13/Setup-Nginx-and-RTMP-module/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2016/07/13/Setup-Nginx-and-RTMP-module/#comments" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RTMP/">RTMP</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-gos-march-to-low-latency-gc" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/07/13/gos-march-to-low-latency-gc/" class="article-date">
-  <time datetime="2016-07-13T02:50:13.000Z" itemprop="datePublished">2016年07月13日</time>
-</a>
-    
-	
-  <div class="article-author"> by Rhys Hiltner</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/13/gos-march-to-low-latency-gc/">[转]go&#39;s march to low latency gc</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-      
-        <p>这是Twitch的<a href="https://blog.twitch.tv/@rhysh" target="_blank" rel="external">Rhys Hiltner</a>写的一篇关于Go垃圾回收监控的优秀文章，我前几天在reddit看到后就想翻译它。这几天也看到飞花无缺已经把它翻译整理了：<a href="http://blog.csdn.net/erlib/article/details/51850912" target="_blank" rel="external">为Go语言GC正名－2秒到1毫秒的演变史</a>，所以我就不翻译了，因为这篇文章被墙了，我就把原文转帖在这里。</p>
-<p>这篇文章有几个值得我们学习的地方。一是提供了Go各个版本在产品级大并发情况(50万并发用户)的垃圾回收器的改进效果，二是对Go的垃圾回收的监控分析手段，主要通过<a href="https://github.com/brendangregg/FlameGraph" target="_blank" rel="external">Brendan Gregg’s tools</a>火炬图这个工具分析方法的耗时。</p>
-<p><img src="/2016/07/13/gos-march-to-low-latency-gc/flamegraph.png" alt=""></p>
-<p>以下是文章原文。</p>
-
-        
-          <p class="article-more-link">
-            <a href="/2016/07/13/gos-march-to-low-latency-gc/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2016/07/13/gos-march-to-low-latency-gc/#comments" class="article-comment-link">评论</a>
-      
-
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-dive-into-go-13" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/07/09/dive-into-go-13/" class="article-date">
-  <time datetime="2016-07-09T09:16:26.000Z" itemprop="datePublished">2016年07月09日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Go/">Go</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/09/dive-into-go-13/">深入Go语言 - 13</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-		<img class="article-post-image" src="/images/logos/golang.png">
-	  
-      
-        <p>本章重点介绍Go语言中的反射。<br>包<a href="https://golang.org/pkg/reflect/" target="_blank" rel="external">reflect</a>可以实现运行时的反射，允许程序操纵对象的值和类型。<br>典型地，你可以获取 interface{}的动态类型以及的它的值和方法。</p>
-<p>Go是静态类型的语言，每一个对象在声明和初始化的时候都已经有一个确定值，即使是声明为接口类型的变量，它的静态类型也已经确定，即使任何包含这个接口方法集的类型的对象都可以赋值给它。</p>
-<p>我们可以在运行时获取对象的动态类型和值。</p>
-<p>类型Type和值Value是我们使用发射库的主要用的两个概念。</p>
-
-        
-          <p class="article-more-link">
-            <a href="/2016/07/09/dive-into-go-13/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-        <a href="http://colobu.com/2016/07/09/dive-into-go-13/#comments" class="article-comment-link">评论</a>
-      
-
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/5/">下一页 &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/5/">下一页 &raquo;</a>
     </nav>
   
 </section>
@@ -728,7 +763,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DOTNET/">DOTNET</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><span class="category-list-count">57</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">58</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端开发/">前端开发</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构/">架构</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/管理/">管理</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络编程/">网络编程</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/高并发编程/">高并发编程</a><span class="category-list-count">20</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DOTNET/">DOTNET</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">58</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端开发/">前端开发</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">55</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构/">架构</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/管理/">管理</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络编程/">网络编程</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/高并发编程/">高并发编程</a><span class="category-list-count">20</span></li></ul>
     </div>
   </div>
 
@@ -746,7 +781,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -758,23 +793,23 @@
       <ul>
         
           <li>
-            <a href="/2017/02/22/HTTP-Response-Snippets-for-Go/">[译]Go HTTTP Response代码片段</a>
+            <a href="/2017/03/22/Slice-Tricks/">[译]Go Slice 秘籍</a>
           </li>
         
           <li>
-            <a href="/2017/02/07/write-idiomatic-golang-codes/">编写地道的Go代码</a>
+            <a href="/2017/03/16/Protobuf3-language-guide/">[转]Protobuf3 语法指南</a>
           </li>
         
           <li>
-            <a href="/2017/02/01/golang-summaries/">Golang 知识点总结</a>
+            <a href="/2017/03/09/implement-TryLock-in-Go/">为 Go Mutex 实现 TryLock 方法</a>
           </li>
         
           <li>
-            <a href="/2017/01/26/A-Guide-To-The-Kafka-Protocol/">Kafka通讯协议指南</a>
+            <a href="/2017/03/07/what-is-in-linux-cached/">谁吃了我的Linux内存?</a>
           </li>
         
           <li>
-            <a href="/2017/01/26/how-to-go-get-behind-GFW/">如何在长城后面go get一些库</a>
+            <a href="/2017/03/02/a-short-survey-of-golang-pprof/">[译] Go 可视化性能分析工具</a>
           </li>
         
       </ul>
@@ -790,7 +825,7 @@
         
           <li>
 			 
-            <a href="http://old.colobu.com" target="_blank">旧的博客</a>
+            <a href="http://old.colobu.com" target="_blank">以前的博客</a>
 			
           </li>
         
@@ -878,18 +913,6 @@
 			
           </li>
         
-          <li>
-			 
-			&nbsp;
-			
-          </li>
-        
-          <li>
-			 
-            <a href="http://www.503error.com/" target="_blank">503error</a>
-			
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -898,25 +921,14 @@
       <div class="widget-wrap">
     <h3 class="widget-title">热评文章</h3>
     <div class="widget">
-		<div class="ds-top-threads" data-range="monthly" data-num-items="5"></div>
-    </div>
-  </div>
-
-  
-      <div class="widget-wrap">
-    <h3 class="widget-title">最新评论</h3>
-    <div class="widget">
-		<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="1" data-show-time="1" data-show-admin="1" data-excerpt-length="70"></ul>
-		<script type="text/javascript">
-		var duoshuoQuery = {short_name:"colobu"};
-		(function() {
-			var ds = document.createElement('script');
-			ds.type = 'text/javascript';ds.async = true;
-			ds.src = 'http://static.duoshuo.com/embed.js';
-			ds.charset = 'UTF-8';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-		})();
-		</script>
+<div id="hot-news-wrap"></div>
+<script>var yunModuleEnv = true;</script>
+<script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+<script>
+  var yunTieProductKey = "bb59dc3c143c4469940a0163afdb38d8";  
+  var yunHotNewsWrap = "hot-news-wrap";   //放置的DOM节点ID 或 样式类
+  Tie.loader("aHR0cHM6Ly9hcGkuZ2VudGllLjE2My5jb20vZXh0ZW5kL2hvdF9uZXdzX3NjcmlwdC5odG1s", true);
+</script>
     </div>
   </div>
 
