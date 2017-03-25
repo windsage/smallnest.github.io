@@ -2,6 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://colobu.com/2017/03/25/grpc-naming-and-load-balance/</loc>
+    <lastmod>2017-03-25T16:07:44.839Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2016/07/14/Java-Fiber-Quasar/</loc>
+    <lastmod>2017-03-25T15:48:50.712Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2017/02/07/write-idiomatic-golang-codes/</loc>
     <lastmod>2017-03-22T15:40:47.892Z</lastmod>
   </url>
@@ -1339,11 +1349,6 @@
   <url>
     <loc>http://colobu.com/2016/08/10/Java-Flame-Graphs/</loc>
     <lastmod>2016-11-13T09:22:58.632Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2016/07/14/Java-Fiber-Quasar/</loc>
-    <lastmod>2016-11-13T09:22:58.619Z</lastmod>
   </url>
   
   <url>
