@@ -2,6 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://colobu.com/2017/04/07/go-webframework-benchmark-2017-Spring/</loc>
+    <lastmod>2017-04-08T09:35:06.911Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/04/06/dive-into-gRPC-streaming/</loc>
+    <lastmod>2017-04-08T09:23:44.787Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2017/03/25/grpc-naming-and-load-balance/</loc>
     <lastmod>2017-03-25T16:07:44.839Z</lastmod>
   </url>
