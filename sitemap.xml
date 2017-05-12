@@ -2,13 +2,93 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://colobu.com/2017/05/12/call-private-functions-in-other-packages/</loc>
+    <lastmod>2017-05-12T14:51:31.167Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2014/09/17/what-means-apachebench-test-result/</loc>
+    <lastmod>2017-05-12T14:50:19.065Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/04/21/tc-introduction/</loc>
+    <lastmod>2017-05-12T14:50:19.045Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/05/08/raft-and-network-partitions/</loc>
+    <lastmod>2017-05-12T14:50:19.023Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/04/28/oauth2-rfc6749/</loc>
+    <lastmod>2017-05-12T14:50:19.016Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/04/26/new-in-spring-5-functional-web-framework/</loc>
+    <lastmod>2017-05-12T14:50:19.006Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2014/08/06/kafka-quickstart/</loc>
+    <lastmod>2017-05-12T14:50:18.984Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/02/01/golang-summaries/</loc>
+    <lastmod>2017-05-12T14:50:18.977Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/05/04/golang-runtime-scheduler/</loc>
+    <lastmod>2017-05-12T14:50:18.964Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2017/04/07/go-webframework-benchmark-2017-Spring/</loc>
-    <lastmod>2017-04-08T09:35:06.911Z</lastmod>
+    <lastmod>2017-05-12T14:50:18.949Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/05/04/go-scheduler/</loc>
+    <lastmod>2017-05-12T14:50:18.936Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/04/19/go-http-redirect/</loc>
+    <lastmod>2017-05-12T14:50:18.928Z</lastmod>
   </url>
   
   <url>
     <loc>http://colobu.com/2017/04/06/dive-into-gRPC-streaming/</loc>
-    <lastmod>2017-04-08T09:23:44.787Z</lastmod>
+    <lastmod>2017-05-12T14:50:18.918Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/04/17/dive-into-gRPC-interceptor/</loc>
+    <lastmod>2017-05-12T14:50:18.911Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2014/09/05/design-pattern-cheatsheet/</loc>
+    <lastmod>2017-05-12T14:50:18.876Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2014/09/18/Linux-Performance-Analysis-and-Tools/</loc>
+    <lastmod>2017-05-12T14:50:18.816Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2016/04/14/Golang-Channels/</loc>
+    <lastmod>2017-05-12T14:50:18.809Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2014/08/04/Apache-Bench-and-Gnuplot/</loc>
+    <lastmod>2017-05-12T14:50:18.763Z</lastmod>
   </url>
   
   <url>
@@ -72,11 +152,6 @@
   </url>
   
   <url>
-    <loc>http://colobu.com/2017/02/01/golang-summaries/</loc>
-    <lastmod>2017-02-23T00:49:59.439Z</lastmod>
-  </url>
-  
-  <url>
     <loc>http://colobu.com/2016/06/20/dive-into-go-5/</loc>
     <lastmod>2017-02-23T00:49:59.430Z</lastmod>
   </url>
@@ -84,11 +159,6 @@
   <url>
     <loc>http://colobu.com/2017/02/22/HTTP-Response-Snippets-for-Go/</loc>
     <lastmod>2017-02-23T00:49:59.421Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2016/04/14/Golang-Channels/</loc>
-    <lastmod>2017-02-23T00:49:59.403Z</lastmod>
   </url>
   
   <url>
@@ -239,11 +309,6 @@
   <url>
     <loc>http://colobu.com/2015/01/22/which-kafka-partition-will-keyedMessages-be-sent-to-if-key-is-null/</loc>
     <lastmod>2016-11-13T09:23:00.510Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2014/09/17/what-means-apachebench-test-result/</loc>
-    <lastmod>2016-11-13T09:23:00.502Z</lastmod>
   </url>
   
   <url>
@@ -667,11 +732,6 @@
   </url>
   
   <url>
-    <loc>http://colobu.com/2014/08/06/kafka-quickstart/</loc>
-    <lastmod>2016-11-13T09:22:59.753Z</lastmod>
-  </url>
-  
-  <url>
     <loc>http://colobu.com/2015/03/23/kafka-internals/</loc>
     <lastmod>2016-11-13T09:22:59.748Z</lastmod>
   </url>
@@ -969,11 +1029,6 @@
   <url>
     <loc>http://colobu.com/2016/06/15/dive-into-go-1/</loc>
     <lastmod>2016-11-13T09:22:59.195Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2014/09/05/design-pattern-cheatsheet/</loc>
-    <lastmod>2016-11-13T09:22:59.190Z</lastmod>
   </url>
   
   <url>
@@ -1317,11 +1372,6 @@
   </url>
   
   <url>
-    <loc>http://colobu.com/2014/09/18/Linux-Performance-Analysis-and-Tools/</loc>
-    <lastmod>2016-11-13T09:22:58.698Z</lastmod>
-  </url>
-  
-  <url>
     <loc>http://colobu.com/2015/09/07/LRU-cache-implemented-by-Java-LinkedHashMap/</loc>
     <lastmod>2016-11-13T09:22:58.695Z</lastmod>
   </url>
@@ -1539,11 +1589,6 @@
   <url>
     <loc>http://colobu.com/2015/07/21/Architecture-2013/</loc>
     <lastmod>2016-11-13T09:22:58.291Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2014/08/04/Apache-Bench-and-Gnuplot/</loc>
-    <lastmod>2016-11-13T09:22:58.284Z</lastmod>
   </url>
   
   <url>
