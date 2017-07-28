@@ -2,8 +2,73 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://colobu.com/2017/06/20/what-s-new-in-Go-1-9/</loc>
+    <lastmod>2017-07-28T15:12:23.284Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2016/04/21/use-vscode-to-develop-go-programs/</loc>
+    <lastmod>2017-07-28T15:12:23.283Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/07/11/show-connections-in-MACOS/</loc>
+    <lastmod>2017-07-28T15:12:23.275Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/07/07/select-vs-switch-in-golang/</loc>
+    <lastmod>2017-07-28T15:12:23.274Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/06/26/learn-go-type-aliases/</loc>
+    <lastmod>2017-07-28T15:12:23.273Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/06/21/json-tricks-in-Go/</loc>
+    <lastmod>2017-07-28T15:12:23.272Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/06/30/idiomatic-go-references/</loc>
+    <lastmod>2017-07-28T15:12:23.271Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/07/07/golang-concurrency-tricks/</loc>
+    <lastmod>2017-07-28T15:12:23.269Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/07/11/dive-into-sync-Map/</loc>
+    <lastmod>2017-07-28T15:12:23.268Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2017/05/12/call-private-functions-in-other-packages/</loc>
-    <lastmod>2017-05-12T14:51:31.167Z</lastmod>
+    <lastmod>2017-07-28T15:12:23.267Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/06/19/advanced-command-execution-in-Go-with-os-exec/</loc>
+    <lastmod>2017-07-28T15:12:23.261Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/06/27/Lint-your-golang-code-like-a-mad-man/</loc>
+    <lastmod>2017-07-28T15:12:23.260Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2014/08/13/How-to-use-bloom-filter-to-build-a-large-in-memory-cache-in-Java/</loc>
+    <lastmod>2017-07-28T15:12:23.259Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/06/29/How-to-follow-HTTP-redirects-inside-nginx/</loc>
+    <lastmod>2017-07-28T15:12:23.253Z</lastmod>
   </url>
   
   <url>
@@ -364,11 +429,6 @@
   <url>
     <loc>http://colobu.com/2015/12/02/user-based-recommender-for-douban-movies/</loc>
     <lastmod>2016-11-13T09:23:00.371Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2016/04/21/use-vscode-to-develop-go-programs/</loc>
-    <lastmod>2016-11-13T09:23:00.360Z</lastmod>
   </url>
   
   <url>
@@ -1444,11 +1504,6 @@
   <url>
     <loc>http://colobu.com/2016/02/25/Ignite-vs-Hazelcast/</loc>
     <lastmod>2016-11-13T09:22:58.566Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2014/08/13/How-to-use-bloom-filter-to-build-a-large-in-memory-cache-in-Java/</loc>
-    <lastmod>2016-11-13T09:22:58.561Z</lastmod>
   </url>
   
   <url>
