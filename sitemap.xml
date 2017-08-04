@@ -2,6 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://colobu.com/2017/08/04/talk-about-getting-goroutine-id-again/</loc>
+    <lastmod>2017-08-04T12:45:37.604Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2015/12/04/Kafka-0-9-is-released/</loc>
+    <lastmod>2017-08-04T12:45:37.602Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2017/06/20/what-s-new-in-Go-1-9/</loc>
     <lastmod>2017-07-28T15:12:23.284Z</lastmod>
   </url>
@@ -297,12 +307,12 @@
   </url>
   
   <url>
-    <loc>http://colobu.com/2016/11/04/create-a-compressed-TCP-by-Go/</loc>
+    <loc>http://colobu.com/2016/11/11/microservices-anti-patterns-and-pitfalls/</loc>
     <lastmod>2016-11-17T07:58:44.713Z</lastmod>
   </url>
   
   <url>
-    <loc>http://colobu.com/2016/11/11/microservices-anti-patterns-and-pitfalls/</loc>
+    <loc>http://colobu.com/2016/11/04/create-a-compressed-TCP-by-Go/</loc>
     <lastmod>2016-11-17T07:58:44.713Z</lastmod>
   </url>
   
@@ -1434,11 +1444,6 @@
   <url>
     <loc>http://colobu.com/2015/09/07/LRU-cache-implemented-by-Java-LinkedHashMap/</loc>
     <lastmod>2016-11-13T09:22:58.695Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2015/12/04/Kafka-0-9-is-released/</loc>
-    <lastmod>2016-11-13T09:22:58.689Z</lastmod>
   </url>
   
   <url>
