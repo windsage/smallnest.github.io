@@ -2,6 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://colobu.com/2017/08/26/panic-on-go-plugin-Open-for-different-plugins/</loc>
+    <lastmod>2017-08-26T16:27:35.556Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/08/23/Designing-a-Microservices-Architecture-for-Failure/</loc>
+    <lastmod>2017-08-26T15:12:26.227Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2017/08/04/talk-about-getting-goroutine-id-again/</loc>
     <lastmod>2017-08-04T12:45:37.604Z</lastmod>
   </url>
