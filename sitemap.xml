@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://colobu.com/2017/08/31/configuration-file-format/</loc>
+    <lastmod>2017-09-01T16:28:31.706Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2017/08/26/panic-on-go-plugin-Open-for-different-plugins/</loc>
     <lastmod>2017-08-26T16:27:35.556Z</lastmod>
   </url>
