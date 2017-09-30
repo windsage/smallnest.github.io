@@ -2,6 +2,36 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://colobu.com/2017/09/30/functor-applicative-and-monad/</loc>
+    <lastmod>2017-09-30T14:58:43.454Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/09/30/use-letsencrypt-in-go/</loc>
+    <lastmod>2017-09-30T14:15:44.802Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/08/04/talk-about-getting-goroutine-id-again/</loc>
+    <lastmod>2017-09-30T14:15:44.802Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2016/12/21/how-to-dump-goroutine-stack-traces/</loc>
+    <lastmod>2017-09-30T14:15:44.786Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/09/22/golang-bcc-bpf-function-tracing/</loc>
+    <lastmod>2017-09-30T14:15:44.755Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/09/27/distributed-systems-theory-for-the-distributed-systems-engineer/</loc>
+    <lastmod>2017-09-30T14:15:44.755Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2017/08/31/configuration-file-format/</loc>
     <lastmod>2017-09-01T16:28:31.706Z</lastmod>
   </url>
@@ -14,11 +44,6 @@
   <url>
     <loc>http://colobu.com/2017/08/23/Designing-a-Microservices-Architecture-for-Failure/</loc>
     <lastmod>2017-08-26T15:12:26.227Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2017/08/04/talk-about-getting-goroutine-id-again/</loc>
-    <lastmod>2017-08-04T12:45:37.604Z</lastmod>
   </url>
   
   <url>
@@ -269,11 +294,6 @@
   <url>
     <loc>http://colobu.com/2016/11/28/techempower-benchmarks-round13/</loc>
     <lastmod>2016-12-24T07:10:58.032Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2016/12/21/how-to-dump-goroutine-stack-traces/</loc>
-    <lastmod>2016-12-24T07:10:57.979Z</lastmod>
   </url>
   
   <url>
