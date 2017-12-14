@@ -2,17 +2,92 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://colobu.com/2017/12/12/The-ultimate-guide-to-writing-a-Go-tool/</loc>
+    <lastmod>2017-12-14T14:34:36.895Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/12/13/A-Million-WebSockets-and-Go/</loc>
+    <lastmod>2017-12-14T14:34:36.864Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/11/22/new-pprof-UI/</loc>
+    <lastmod>2017-12-09T15:22:06.188Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/11/02/kafka-replication/</loc>
+    <lastmod>2017-12-09T15:22:06.173Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/11/29/event-loop-networking-in-Go/</loc>
+    <lastmod>2017-12-09T15:22:06.126Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/12/07/Two-Machine-Learning-for-Go/</loc>
+    <lastmod>2017-12-09T15:22:06.126Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/12/07/Three-Machine-Learning-for-Go/</loc>
+    <lastmod>2017-12-09T15:22:06.126Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/11/28/TCP-Socket-Implementation-On-Golang/</loc>
+    <lastmod>2017-12-09T15:22:06.110Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/12/07/One-Machine-Learning-for-Go/</loc>
+    <lastmod>2017-12-09T15:22:06.063Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/10/11/interesting-things-about-GOMAXPROCS/</loc>
+    <lastmod>2017-10-26T15:14:07.564Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/10/10/comparision-of-kv-datastore/</loc>
+    <lastmod>2017-10-26T15:14:07.551Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/10/11/badger-a-performant-k-v-store/</loc>
+    <lastmod>2017-10-26T15:14:07.387Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/10/24/How-to-replace-master-branch-in-git/</loc>
+    <lastmod>2017-10-26T15:14:07.371Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/10/12/How-Kafka%E2%80%99s-Storage-Internals-Work/</loc>
+    <lastmod>2017-10-26T15:14:07.264Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/10/10/Convert-Shadowsocks-into-an-HTTP-proxy/</loc>
+    <lastmod>2017-10-26T15:14:07.239Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2017/09/30/functor-applicative-and-monad/</loc>
     <lastmod>2017-10-05T14:30:54.436Z</lastmod>
   </url>
   
   <url>
-    <loc>http://colobu.com/2017/09/30/use-letsencrypt-in-go/</loc>
+    <loc>http://colobu.com/2017/08/04/talk-about-getting-goroutine-id-again/</loc>
     <lastmod>2017-09-30T14:15:44.802Z</lastmod>
   </url>
   
   <url>
-    <loc>http://colobu.com/2017/08/04/talk-about-getting-goroutine-id-again/</loc>
+    <loc>http://colobu.com/2017/09/30/use-letsencrypt-in-go/</loc>
     <lastmod>2017-09-30T14:15:44.802Z</lastmod>
   </url>
   
@@ -22,12 +97,12 @@
   </url>
   
   <url>
-    <loc>http://colobu.com/2017/09/22/golang-bcc-bpf-function-tracing/</loc>
+    <loc>http://colobu.com/2017/09/27/distributed-systems-theory-for-the-distributed-systems-engineer/</loc>
     <lastmod>2017-09-30T14:15:44.755Z</lastmod>
   </url>
   
   <url>
-    <loc>http://colobu.com/2017/09/27/distributed-systems-theory-for-the-distributed-systems-engineer/</loc>
+    <loc>http://colobu.com/2017/09/22/golang-bcc-bpf-function-tracing/</loc>
     <lastmod>2017-09-30T14:15:44.755Z</lastmod>
   </url>
   
