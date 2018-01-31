@@ -2,13 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://colobu.com/2017/12/12/The-ultimate-guide-to-writing-a-Go-tool/</loc>
-    <lastmod>2017-12-14T14:34:36.895Z</lastmod>
+    <loc>http://colobu.com/2018/01/31/benchmark-2018-spring-of-popular-rpc-frameworks/</loc>
+    <lastmod>2018-01-31T16:36:38.109Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2018/01/09/xtrabackup-full-increament-backup/</loc>
+    <lastmod>2018-01-20T06:23:31.304Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2018/01/10/use-binary-package-in-go/</loc>
+    <lastmod>2018-01-20T06:23:31.299Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/12/28/top-golang-articles-of-2017/</loc>
+    <lastmod>2018-01-20T06:23:31.298Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2016/06/07/simple-golang-tls-examples/</loc>
+    <lastmod>2018-01-20T06:23:31.296Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2014/09/18/linux-tcpip-tuning/</loc>
+    <lastmod>2018-01-20T06:23:31.287Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/05/12/call-private-functions-in-other-packages/</loc>
+    <lastmod>2018-01-20T06:23:31.280Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/12/29/best-practices-for-writing-high-performance-Go-code/</loc>
+    <lastmod>2018-01-20T06:23:31.274Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2016/03/02/Java-Stream/</loc>
+    <lastmod>2018-01-20T06:23:31.268Z</lastmod>
   </url>
   
   <url>
     <loc>http://colobu.com/2017/12/13/A-Million-WebSockets-and-Go/</loc>
-    <lastmod>2017-12-14T14:34:36.864Z</lastmod>
+    <lastmod>2017-12-26T13:29:13.627Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2017/12/12/The-ultimate-guide-to-writing-a-Go-tool/</loc>
+    <lastmod>2017-12-14T14:34:36.895Z</lastmod>
   </url>
   
   <url>
@@ -22,17 +67,17 @@
   </url>
   
   <url>
+    <loc>http://colobu.com/2017/12/07/Three-Machine-Learning-for-Go/</loc>
+    <lastmod>2017-12-09T15:22:06.126Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2017/11/29/event-loop-networking-in-Go/</loc>
     <lastmod>2017-12-09T15:22:06.126Z</lastmod>
   </url>
   
   <url>
     <loc>http://colobu.com/2017/12/07/Two-Machine-Learning-for-Go/</loc>
-    <lastmod>2017-12-09T15:22:06.126Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2017/12/07/Three-Machine-Learning-for-Go/</loc>
     <lastmod>2017-12-09T15:22:06.126Z</lastmod>
   </url>
   
@@ -82,12 +127,12 @@
   </url>
   
   <url>
-    <loc>http://colobu.com/2017/08/04/talk-about-getting-goroutine-id-again/</loc>
+    <loc>http://colobu.com/2017/09/30/use-letsencrypt-in-go/</loc>
     <lastmod>2017-09-30T14:15:44.802Z</lastmod>
   </url>
   
   <url>
-    <loc>http://colobu.com/2017/09/30/use-letsencrypt-in-go/</loc>
+    <loc>http://colobu.com/2017/08/04/talk-about-getting-goroutine-id-again/</loc>
     <lastmod>2017-09-30T14:15:44.802Z</lastmod>
   </url>
   
@@ -169,11 +214,6 @@
   <url>
     <loc>http://colobu.com/2017/07/11/dive-into-sync-Map/</loc>
     <lastmod>2017-07-28T15:12:23.268Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2017/05/12/call-private-functions-in-other-packages/</loc>
-    <lastmod>2017-07-28T15:12:23.267Z</lastmod>
   </url>
   
   <url>
@@ -417,12 +457,12 @@
   </url>
   
   <url>
-    <loc>http://colobu.com/2016/11/11/microservices-anti-patterns-and-pitfalls/</loc>
+    <loc>http://colobu.com/2016/11/04/create-a-compressed-TCP-by-Go/</loc>
     <lastmod>2016-11-17T07:58:44.713Z</lastmod>
   </url>
   
   <url>
-    <loc>http://colobu.com/2016/11/04/create-a-compressed-TCP-by-Go/</loc>
+    <loc>http://colobu.com/2016/11/11/microservices-anti-patterns-and-pitfalls/</loc>
     <lastmod>2016-11-17T07:58:44.713Z</lastmod>
   </url>
   
@@ -692,11 +732,6 @@
   </url>
   
   <url>
-    <loc>http://colobu.com/2016/06/07/simple-golang-tls-examples/</loc>
-    <lastmod>2016-11-13T09:23:00.094Z</lastmod>
-  </url>
-  
-  <url>
     <loc>http://colobu.com/2015/09/09/set-null-for-a-string-property-by-Value/</loc>
     <lastmod>2016-11-13T09:23:00.090Z</lastmod>
   </url>
@@ -874,11 +909,6 @@
   <url>
     <loc>http://colobu.com/2016/07/29/list-all-your-maven-dependencies/</loc>
     <lastmod>2016-11-13T09:22:59.804Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2014/09/18/linux-tcpip-tuning/</loc>
-    <lastmod>2016-11-13T09:22:59.801Z</lastmod>
   </url>
   
   <url>
@@ -1569,11 +1599,6 @@
   <url>
     <loc>http://colobu.com/2014/08/08/Java-bean-validation-spec-and-framework/</loc>
     <lastmod>2016-11-13T09:22:58.673Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2016/03/02/Java-Stream/</loc>
-    <lastmod>2016-11-13T09:22:58.665Z</lastmod>
   </url>
   
   <url>
