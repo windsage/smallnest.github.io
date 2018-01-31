@@ -186,6 +186,7 @@
 <li><a href="https://github.com/go-kit/kit" target="_blank" rel="external">go kit</a>: 欢迎提供测试代码</li>
 <li><a href="https://github.com/Tencent/Tars" target="_blank" rel="external">腾讯 Tars</a>:腾讯公司的rpc框架， 欢迎提供c++ benchmark代码</li>
 <li><a href="https://github.com/brpc/brpc" target="_blank" rel="external">百度 brpc</a>: 百度公司的rpc框架， 欢迎提供c++ benchmark代码</li>
+<li><a href="http://projects.spring.io/spring-cloud/" target="_blank" rel="external">spring cloud</a>: 本次没有测试</li>
 </ul>
 <h2 id="测试场景">测试场景</h2>
 <h3 id="模拟业务处理时间">模拟业务处理时间</h3>
@@ -218,19 +219,19 @@
 <p>cpu cores为 32, Intel Xeon E5-2630 V3 @2.4GHz</p>
 <h2 id="测试结果">测试结果</h2>
 <h3 id="处理时间_0ms">处理时间 0ms</h3>
-<table><br>  <tr><br>    <th>吞吐率</th><br>    <th>平均延迟</th><br>    <th>P99 延迟</th><br>  </tr><br>  <tr><br>    <td width="30%"><img src="p0-throughput.png" alt=""></td><br>    <td width="30%"><img src="p0-latency.png" alt=""></td><br>    <td width="30%"><img src="p0-p99.png" alt=""></td><br>  </tr><br></table>
+<table><tr><th>吞吐率</th><th>平均延迟</th><th>P99 延迟</th></tr><tr><td width="30%"><img src="p0-throughput.png" alt=""></td><td width="30%"><img src="p0-latency.png" alt=""></td><td width="30%"><img src="p0-p99.png" alt=""></td></tr></table>
 
 
 <p>平均延迟 rpcx和hprose重合。</p>
 <p>这里有一个奇怪的现象，在0ms这种case下， Go实现的框架P99延迟很大，但是在10ms/30ms下去很小。我在测试web框架的时候一位外国程序员也指出了一个问题，在业务逻辑中加上了runtime.Gosched()解决了这个问题。我想rpc测试也是这个问题，因为服务实现中没有机会让调度器抢走这个goroutine的执行，导致goroutine排队，并不能均匀地执行goroutine，我会在将来的时候验证这个猜想。</p>
 <h3 id="处理时间_10ms">处理时间 10ms</h3>
 <p>当处理时间为10ms时， 本测试的理论上的吞吐率 = clients <em> (1000ms/10ms) = clients </em> 100. 实际由于服务的调度等原因，肯定是达不到这个吞吐率。</p>
-<table><br>  <tr><br>    <th>吞吐率</th><br>    <th>平均延迟</th><br>    <th>P99 延迟</th><br>  </tr><br>  <tr><br>    <td width="30%"><img src="p10-throughput.png" alt=""></td><br>    <td width="30%"><img src="p10-latency.png" alt=""></td><br>    <td width="30%"><img src="p10-p99.png" alt=""></td><br>  </tr><br></table>
+<table><tr><th>吞吐率</th><th>平均延迟</th><th>P99 延迟</th></tr><tr><td width="30%"><img src="p10-throughput.png" alt=""></td><td width="30%"><img src="p10-latency.png" alt=""></td><td width="30%"><img src="p10-p99.png" alt=""></td></tr></table>
 
 
 <h3 id="处理时间_30ms">处理时间 30ms</h3>
 <p>当处理时间为30ms时， 本测试的理论上的吞吐率 = clients <em> (1000ms/30ms) = clients </em> 33. 实际由于服务的调度等原因，肯定是达不到这个吞吐率。</p>
-<table><br>  <tr><br>    <th>吞吐率</th><br>    <th>平均延迟</th><br>    <th>P99 延迟</th><br>  </tr><br>  <tr><br>    <td width="30%"><img src="p30-throughput.png" alt=""></td><br>    <td width="30%"><img src="p30-latency.png" alt=""></td><br>    <td width="30%"><img src="p30-p99.png" alt=""></td><br>  </tr><br></table>
+<table><tr><th>吞吐率</th><th>平均延迟</th><th>P99 延迟</th></tr><tr><td width="30%"><img src="p30-throughput.png" alt=""></td><td width="30%"><img src="p30-latency.png" alt=""></td><td width="30%"><img src="p30-p99.png" alt=""></td></tr></table>
 
 <blockquote>
 <p>在这个月全食的凌晨终于完整了测试，也欢迎大家提供bench代码和讨论。</p>
