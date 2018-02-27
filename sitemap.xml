@@ -2,8 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://colobu.com/2018/02/13/make-your-methods-as-services-in-10-seconds/</loc>
+    <lastmod>2018-02-27T13:03:20.322Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2018/02/27/go-addressable/</loc>
+    <lastmod>2018-02-27T13:03:20.312Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2018/02/05/code-your-own-blockchain-in-less-than-200-lines-of-go/</loc>
+    <lastmod>2018-02-27T13:03:20.262Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2018/01/31/benchmark-2018-spring-of-popular-rpc-frameworks/</loc>
-    <lastmod>2018-02-01T00:06:49.711Z</lastmod>
+    <lastmod>2018-02-27T13:03:20.262Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2018/02/24/Fixing-Bugs-in-Running-Java-Code-with-Dynamic-Attach/</loc>
+    <lastmod>2018-02-27T13:03:20.252Z</lastmod>
   </url>
   
   <url>
@@ -72,12 +92,12 @@
   </url>
   
   <url>
-    <loc>http://colobu.com/2017/11/29/event-loop-networking-in-Go/</loc>
+    <loc>http://colobu.com/2017/12/07/Two-Machine-Learning-for-Go/</loc>
     <lastmod>2017-12-09T15:22:06.126Z</lastmod>
   </url>
   
   <url>
-    <loc>http://colobu.com/2017/12/07/Two-Machine-Learning-for-Go/</loc>
+    <loc>http://colobu.com/2017/11/29/event-loop-networking-in-Go/</loc>
     <lastmod>2017-12-09T15:22:06.126Z</lastmod>
   </url>
   
@@ -457,12 +477,12 @@
   </url>
   
   <url>
-    <loc>http://colobu.com/2016/11/04/create-a-compressed-TCP-by-Go/</loc>
+    <loc>http://colobu.com/2016/11/11/microservices-anti-patterns-and-pitfalls/</loc>
     <lastmod>2016-11-17T07:58:44.713Z</lastmod>
   </url>
   
   <url>
-    <loc>http://colobu.com/2016/11/11/microservices-anti-patterns-and-pitfalls/</loc>
+    <loc>http://colobu.com/2016/11/04/create-a-compressed-TCP-by-Go/</loc>
     <lastmod>2016-11-17T07:58:44.713Z</lastmod>
   </url>
   

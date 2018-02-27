@@ -4,7 +4,7 @@
   <subtitle><![CDATA[大道至简 Simplicity is the ultimate form of sophistication]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://colobu.com/"/>
-  <updated>2018-02-01T00:07:23.575Z</updated>
+  <updated>2018-02-27T13:04:11.789Z</updated>
   <id>http://colobu.com/</id>
   
   <author>
@@ -15,11 +15,388 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[go addressable]]></title>
+    <link href="http://colobu.com/2018/02/27/go-addressable/"/>
+    <id>http://colobu.com/2018/02/27/go-addressable/</id>
+    <published>2018-02-27T10:48:46.000Z</published>
+    <updated>2018-02-27T13:03:20.312Z</updated>
+    <content type="html"><![CDATA[<p>Go语言规范中规定了可寻址(addressable)对象的定义,</p>
+<blockquote>
+<p>For an operand x of type T, the address operation &amp;x generates a pointer of type *T to x. The operand must be addressable, that is, either a variable, pointer indirection, or slice indexing operation; or a field selector of an addressable struct operand; or an array indexing operation of an addressable array. As an exception to the addressability requirement, x may also be a (possibly parenthesized) composite literal. If the evaluation of x would cause a run-time panic, then the evaluation of &amp;x does too.</p>
+</blockquote>
+<p>对于一个对象<code>x</code>, 如果它的类型为<code>T</code>, 那么<code>&amp;x</code>则会产生一个类型为<code>*T</code>的指针，这个指针指向<code>x</code>, 这是这一段的第一句话，也是我们在开发过程中经常使用的一种获取对象指针的一种方式。 </p>
+<a id="more"></a>
+<p><img src="memory.jpg" alt=""></p>
+<h2 id="addressable">addressable</h2>
+<p>上面规范中的这段话规定， <code>x</code>必须是可寻址的， 也就是说，它只能是一下几种方式：</p>
+<ul>
+<li>一个变量: <code>&amp;x</code></li>
+<li>指针引用(pointer indirection): <code>&amp;*x</code></li>
+<li>slice索引操作(不管slice是否可寻址): <code>&amp;s[1]</code></li>
+<li>可寻址struct的字段: <code>&amp;point.X</code></li>
+<li>可寻址数组的索引操作: <code>&amp;a[0]</code></li>
+<li>composite literal类型: <code>&amp;struct{ X int }{1}</code></li>
+</ul>
+<p>下列情况<code>x</code>是不可以寻址的，你不能使用<code>&amp;x</code>取得指针：</p>
+<ul>
+<li>字符串中的字节:</li>
+<li>map对象中的元素</li>
+<li>接口对象的动态值(通过type assertions获得)</li>
+<li>常数</li>
+<li>literal值(非composite literal)</li>
+<li>package 级别的函数</li>
+<li>方法method (用作函数值)</li>
+<li>中间值(intermediate value):<ul>
+<li>函数调用</li>
+<li>显式类型转换</li>
+<li>各种类型的操作 （除了指针引用pointer dereference操作 <code>*x</code>):<ul>
+<li>channel receive operations</li>
+<li>sub-string operations</li>
+<li>sub-slice operations</li>
+<li>加减乘除等运算符</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>Tapir Games在他的文章<a href="http://www.tapirgames.com/blog/golang-unofficial-faq#unaddressable-values" target="_blank" rel="external">unaddressable-values</a>中做了很好的整理。</p>
+</blockquote>
+<p>有几个点需要解释下：</p>
+<ul>
+<li>常数为什么不可以寻址?： 如果可以寻址的话，我们可以通过指针修改常数的值，破坏了常数的定义。</li>
+<li>map的元素为什么不可以寻址？:两个原因，如果对象不存在，则返回零值，零值是不可变对象，所以不能寻址，如果对象存在，因为Go中map实现中元素的地址是变化的，这意味着寻址的结果是无意义的。</li>
+<li>为什么slice不管是否可寻址，它的元素读是可以寻址的？:因为slice底层实现了一个数组，它是可以寻址的。</li>
+<li>为什么字符串中的字符/字节又不能寻址呢：因为字符串是不可变的。</li>
+</ul>
+<p>规范中还有几处提到了 <code>addressable</code>:</p>
+<ul>
+<li>调用一个receiver为指针类型的方法时，使用一个addressable的值将自动获取这个值的指针</li>
+<li><code>++</code>、<code>--</code>语句的操作对象必须是addressable或者是map的index操作</li>
+<li>赋值语句<code>=</code>的左边对象必须是addressable,或者是map的index操作，或者是<code>_</code></li>
+<li>上条同样使用<code>for ... range</code>语句</li>
+</ul>
+<h2 id="reflect-Value的CanAddr方法和CanSet方法"><code>reflect.Value</code>的<code>CanAddr</code>方法和<code>CanSet</code>方法</h2>
+<p>在我们使用<code>reflect</code>执行一些底层的操作的时候， 比如编写序列化库、rpc框架开发、编解码、插件开发等业务的时候，经常会使用到<code>reflect.Value</code>的<code>CanSet</code>方法，用来动态的给对象赋值。 <code>CanSet</code>比<code>CanAddr</code>只加了一个限制，就是struct类型的<code>unexported</code>的字段不能<code>Set</code>，所以我们这节主要介绍<code>CanAddr</code>。</p>
+<p>并不是任意的<code>reflect.Value</code>的<code>CanAddr</code>方法都返回<code>true</code>,根据它的godoc,我们可以知道：</p>
+<blockquote>
+<p>CanAddr reports whether the value&#39;s address can be obtained with Addr. Such values are called addressable. A value is addressable if it is an element of a slice, an element of an addressable array, a field of an addressable struct, or the result of dereferencing a pointer. If CanAddr returns false, calling Addr will panic.</p>
+</blockquote>
+<p>也就是只有下面的类型<code>reflect.Value</code>的<code>CanAddr</code>才是<code>true</code>, 这样的值是<code>addressable</code>:</p>
+<ul>
+<li>slice的元素</li>
+<li>可寻址数组的元素</li>
+<li>可寻址struct的字段</li>
+<li>指针引用的结果</li>
+</ul>
+<p>与规范中规定的<code>addressable</code>, <code>reflect.Value</code>的<code>addressable</code>范围有所缩小， 比如对于栈上分配的变量， 随着方法的生命周期的结束， 栈上的对象也就被回收掉了，这个时候如果获取它们的地址，就会出现不一致的结果，甚至安全问题。</p>
+<blockquote>
+<p>对于栈和堆的对象分配以及逃逸分析，你可以看 William Kennedy  写的系列文章: <a href="https://studygolang.com/articles/12444" target="_blank" rel="external">Go 语言机制之逃逸分析</a></p>
+</blockquote>
+<p>所以如果你想通过<code>reflect.Value</code>对它的值进行更新，应该确保它的<code>CanSet</code>方法返回<code>true</code>,这样才能调用<code>SetXXX</code>进行设置。</p>
+<p>使用<code>reflect.Value</code>的时候有时会对<code>func Indirect(v Value) Value</code>和<code>func (v Value) Elem() Value</code>两个方法有些迷惑，有时候他们俩会返回同样的值，有时候又不会。</p>
+<p>总结一下：</p>
+<ol>
+<li>如果<code>reflect.Value</code>是一个指针， 那么<code>v.Elem()</code>等价于<code>reflect.Indirect(v)</code></li>
+<li>如果不是指针<br>2.1 如果是<code>interface</code>, 那么<code>reflect.Indirect(v)</code>返回同样的值，而<code>v.Elem()</code>返回接口的动态的值<br>2.2 如果是其它值, <code>v.Elem()</code>会panic,而<code>reflect.Indirect(v)</code>返回原值</li>
+</ol>
+<p>下面的代码列出一些<code>reflect.Value</code>是否可以addressable, 你需要注意数组和struct字段的情况，也就是<code>x7</code>、<code>x9</code>、<code>x14</code>、<code>x15</code>的正确的处理方式。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"fmt"</span></div><div class="line">	<span class="string">"reflect"</span></div><div class="line">	<span class="string">"time"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">func</span> main() {</div><div class="line">	checkCanAddr()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">type</span> S <span class="keyword">struct</span> {</div><div class="line">	X <span class="typename">int</span></div><div class="line">	Y <span class="typename">string</span></div><div class="line">	z <span class="typename">int</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> M() <span class="typename">int</span> {</div><div class="line">	<span class="keyword">return</span><span class="number"> 100</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">var</span> x0 =<span class="number"> 0</span></div><div class="line"></div><div class="line"><span class="keyword">func</span> checkCanAddr() {</div><div class="line">	<span class="comment">// 可寻址的情况</span></div><div class="line">	v := reflect.ValueOf(x0)</div><div class="line">	fmt.Printf(<span class="string">"x0: %v \tcan be addressable and set: %t, %t\n"</span>, x0, v.CanAddr(), v.CanSet()) <span class="comment">//false,false</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x1 =<span class="number"> 1</span></div><div class="line">	v = reflect.Indirect(reflect.ValueOf(x1))</div><div class="line">	fmt.Printf(<span class="string">"x1: %v \tcan be addressable and set: %t, %t\n"</span>, x1, v.CanAddr(), v.CanSet()) <span class="comment">//false,false</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x2 = &x1</div><div class="line">	v = reflect.Indirect(reflect.ValueOf(x2))</div><div class="line">	fmt.Printf(<span class="string">"x2: %v \tcan be addressable and set: %t, %t\n"</span>, x2, v.CanAddr(), v.CanSet()) <span class="comment">//true,true</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x3 = time.Now()</div><div class="line">	v = reflect.Indirect(reflect.ValueOf(x3))</div><div class="line">	fmt.Printf(<span class="string">"x3: %v \tcan be addressable and set: %t, %t\n"</span>, x3, v.CanAddr(), v.CanSet()) <span class="comment">//false,false</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x4 = &x3</div><div class="line">	v = reflect.Indirect(reflect.ValueOf(x4))</div><div class="line">	fmt.Printf(<span class="string">"x4: %v \tcan be addressable and set: %t, %t\n"</span>, x4, v.CanAddr(), v.CanSet()) <span class="comment">// true,true</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x5 = []<span class="typename">int</span><span class="number">{1</span>,<span class="number"> 2</span>,<span class="number"> 3</span>}</div><div class="line">	v = reflect.ValueOf(x5)</div><div class="line">	fmt.Printf(<span class="string">"x5: %v \tcan be addressable and set: %t, %t\n"</span>, x5, v.CanAddr(), v.CanSet()) <span class="comment">// false,false</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x6 = []<span class="typename">int</span><span class="number">{1</span>,<span class="number"> 2</span>,<span class="number"> 3</span>}</div><div class="line">	v = reflect.ValueOf(x6<span class="number">[0</span>])</div><div class="line">	fmt.Printf(<span class="string">"x6: %v \tcan be addressable and set: %t, %t\n"</span>, x6<span class="number">[0</span>], v.CanAddr(), v.CanSet()) <span class="comment">//false,false</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x7 = []<span class="typename">int</span><span class="number">{1</span>,<span class="number"> 2</span>,<span class="number"> 3</span>}</div><div class="line">	v = reflect.ValueOf(x7).Index<span class="number">(0</span>)</div><div class="line">	fmt.Printf(<span class="string">"x7: %v \tcan be addressable and set: %t, %t\n"</span>, x7<span class="number">[0</span>], v.CanAddr(), v.CanSet()) <span class="comment">//true,true</span></div><div class="line"></div><div class="line">	v = reflect.ValueOf(&x7<span class="number">[1</span>])</div><div class="line">	fmt.Printf(<span class="string">"x7.1: %v \tcan be addressable and set: %t, %t\n"</span>, x7<span class="number">[1</span>], v.CanAddr(), v.CanSet()) <span class="comment">//true,true</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x8 = <span class="number">[3</span>]<span class="typename">int</span><span class="number">{1</span>,<span class="number"> 2</span>,<span class="number"> 3</span>}</div><div class="line">	v = reflect.ValueOf(x8<span class="number">[0</span>])</div><div class="line">	fmt.Printf(<span class="string">"x8: %v \tcan be addressable and set: %t, %t\n"</span>, x8<span class="number">[0</span>], v.CanAddr(), v.CanSet()) <span class="comment">//false,false</span></div><div class="line"></div><div class="line">	<span class="comment">// https://groups.google.com/forum/#!topic/golang-nuts/RF9zsX82MWw</span></div><div class="line">	<span class="keyword">var</span> x9 = <span class="number">[3</span>]<span class="typename">int</span><span class="number">{1</span>,<span class="number"> 2</span>,<span class="number"> 3</span>}</div><div class="line">	v = reflect.Indirect(reflect.ValueOf(x9).Index<span class="number">(0</span>))</div><div class="line">	fmt.Printf(<span class="string">"x9: %v \tcan be addressable and set: %t, %t\n"</span>, x9<span class="number">[0</span>], v.CanAddr(), v.CanSet()) <span class="comment">//false,false</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x10 = <span class="number">[3</span>]<span class="typename">int</span><span class="number">{1</span>,<span class="number"> 2</span>,<span class="number"> 3</span>}</div><div class="line">	v = reflect.Indirect(reflect.ValueOf(&x10)).Index<span class="number">(0</span>)</div><div class="line">	fmt.Printf(<span class="string">"x9: %v \tcan be addressable and set: %t, %t\n"</span>, x10<span class="number">[0</span>], v.CanAddr(), v.CanSet()) <span class="comment">//true,true</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x11 = S{}</div><div class="line">	v = reflect.ValueOf(x11)</div><div class="line">	fmt.Printf(<span class="string">"x11: %v \tcan be addressable and set: %t, %t\n"</span>, x11, v.CanAddr(), v.CanSet()) <span class="comment">//false,false</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x12 = S{}</div><div class="line">	v = reflect.Indirect(reflect.ValueOf(&x12))</div><div class="line">	fmt.Printf(<span class="string">"x12: %v \tcan be addressable and set: %t, %t\n"</span>, x12, v.CanAddr(), v.CanSet()) <span class="comment">//true,true</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x13 = S{}</div><div class="line">	v = reflect.ValueOf(x13).FieldByName(<span class="string">"X"</span>)</div><div class="line">	fmt.Printf(<span class="string">"x13: %v \tcan be addressable and set: %t, %t\n"</span>, x13, v.CanAddr(), v.CanSet()) <span class="comment">//false,false</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x14 = S{}</div><div class="line">	v = reflect.Indirect(reflect.ValueOf(&x14)).FieldByName(<span class="string">"X"</span>)</div><div class="line">	fmt.Printf(<span class="string">"x14: %v \tcan be addressable and set: %t, %t\n"</span>, x14, v.CanAddr(), v.CanSet()) <span class="comment">//true,true</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x15 = S{}</div><div class="line">	v = reflect.Indirect(reflect.ValueOf(&x15)).FieldByName(<span class="string">"z"</span>)</div><div class="line">	fmt.Printf(<span class="string">"x15: %v \tcan be addressable and set: %t, %t\n"</span>, x15, v.CanAddr(), v.CanSet()) <span class="comment">//true,false</span></div><div class="line"></div><div class="line">	v = reflect.Indirect(reflect.ValueOf(&S{}))</div><div class="line">	fmt.Printf(<span class="string">"x15.1: %v \tcan be addressable and set: %t, %t\n"</span>, &S{}, v.CanAddr(), v.CanSet()) <span class="comment">//true,true</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x16 = M</div><div class="line">	v = reflect.ValueOf(x16)</div><div class="line">	fmt.Printf(<span class="string">"x16: %p \tcan be addressable and set: %t, %t\n"</span>, x16, v.CanAddr(), v.CanSet()) <span class="comment">//false,false</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x17 = M</div><div class="line">	v = reflect.Indirect(reflect.ValueOf(&x17))</div><div class="line">	fmt.Printf(<span class="string">"x17: %p \tcan be addressable and set: %t, %t\n"</span>, x17, v.CanAddr(), v.CanSet()) <span class="comment">//true,true</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x18 <span class="keyword">interface</span>{} = &x11</div><div class="line">	v = reflect.ValueOf(x18)</div><div class="line">	fmt.Printf(<span class="string">"x18: %v \tcan be addressable and set: %t, %t\n"</span>, x18, v.CanAddr(), v.CanSet()) <span class="comment">//false,false</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x19 <span class="keyword">interface</span>{} = &x11</div><div class="line">	v = reflect.ValueOf(x19).Elem()</div><div class="line">	fmt.Printf(<span class="string">"x19: %v \tcan be addressable and set: %t, %t\n"</span>, x19, v.CanAddr(), v.CanSet()) <span class="comment">//true,true</span></div><div class="line"></div><div class="line">	<span class="keyword">var</span> x20 = [...]<span class="typename">int</span><span class="number">{1</span>,<span class="number"> 2</span>,<span class="number"> 3</span>}</div><div class="line">	v = reflect.ValueOf([...]<span class="typename">int</span><span class="number">{1</span>,<span class="number"> 2</span>,<span class="number"> 3</span>})</div><div class="line">	fmt.Printf(<span class="string">"x20: %v \tcan be addressable and set: %t, %t\n"</span>, x20, v.CanAddr(), v.CanSet()) <span class="comment">//false,false</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="http://www.tapirgames.com/blog/golang-unofficial-faq#unaddressable-values" target="_blank" rel="external">http://www.tapirgames.com/blog/golang-unofficial-faq#unaddressable-values</a></li>
+<li><a href="https://blog.golang.org/laws-of-reflection" target="_blank" rel="external">https://blog.golang.org/laws-of-reflection</a></li>
+<li><a href="https://stackoverflow.com/questions/25384640/why-golang-reflect-makeslice-returns-un-addressable-value" target="_blank" rel="external">https://stackoverflow.com/questions/25384640/why-golang-reflect-makeslice-returns-un-addressable-value</a></li>
+<li><a href="http://grokbase.com/t/gg/golang-nuts/13bwpzedxh/go-nuts-golang-reflect-addressable-is-not-consistency" target="_blank" rel="external">http://grokbase.com/t/gg/golang-nuts/13bwpzedxh/go-nuts-golang-reflect-addressable-is-not-consistency</a></li>
+<li><a href="https://github.com/golang/go/issues/11865" target="_blank" rel="external">https://github.com/golang/go/issues/11865</a></li>
+<li><a href="https://stackoverflow.com/questions/20224478/dereferencing-a-map-index-in-golang" target="_blank" rel="external">https://stackoverflow.com/questions/20224478/dereferencing-a-map-index-in-golang</a></li>
+<li><a href="https://stackoverflow.com/questions/38168329/why-are-map-values-not-addressable" target="_blank" rel="external">https://stackoverflow.com/questions/38168329/why-are-map-values-not-addressable</a></li>
+<li><a href="https://stackoverflow.com/questions/40793289/go-struct-literals-why-is-this-one-addressable" target="_blank" rel="external">https://stackoverflow.com/questions/40793289/go-struct-literals-why-is-this-one-addressable</a></li>
+<li><a href="https://groups.google.com/forum/#!topic/golang-nuts/FnTCX9R_PbM" target="_blank" rel="external">https://groups.google.com/forum/#!topic/golang-nuts/FnTCX9R_PbM</a></li>
+<li><a href="https://stackoverflow.com/questions/24318389/golang-elem-vs-indirect-in-the-reflect-package" target="_blank" rel="external">https://stackoverflow.com/questions/24318389/golang-elem-vs-indirect-in-the-reflect-package</a></li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Go语言规范中规定了可寻址(addressable)对象的定义,</p>
+<blockquote>
+<p>For an operand x of type T, the address operation &amp;x generates a pointer of type *T to x. The operand must be addressable, that is, either a variable, pointer indirection, or slice indexing operation; or a field selector of an addressable struct operand; or an array indexing operation of an addressable array. As an exception to the addressability requirement, x may also be a (possibly parenthesized) composite literal. If the evaluation of x would cause a run-time panic, then the evaluation of &amp;x does too.</p>
+</blockquote>
+<p>对于一个对象<code>x</code>, 如果它的类型为<code>T</code>, 那么<code>&amp;x</code>则会产生一个类型为<code>*T</code>的指针，这个指针指向<code>x</code>, 这是这一段的第一句话，也是我们在开发过程中经常使用的一种获取对象指针的一种方式。 </p>
+]]>
+    
+    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[[转][译]在 Java 中运用动态挂载实现 Bug 的热修复]]></title>
+    <link href="http://colobu.com/2018/02/24/Fixing-Bugs-in-Running-Java-Code-with-Dynamic-Attach/"/>
+    <id>http://colobu.com/2018/02/24/Fixing-Bugs-in-Running-Java-Code-with-Dynamic-Attach/</id>
+    <published>2018-02-24T11:00:24.000Z</published>
+    <updated>2018-02-27T13:03:20.252Z</updated>
+    <content type="html"><![CDATA[<p>原文: <a href="https://www.sitepoint.com/fixing-bugs-in-running-java-code-with-dynamic-attach/" target="_blank" rel="external">Fixing Bugs in Running Java Code with Dynamic Attach</a> by Rafael Winterhalter</p>
+<p><a href="https://www.oschina.net" target="_blank" rel="external">开源中国</a>组织翻译: <a href="http://www.oschina.net/translate/fixing-bugs-in-running-java-code-with-dynamic-attach" target="_blank" rel="external">在 Java 中运用动态挂载实现 Bug 的热修复</a> by TedCruz、<br>无若、LeoXu、Tocy等。</p>
+<p>大多数 JVM 具备 Java 的 <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/jpda/enhancements1.4.html#hotswap" target="_blank" rel="external">HotSwap</a> 特性，大部分开发者认为它仅仅是一个调试工具。利用这一特性,有可能在不重启 Java 进程条件下，改变 Java 方法的实现。典型的例子是使用 IDE 来编码。然而 HotSwap 可以在生产环境中实现这一功能。通过这种方式，不用停止运行程序，就可以扩展在线的应用程序，或者在运行的项目上修复小的错误。这篇文章中，我将演示动态绑定、应用运行期代码变化进行绑定、介绍一些工具 API 以及 <a href="http://bytebuddy.net/" target="_blank" rel="external">Byte Buddy 库</a>，这个库提供了一些 API 代码改变更方便。</p>
+<a id="more"></a>
+<p>假设有一个正在运行的应用程序，通过校验 HTTP 请求中的 <code>X-Priority</code> 头部，来执行服务器的特殊处理。该校验使用下面的工具类来实现:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">class HeaderUtility {</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">boolean</span> isPriorityCall(HttpServletRequest request) {</div><div class="line">        <span class="keyword">return</span> request.getHeader(<span class="string">"X-Pirority"</span>) != <span class="keyword">null</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>你发现拼写错误了吗 (<code>Pirority</code>)？这样的错误很常见，尤其是在测试代码中常量值分解为静态字段重用。在不太理想的情况下，这个错误只会在产品被安装的时候才被发现，其中头通过另外一个应用生成并没有拼写错误。</p>
+<p>修复这样的错误并不难。在持续交付的时代，重新部署一个新的版本只需要点击一下按钮。但在其他情况下，变更可能就不是那么简单了，重新部署过程可能比较复杂，其中停机是不允许的，带着错误运行可能会比较好。但 HotSwap 给我们提供了另外一种选择：在不重启应用的前提下进行小幅改动。</p>
+<h2 id="Attach_API：使用动态附件来渗透另外一个_JVM">Attach API：使用动态附件来渗透另外一个 JVM</h2>
+<p>为了修改一个运行中的 Java 程序，我们首先需要一种可以同处在运行状态的 JVM 进行通信的方式。因为 Java 的虚拟机实现是一个受到管理的系统，因此拥有进行这些操作的标准 API。提问中涉及到的 API 被称作 attachment API，它是官方 Java 工具的一部分。使用这个由运行之中的 JVM 所暴露的 API，能让第二个 Java 进程来同其进行通信。</p>
+<p>事实上，我们已经用到了该 API: 它已经由诸如 <a href="https://github.com/visualvm" target="_blank" rel="external">VisualVM</a> 或者 <a href="http://www.oracle.com/technetwork/java/javaseproducts/mission-control/java-mission-control-1998576.html" target="_blank" rel="external">Java Mission Control</a> 这样的调试和模拟工具进行了应用。应用这些附件的 API 并没有同日常使用的标准 Java API 打包在一起，而是被打包到了一个特殊的文件之中，叫做 tools.jar，它只包含了一个虚拟机的 JDK 打包发布版本。更糟糕的是，这个 JAR 文件的位置并没有进行设置，它在 Windows、Linux，特别是在 Macintosh 上的 VM 都存在差别，不光文件的位置，连文件名也各异，有些发行版上就被叫做 classes.jar。最后，IBM 甚至决定对这个 JAR 中包含的一些类的名称进行修改，将所有 com.sun 类挪到 com.ibm 命名空间之中, 又添了一个乱子。在 Java 9 中，乱糟糟的状态才最终得以清理，tools.jar 被 <a href="http://download.java.net/java/jigsaw/docs/jdk/api/attach/spec/jdk.attach-summary.html" target="_blank" rel="external">Jigsaw 的模块 jdk.attach</a> 所替代。</p>
+<p><img src="dynamic-attach.png" alt=""></p>
+<p>在对 API 的 JAR (或者模块) 进行了定位之后，我们就该让其对附件进程可用。在 OpenJDK 上，被用来连接到另外一个 JVM 的类叫做 <code>VirtualMachine</code>，它向任何由位于同一台物理机器上的 JDK 或者是一个普通的 HtpSpot JVM 所运行的 VM 提供了一个入口点。在通过进程 id 附加到另外一台虚拟机上之后，我们就能够在目标 VM 指定的一个线程中运行一个 JAR 文件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// the following strings must be provided by us</span></div><div class="line">String processId = processId();</div><div class="line">String jarFileName = jarFileName();</div><div class="line">VirtualMachine virtualMachine = VirtualMachine.attach(processId);</div><div class="line"><span class="keyword">try</span> {</div><div class="line">    virtualMachine.loadAgent(jarFileName, <span class="string">"World!"</span>);</div><div class="line">} <span class="keyword">finally</span> {</div><div class="line">    virtualMachine.detach();</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>在收到一个 JAR 文件之后，目标虚拟机会查看该 JAR 的程序清单描述文件（manifest），并定位处在 <code>Premain-Class</code> 属性之下的类。这非常类似于 VM 执行一个<code>main</code>方法的方式。有了一个 Java 代理，VM 和指定的进程 id 就可以查找到一个名为 <code>agentmain</code> 的方法，该方法可以由指定线程中的远程进程来执行:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorldAgent</span> </span>{</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">agentmain</span>(String arg) {</div><div class="line">        System.out.println(<span class="string">"Hello, "</span> + arg);</div><div class="line">    }</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>使用该 API，只要我们知道一个 JVM 的进程 id，就可以来在其上运行代码，打印出一条 <code>Hello, World!</code> 消息。甚至有可能同并不熟 JDK 发行版一部分的 JVM 进行通信，只要附加的 VM 是一个用来访问 tools.jar 的 JDK 安装程序。</p>
+<h2 id="Instrumentation_API：修改目标_VM_的程序">Instrumentation API：修改目标 VM 的程序</h2>
+<p>到目前来看一切顺利。但是除了成功地同目标 VM 建立起了通信之外，我们还不能够修改目标 VM 上的代码以及 BUG。后续的修改，Java 代理可以定义第二参数来接收一个 <code>Instrumentation</code> 的实例 。稍后要实现的接口提供了向几个底层方法的访问途径，它们中的一个就能够对已经加载的代码进行修改。</p>
+<p>为了修正 &quot;X-Pirority&quot; 错字，我们首先来假设为 <code>HeaderUtility</code> 引入了一个修复类，叫做 <code>typo.fix</code>，就在我们下面所开发的 <code>BugFixAgent</code> 后面的代理的 JAR 文件中。此外，我们需要给予代理通过向 manifest 文件添加 <code>Can-Redefine-Classes: true</code> 来替换现有类的能力。有了现在这些东西，我们就可以使用 instrumentation 的 API 来对类进行重新定义，该 API 会接受一对已经加载的类以及用来执行类重定义的字节数组：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BugFixAgent</span> </span>{</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">agentmain</span>(String arg, Instrumentation inst)</div><div class="line">            <span class="keyword">throws</span> Exception {</div><div class="line">        <span class="comment">// only if header utility is on the class path; otherwise,</span></div><div class="line">        <span class="comment">// a class can be found within any class loader by iterating</span></div><div class="line">        <span class="comment">// over the return value of Instrumentation::getAllLoadedClasses</span></div><div class="line">        Class&lt;?&gt; headerUtility = Class.forName(<span class="string">"HeaderUtility"</span>);</div><div class="line"></div><div class="line">        <span class="comment">// copy the contents of typo.fix into a byte array</span></div><div class="line">        ByteArrayOutputStream output = <span class="keyword">new</span> ByteArrayOutputStream();</div><div class="line">        <span class="keyword">try</span> (InputStream input =</div><div class="line">                BugFixAgent.class.getResourceAsStream(<span class="string">"/typo.fix"</span>)) {</div><div class="line">            <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</div><div class="line">            <span class="keyword">int</span> length;</div><div class="line">            <span class="keyword">while</span> ((length = input.read(buffer)) != -<span class="number">1</span>) {</div><div class="line">                output.write(buffer, <span class="number">0</span>, length);</div><div class="line">            }</div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="comment">// Apply the redefinition</span></div><div class="line">        instrumentation.redefineClasses(</div><div class="line">                <span class="keyword">new</span> ClassDefinition(headerUtility, output.toByteArray()));</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>运行上述代码后，HeaderUtility 类会被重定义以对应其修补的版本。对 isPrivileged 的任何后续调用现在将读取正确的头信息。作为一个小的附加说明，JVM 可能会在应用类重定义时执行完全的垃圾回收，并且会对受影响的代码进行重新优化。 总之，这会导致应用程序性能的短时下降。然而，在大多数情况下，这是较之完全重启进程更好的方式。</p>
+<p>当应用代码更改时，要确保新类定义了与它替换的类完全相同的字段、方法和修饰符。 尝试修改任何此类属性的类重定义行为都会导致 <code>UnsupportedOperationException</code>。现在 HotSpot 团队正<a href="http://openjdk.java.net/jeps/159" target="_blank" rel="external">试图去掉这个限制</a>。此外，基于 OpenJDK 的<a href="https://java.net/projects/dcevm" target="_blank" rel="external">动态代码演变虚拟机</a>支持预览此功能。</p>
+<h2 id="使用_Byte_Buddy_来追踪内存泄漏">使用 Byte Buddy 来追踪内存泄漏</h2>
+<p>一个如上述示例的简单的 BUG 修复代理在你熟悉了 instrumentation 的 API 的时候是比较容易实现的。只要更加深入一点，也可以在运行代理的时候，无需手动创建附加的 class 文件，而是通过重写现有的 class 来应用更多通用的代码修改。</p>
+<h3 id="字节码操作">字节码操作</h3>
+<p>编译好的 Java 代码所呈现的是一系列字节码指令。从这个角度来看，一个 Java 方法无非就是一个字节数组，其每一个字节都是在表示一个向运行时发出的指令，或者是最近一个指令的参数。每个字节对应其意义的映射在 <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/" target="_blank" rel="external">《Java 虚拟机规范》</a> 中进行了定义，例如字节 <code>0xB1</code> 就是在指示 VM 从一个带有 void 返回类型的方法返回。因此，对字节码进行增强就是对一个方法的字节数字进行扩展，将我们想要应用的表示额外的业务逻辑指令包含进去。</p>
+<p>当然，逐个字节的操作会特别麻烦，而且容易出错。为了避免手工的处理，许多的库都提供了更高级一点的 API，使用它们不需要我们直接同 Java 字节码打交道。这样的库其中就有一个叫做 <a href="https://github.com/raphw/byte-buddy" target="_blank" rel="external">Byte Buddy</a> (当然我就是该库的作者)。它的功能之一就是能够定义可以在方法原来的代码之前和之后被执行的模板方法。</p>
+<h3 id="分析一个发生泄漏的应用程序">分析一个发生泄漏的应用程序</h3>
+<p>这里的示例假定一个应用程序在生产环境运行了几周之后，被发现发生了泄漏资源的现象。像这样的 BUG 很难去跟踪，因为在一个可观察的测试环境中重现这样一个类似的问题状态比较困难。因此，（目前）要排除这样的问题除了重新启动崩溃的应用程序之外，我们还可以在当前线程中修改应用程序的代码来对泄漏进行跟踪。为了找出哪里才是应用程序泄漏句柄的位置，我们会对任何 <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Closeable.html" target="_blank" rel="external">Closableobject</a> 的生命周期进行跟踪。使用一个 Java 代理，我们可以修改任何构造，或者关闭任意一个这样的对象。有了这个信息，我们就有希望确认哪个对象在哪种情况下会发生泄漏。</p>
+<h3 id="使用模板进行操作">使用模板进行操作</h3>
+<p>为了实现这一行为，我们首先要定义模板，模板里面包含了我们想要添加到任意一个 <code>Closeable</code> 的对象的构造器或者关闭方法调用中去的代码。为了了解发生泄漏的对象是在哪里被创建或者关闭的，我们就会想要在每一个这样的时间发生时将跟踪栈打印出来。针对这一逻辑的模板方法代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">class ConstructionTemplate {</div><div class="line"></div><div class="line">    <span class="annotation">@Advice</span>.OnMethodExit</div><div class="line">    <span class="keyword">static</span> <span class="keyword">void</span> exit(<span class="annotation">@Advice</span>.This Object self) {</div><div class="line">        <span class="keyword">new</span> RuntimeException(<span class="string">"Created: "</span> + self).printStackTrace();</div><div class="line">    }</div><div class="line"></div><div class="line">}</div><div class="line"></div><div class="line">class CloseTemplate {</div><div class="line"></div><div class="line">    <span class="annotation">@Advice</span>.OnMethodEnter</div><div class="line">    <span class="keyword">static</span> <span class="keyword">void</span> enter(<span class="annotation">@Advice</span>.This Object self) {</div><div class="line">        <span class="keyword">new</span> RuntimeException(<span class="string">"Closed: "</span> + self).printStackTrace();</div><div class="line">    }</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>模板方法上加上了 <code>OnMethodExit</code> 和 <code>OnMethodEnter</code> 注解，以通知 Byte Buddy 我们会想要它在什么时候被调用。它们的任何参数都会被加上注解，以指定其在被重新定义的方法中所表示的值。当应用了该模板时，Byte Buddy 接着就会将任何针对一个参数的访问映射到对注解的值进行加载，就好像方法实例一般就是由<code>this</code>来表示的。</p>
+<p>为了将该修改应用到任何实现了 Closable 接口的类，Byte Buddy 提供了一种特定领域语言用以创建来匹配类型和方法的 Java 代理，并在其可应用时对上述模板进行应用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TracingAgent</span> </span>{</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">agentmain</span>(String arg, Instrumentation inst) {</div><div class="line">        <span class="keyword">new</span> AgentBuilder.Default()</div><div class="line">                <span class="comment">// by default, JVM classes are not instrumented</span></div><div class="line">                .ignore(none())</div><div class="line">                .disableClassFormatChanges()</div><div class="line">                .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)</div><div class="line">                .type(isSubTypeOf(Closable.class))</div><div class="line">                .transform((builder, type, loader) -&gt; builder</div><div class="line">                        .visit(Advice</div><div class="line">                                .to(ConstructionTemplate.class)</div><div class="line">                                .on(isConstructor()))</div><div class="line">                        .visit(Advice</div><div class="line">                                .to(CloseTemplate.class)</div><div class="line">                                .on(named(<span class="string">"close"</span>).and(takesArguments(<span class="number">0</span>)))</div><div class="line">                        ))</div><div class="line">                .installOn(inst);</div><div class="line">    }</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>在默认情况下，Byte Buddy 不会对位于 <code>java.*</code> 命名空间中定义的类进行修改，它们可以通过设置一个无效的忽略匹配器来被修改。此外， Byte Buddy 需要在我们对重新转换进行应用的时候被告知不要去修改我们前面讨论过的 class 文件格式。只有这样做，Byte Buddy 才可以自动地侦测到任何实现了 <code>Closable</code> 接口的现有或者未来将会有的类型，并将上述的模板代码添加到其构造器和关闭方法。</p>
+<h3 id="附加代理">附加代理</h3>
+<p>Byte Buddy 还提供了在运行时附加一个代理的便利方法。为了应对 tools.jar 位置和虚拟机类型的差异, Byte Buddy 给附件添加了一个抽象层，在这一层可以自动检测到正确的设置。在将上述的代理打包到一个 JAR 文件中之后，就可以通过调用如下代码来附加到发生资源泄漏的进程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">File jarFile = getAgent();</div><div class="line">String processId = getProcessId();</div><div class="line">ByteBuddyAgent.install(jarFile, processId);</div></pre></td></tr></table></figure>
+
+<p>当然，上述代理很快就会为手动处理创建太多的输出。为了提供更多的便利，在释放之前再来收集被创建的对象也许会更有用。通过创建一个 Java 代理，这样也可以同编写一个 Java 应用程序来实现此行为一样的简单。</p>
+<h2 id="总结">总结</h2>
+<p>在本文中，我们深入了解了 attach API，它使得将一个 Java 代理按顺序注入到任意一个运行中的 JVM 进程成为可能。该代理被表示为一个 JAR 文件，里面包含了一个类，类里面有一个远程进程可以在一个指定线程中执行的 agentmain 方法。该方法可以接收一个 Instrumentation 接口的实例作为参数，可以读已经加载的类进行重新定义。对代码的重定义，既可以通过用打了补丁的版本替换整个 class 文件来实现，也可以通过对现有类的字节码进行修改来实现，这样的操作可以比较简单的用诸如 Byte Buddy 这样的库来完成。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>原文: <a href="https://www.sitepoint.com/fixing-bugs-in-running-java-code-with-dynamic-attach/" target="_blank" rel="external">Fixing Bugs in Running Java Code with Dynamic Attach</a> by Rafael Winterhalter</p>
+<p><a href="https://www.oschina.net" target="_blank" rel="external">开源中国</a>组织翻译: <a href="http://www.oschina.net/translate/fixing-bugs-in-running-java-code-with-dynamic-attach" target="_blank" rel="external">在 Java 中运用动态挂载实现 Bug 的热修复</a> by TedCruz、<br>无若、LeoXu、Tocy等。</p>
+<p>大多数 JVM 具备 Java 的 <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/jpda/enhancements1.4.html#hotswap" target="_blank" rel="external">HotSwap</a> 特性，大部分开发者认为它仅仅是一个调试工具。利用这一特性,有可能在不重启 Java 进程条件下，改变 Java 方法的实现。典型的例子是使用 IDE 来编码。然而 HotSwap 可以在生产环境中实现这一功能。通过这种方式，不用停止运行程序，就可以扩展在线的应用程序，或者在运行的项目上修复小的错误。这篇文章中，我将演示动态绑定、应用运行期代码变化进行绑定、介绍一些工具 API 以及 <a href="http://bytebuddy.net/" target="_blank" rel="external">Byte Buddy 库</a>，这个库提供了一些 API 代码改变更方便。</p>
+]]>
+    
+    </summary>
+    
+      <category term="Java" scheme="http://colobu.com/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[10秒钟，让你的方法变为RPC服务]]></title>
+    <link href="http://colobu.com/2018/02/13/make-your-methods-as-services-in-10-seconds/"/>
+    <id>http://colobu.com/2018/02/13/make-your-methods-as-services-in-10-seconds/</id>
+    <published>2018-02-13T06:04:01.000Z</published>
+    <updated>2018-02-27T13:03:20.322Z</updated>
+    <content type="html"><![CDATA[<p><a href="https://github.com/smallnest/rpcx" target="_blank" rel="external">rpcx</a>一个服务治理的Go RPC框架， 拥有非常多的特性，支持跨语言的服务调用。 众多的特性可以参考<a href="https://doc.rpcx.site" target="_blank" rel="external">doc.rpcx.site</a>。它的服务治理的特性深受阿里巴巴的Dubbo框架的启发。</p>
+<p>在实际的产品应用中，用户使用两台服务器+8台日志搜集服务(Client)，轻松处理每天几十亿的服务调用， 除了中间一个路由器硬件闪断， 整个系统平稳运行多半年。 相比较之前Java的实现， 服务器节省了一半。 用户使用rpcx框架重构后的系统每月为公司节省了几十万元的成本。</p>
+<p>rpcx框架的一个设计哲学就是<strong>简单</strong>。不希望用户需要花费大量的时间在框架的学习上，并且不需要proto文件或者重复且冗余的服务配置。最少只需要10行代码就可以创建一个服务， 如果需要额外的配置，也只需要几十行的代码。</p>
+<p>虽然rpcx开发简单，但是作为开发人员来说，如果可以更加的偷懒， 那更是极好的一件事情了，这就是<a href="https://github.com/smallnest/rpcx/tree/master/tool/xgen" target="_blank" rel="external">xgen</a>开发的目的。</p>
+<p>这个工具可以搜寻指定的<code>package</code>下可以配置成rpcx服务的类型， 并且生成一个服务器程序，将这些服务注册到服务器程序中。你可以指定是否需要<code>zookeeper</code>、<code>etcd</code>、<code>consul</code>作为注册中心。</p>
+<p>这个工具的开发参考了Go的tools的实现以及DigitalOcean公司的Fatih Arslan<br>开发的<a href="https://github.com/fatih/gomodifytags" target="_blank" rel="external">gomodifytags</a>的实现。</p>
+<a id="more"></a>
+<p>首先看一下这个工具参数:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$ xgen -h</div><div class="line">Usage of xgen:</div><div class="line">  -o string</div><div class="line">    	specify the filename of the output</div><div class="line">  -pkg</div><div class="line">    	process the whole package instead of just the given file</div><div class="line">  -r string</div><div class="line">    	registry type. support etcd, consul, zookeeper, mdns</div><div class="line">  -tags string</div><div class="line">    	build tags to add to generated file</div></pre></td></tr></table></figure>
+
+<p>你可以使用 <code>xgen file1.go file2.go file3.go</code> 搜寻指定的文件生成服务，也可以 <code>xgen -pkg github.com/rpcx-ecosystem/rpcx-examples3/xgen</code> 为<code>GOPATH</code>中指定的<code>package</code>生成服务。 <code>-pkg</code>选项优先于程序参数。</p>
+<p><code>-o</code> 选项指定生成的程序输出到哪个文件，如果不指定，则输出到控制台<code>Stdout</code>。</p>
+<p><code>-r</code> 选项指定注册中心的类型，支持<code>zookeeper</code>、<code>etcd</code>、<code>consul</code> 和 <code>mdns</code>。如果不指定,则采用点对点的rpc调用方式。</p>
+<p><code>-tags</code> 选项指定生成的文件是否要加上<code>build conditions</code>。</p>
+<p>看一个例子， <a href="https://github.com/rpcx-ecosystem/rpcx-examples3/tree/master/xgen" target="_blank" rel="external">rpcx-examples3/xgen</a>中有一个server.go文件，它定义几个类型和方法。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> xgen</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"context"</span></div><div class="line">	<span class="string">"fmt"</span></div><div class="line">	<span class="string">"time"</span></div><div class="line"></div><div class="line">	example <span class="string">"github.com/rpcx-ecosystem/rpcx-examples3"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">type</span> Arith <span class="typename">int</span></div><div class="line"></div><div class="line"><span class="keyword">func</span> (t *Arith) Mul(ctx context.Context, args example.Args, reply *example.Reply) error {</div><div class="line">	reply.C = args.A * args.B</div><div class="line">	<span class="keyword">return</span> <span class="constant">nil</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">func</span> (t *Arith) Add(ctx context.Context, args *example.Args, reply *example.Reply) error {</div><div class="line">	reply.C = args.A + args.B</div><div class="line">	<span class="keyword">return</span> <span class="constant">nil</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">type</span> Echo <span class="typename">string</span></div><div class="line"></div><div class="line"><span class="keyword">func</span> (s *Echo) Echo(ctx context.Context, args <span class="typename">string</span>, reply *<span class="typename">string</span>) error {</div><div class="line">	*reply = fmt.Sprintf(<span class="string">"Hello %s from %s"</span>, args, *reply)</div><div class="line">	<span class="keyword">return</span> <span class="constant">nil</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">type</span> TimeS <span class="keyword">struct</span>{}</div><div class="line"></div><div class="line"><span class="keyword">func</span> (s *TimeS) Time(ctx context.Context, args time.Time, reply *time.Time) error {</div><div class="line">	*reply = time.Now()</div><div class="line">	<span class="keyword">return</span> <span class="constant">nil</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>这三个类型<code>Arith</code>、<code>Echo</code>、<code>TimeS</code> 都有符合rpcx服务的方法。</p>
+<blockquote>
+<p>rpcx的服务的方法需要满足下面的规则:</p>
+<ul>
+<li>类型和参数都是exported</li>
+<li>方法有三个参数，并且第一个参数是<code>context.Context</code></li>
+<li>方法的第三个参数是指针类型</li>
+<li>方法类型为error</li>
+</ul>
+</blockquote>
+<p>现在你就可以使用<code>xgen</code>生成服务端代码。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xgen -o cmd/main.go -r <span class="string">"etcd"</span> -pkg github.com/rpcx-ecosystem/rpcx-examples3/xgen</div></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xgen -o cmd/main.go -r <span class="string">"etcd"</span> ./server.go</div></pre></td></tr></table></figure>
+
+<p>这样就生成了一个服务器端的代码。</p>
+<p>你可以运行你的服务器了: <code>go run -tags &quot;etcd&quot; cmd/main.go</code>,就这么简单。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><a href="https://github.com/smallnest/rpcx" target="_blank" rel="external">rpcx</a>一个服务治理的Go RPC框架， 拥有非常多的特性，支持跨语言的服务调用。 众多的特性可以参考<a href="https://doc.rpcx.site" target="_blank" rel="external">doc.rpcx.site</a>。它的服务治理的特性深受阿里巴巴的Dubbo框架的启发。</p>
+<p>在实际的产品应用中，用户使用两台服务器+8台日志搜集服务(Client)，轻松处理每天几十亿的服务调用， 除了中间一个路由器硬件闪断， 整个系统平稳运行多半年。 相比较之前Java的实现， 服务器节省了一半。 用户使用rpcx框架重构后的系统每月为公司节省了几十万元的成本。</p>
+<p>rpcx框架的一个设计哲学就是<strong>简单</strong>。不希望用户需要花费大量的时间在框架的学习上，并且不需要proto文件或者重复且冗余的服务配置。最少只需要10行代码就可以创建一个服务， 如果需要额外的配置，也只需要几十行的代码。</p>
+<p>虽然rpcx开发简单，但是作为开发人员来说，如果可以更加的偷懒， 那更是极好的一件事情了，这就是<a href="https://github.com/smallnest/rpcx/tree/master/tool/xgen" target="_blank" rel="external">xgen</a>开发的目的。</p>
+<p>这个工具可以搜寻指定的<code>package</code>下可以配置成rpcx服务的类型， 并且生成一个服务器程序，将这些服务注册到服务器程序中。你可以指定是否需要<code>zookeeper</code>、<code>etcd</code>、<code>consul</code>作为注册中心。</p>
+<p>这个工具的开发参考了Go的tools的实现以及DigitalOcean公司的Fatih Arslan<br>开发的<a href="https://github.com/fatih/gomodifytags" target="_blank" rel="external">gomodifytags</a>的实现。</p>
+]]>
+    
+    </summary>
+    
+      <category term="Go" scheme="http://colobu.com/categories/Go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[[转][译]只用200行Go代码写一个自己的区块链]]></title>
+    <link href="http://colobu.com/2018/02/05/code-your-own-blockchain-in-less-than-200-lines-of-go/"/>
+    <id>http://colobu.com/2018/02/05/code-your-own-blockchain-in-less-than-200-lines-of-go/</id>
+    <published>2018-02-05T05:23:12.000Z</published>
+    <updated>2018-02-27T13:03:20.262Z</updated>
+    <content type="html"><![CDATA[<p>这篇文章的原文为英文，出自 Coral Health公司: <a href="https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc" target="_blank" rel="external">Code your own blockchain in less than 200 lines of Go!</a>，</p>
+<p>本篇转载的译文来自魏佳翻译的: <a href="http://www.10tiao.com/html/175/201801/2653549361/1.html" target="_blank" rel="external">只用200行Go代码写一个自己的区块链！</a>,高可用架构的公众号， 开头部分我改为了原文的直接翻译。</p>
+<a id="more"></a>
+<p>这篇教程改编自<a href="https://medium.com/@lhartikk/a-blockchain-in-200-lines-of-code-963cc1cc0e54" target="_blank" rel="external">Javascript版本实现的区块链文章</a> (译文: <a href="https://mp.weixin.qq.com/s/Ghgaxt22Ob2p-Q7cuzKHNA" target="_blank" rel="external">200行代码就能写出区块链</a>)。我们使用Go语言实现了它，并且增加了一些额外的功能，比如可以在浏览器中查看区块链信息。如果对本教程有什么问题，欢迎加入 <a href="https://t.me/joinchat/FX6A7UThIZ1WOUNirDS_Ew" target="_blank" rel="external">Telegram chat</a>讨论。</p>
+<p>因为我们是一家从事医疗健康领域的科技公司，所以我们采用人类平静时的心跳数据（BPM心率）作为这篇文章中的示例数据。让我们先来统计一下你一分钟内的心跳数，然后记下来，这个数字可能会在接下来的内容中用到。</p>
+<p>几乎每个开发者都听说过区块链但是大部分人还是不清楚它是如何工作的。他们可能只是因为比特币才知道区块链，或许还知道一些智能合约的东东。这篇文章尝试帮助你使用Go编写你自己的简单的区块链。通过本教程，你可以编写和运行一个本地的区块链，并且可以在浏览器中查看它。</p>
+<p>通过本文，你将可以做到：</p>
+<ul>
+<li>创建自己的区块链</li>
+<li>理解 hash 函数是如何保持区块链的完整性</li>
+<li>如何创造并添加新的块</li>
+<li>多个节点如何竞争生成块</li>
+<li>通过浏览器来查看整个链</li>
+<li>所有其他关于区块链的基础知识</li>
+</ul>
+<p>但是，对于比如<strong>工作量证明算法（PoW）</strong> 以及 <strong>权益证明算法（PoS）</strong>这类的共识算法文章中将不会涉及。同时为了让你更清楚的查看区块链以及块的添加，我们将网络交互的过程简化了，关于 P2P 网络比如“全网广播”这个过程等内容将在下一篇文章中补上。</p>
+<h2 id="让我们开始吧！">让我们开始吧！</h2>
+<h3 id="设置">设置</h3>
+<p>我们假设你已经具备一点 Go 语言的开发经验。在安装和配置 Go 开发环境后之后，我们还要获取以下一些依赖：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">go get github.com/davecgh/go-spew/spew</div></pre></td></tr></table></figure>
+
+<p><code>spew</code> 可以帮助我们在 <code>console</code> 中直接查看 <code>struct</code> 和 <code>slice</code> 这两种数据结构。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">go get github.com/gorilla/mux</div></pre></td></tr></table></figure>
+
+<p><code>Gorilla</code> 的 mux 包非常流行， 我们用它来写 web handler。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">go get github.com/joho/godotenv</div></pre></td></tr></table></figure>
+
+<p>godotenv 可以帮助我们读取项目根目录中的 <code>.env</code> 配置文件，这样我们就不用将 http port 之类的配置硬编码进代码中了。比如像这样：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">ADDR</span>=<span class="string">8080</span></div></pre></td></tr></table></figure>
+
+<p>接下来，我们创建一个 <code>main.go</code> 文件。之后我们的大部分工作都围绕这个文件，让我开始编码吧！</p>
+<h3 id="导入依赖">导入依赖</h3>
+<p>我们将所有的依赖包以声明的方式导入进去：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"crypto/sha256"</span></div><div class="line">    <span class="string">"encoding/hex"</span></div><div class="line">    <span class="string">"encoding/json"</span></div><div class="line">    <span class="string">"io"</span></div><div class="line">    <span class="string">"log"</span></div><div class="line">    <span class="string">"net/http"</span></div><div class="line">    <span class="string">"os"</span></div><div class="line">    <span class="string">"time"</span></div><div class="line"></div><div class="line">    <span class="string">"github.com/davecgh/go-spew/spew"</span></div><div class="line">    <span class="string">"github.com/gorilla/mux"</span></div><div class="line">    <span class="string">"github.com/joho/godotenv"</span></div><div class="line">)</div></pre></td></tr></table></figure>
+
+<h3 id="数据模型">数据模型</h3>
+<p>接着我们来定义一个结构体，它代表组成区块链的每一个块的数据模型：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> Block <span class="keyword">struct</span> {</div><div class="line">    Index     <span class="typename">int</span></div><div class="line">    Timestamp <span class="typename">string</span></div><div class="line">    BPM       <span class="typename">int</span></div><div class="line">    Hash      <span class="typename">string</span></div><div class="line">    PrevHash  <span class="typename">string</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<ul>
+<li><code>Index</code> 是这个块在整个链中的位置</li>
+<li><code>Timestamp</code> 显而易见就是块生成时的时间戳</li>
+<li><code>Hash</code> 是这个块通过 SHA256 算法生成的散列值</li>
+<li><code>PrevHash</code> 代表前一个块的 SHA256 散列值</li>
+<li><code>BPM</code> 每分钟心跳数，也就是心率。还记得文章开头说到的吗？</li>
+</ul>
+<p>接着，我们再定义一个结构表示整个链，最简单的表示形式就是一个 <code>Block</code> 的 slice：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Blockchain []Block</div></pre></td></tr></table></figure>
+
+<p>我们使用散列算法（SHA256）来确定和维护链中块和块正确的顺序，确保每一个块的 PrevHash 值等于前一个块中的 Hash 值，这样就以正确的块顺序构建出链：</p>
+<p><img src="1.png" alt=""></p>
+<h3 id="散列和生成块">散列和生成块</h3>
+<p>我们为什么需要散列？主要是两个原因：</p>
+<ul>
+<li>在节省空间的前提下去唯一标识数据。散列是用整个块的数据计算得出，在我们的例子中，将整个块的数据通过 <code>SHA256</code> 计算成一个定长不可伪造的字符串。</li>
+<li>维持链的完整性。通过存储前一个块的散列值，我们就能够确保每个块在链中的正确顺序。任何对数据的篡改都将改变散列值，同时也就破坏了链。以我们从事的医疗健康领域为例，比如有一个恶意的第三方为了调整“人寿险”的价格，而修改了一个或若干个块中的代表不健康的 BPM 值，那么整个链都变得不可信了。</li>
+</ul>
+<p>我们接着写一个函数，用来计算给定的数据的 SHA256 散列值：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> calculateHash(block Block) <span class="typename">string</span> {</div><div class="line">    record := <span class="typename">string</span>(block.Index) + block.Timestamp + <span class="typename">string</span>(block.BPM) + block.PrevHash</div><div class="line">    h := sha256.New()</div><div class="line">    h.Write([]<span class="typename">byte</span>(record))</div><div class="line">    hashed := h.Sum(<span class="constant">nil</span>)</div><div class="line">    <span class="keyword">return</span> hex.EncodeToString(hashed)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>这个 <code>calculateHash</code> 函数接受一个块，通过块中的 Index，Timestamp，BPM，以及 PrevHash 值来计算出 SHA256 散列值。接下来我们就能便携一个生成块的函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> generateBlock(oldBlock Block, BPM <span class="typename">int</span>) (Block, error) {</div><div class="line">    <span class="keyword">var</span> newBlock Block</div><div class="line"></div><div class="line">    t := time.Now()</div><div class="line">    newBlock.Index = oldBlock.Index +<span class="number"> 1</span></div><div class="line">    newBlock.Timestamp = t.String()</div><div class="line">    newBlock.BPM = BPM</div><div class="line">    newBlock.PrevHash = oldBlock.Hash</div><div class="line">    newBlock.Hash = calculateHash(newBlock)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> newBlock, <span class="constant">nil</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>其中，<code>Index</code> 是从给定的前一块的 <code>Index</code> 递增得出，时间戳是直接通过 <code>time.Now()</code> 函数来获得的，<code>Hash</code> 值通过前面的 <code>calculateHash</code> 函数计算得出，<code>PrevHash</code> 则是给定的前一个块的 <code>Hash</code> 值。</p>
+<h3 id="校验块">校验块</h3>
+<p>搞定了块的生成，接下来我们需要有函数帮我们判断一个块是否有被篡改。检查 Index 来看这个块是否正确得递增，检查 PrevHash 与前一个块的 Hash 是否一致，再来通过 calculateHash 检查当前块的 Hash 值是否正确。通过这几步我们就能写出一个校验函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> isBlockValid(newBlock, oldBlock Block) <span class="typename">bool</span> {</div><div class="line">    <span class="keyword">if</span> oldBlock.Index<span class="number">+1</span> != newBlock.Index {</div><div class="line">        <span class="keyword">return</span> <span class="constant">false</span></div><div class="line">    }</div><div class="line">    <span class="keyword">if</span> oldBlock.Hash != newBlock.PrevHash {</div><div class="line">        <span class="keyword">return</span> <span class="constant">false</span></div><div class="line">    }</div><div class="line">    <span class="keyword">if</span> calculateHash(newBlock) != newBlock.Hash {</div><div class="line">        <span class="keyword">return</span> <span class="constant">false</span></div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> <span class="constant">true</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>除了校验块以外，我们还会遇到一个问题：两个节点都生成块并添加到各自的链上，那我们应该以谁为准？这里的细节我们留到下一篇文章，这里先让我们记住一个原则：始终选择最长的链。</p>
+<p><img src="2.png" alt=""></p>
+<p>通常来说，更长的链表示它的数据（状态）是更新的，所以我们需要一个函数</p>
+<p>能帮我们将本地的过期的链切换成最新的链：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">func replaceChain(newBlocks []Block) {</div><div class="line">    <span class="keyword">if</span> len(newBlocks) &gt; len(Blockchain) {</div><div class="line">        Blockchain = newBlocks</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>到这一步，我们基本就把所有重要的函数完成了。接下来，我们需要一个方便直观的方式来查看我们的链，包括数据及状态。通过浏览器查看 web 页面可能是最合适的方式！</p>
+<h3 id="Web_服务">Web 服务</h3>
+<p>我猜你一定对传统的 web 服务及开发非常熟悉，所以这部分你肯定一看就会。<br>借助 Gorilla/mux 包，我们先写一个函数来初始化我们的 web 服务：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> run() error {</div><div class="line">    mux := makeMuxRouter()</div><div class="line">    httpAddr := os.Getenv(<span class="string">"ADDR"</span>)</div><div class="line">    log.Println(<span class="string">"Listening on "</span>, os.Getenv(<span class="string">"ADDR"</span>))</div><div class="line">    s := &http.Server{</div><div class="line">        Addr:           <span class="string">":"</span> + httpAddr,</div><div class="line">        Handler:        mux,</div><div class="line">        ReadTimeout:   <span class="number"> 10</span> * time.Second,</div><div class="line">        WriteTimeout:  <span class="number"> 10</span> * time.Second,</div><div class="line">        MaxHeaderBytes:<span class="number"> 1</span> &lt;&lt;<span class="number"> 20</span>,</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">if</span> err := s.ListenAndServe(); err != <span class="constant">nil</span> {</div><div class="line">        <span class="keyword">return</span> err</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="constant">nil</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>其中的端口号是通过前面提到的 .env 来获得，再添加一些基本的配置参数，这个 web 服务就已经可以 listen and serve 了！<br>接下来我们再来定义不同 endpoint 以及对应的 handler。例如，对“/”的 GET 请求我们可以查看整个链，“/”的 POST 请求可以创建块。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> makeMuxRouter() http.Handler {</div><div class="line">    muxRouter := mux.NewRouter()</div><div class="line">    muxRouter.HandleFunc(<span class="string">"/"</span>, handleGetBlockchain).Methods(<span class="string">"GET"</span>)</div><div class="line">    muxRouter.HandleFunc(<span class="string">"/"</span>, handleWriteBlock).Methods(<span class="string">"POST"</span>)</div><div class="line">    <span class="keyword">return</span> muxRouter</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>GET 请求的 handler：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> handleGetBlockchain(w http.ResponseWriter, r *http.Request) {</div><div class="line">    bytes, err := json.MarshalIndent(Blockchain, <span class="string">""</span>, <span class="string">"  "</span>)</div><div class="line">    <span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">        http.Error(w, err.Error(), http.StatusInternalServerError)</div><div class="line">        <span class="keyword">return</span></div><div class="line">    }</div><div class="line">    io.WriteString(w, <span class="typename">string</span>(bytes))</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>为了简化，我们直接以 JSON 格式返回整个链，你可以在浏览器中访问 localhost:8080 或者 127.0.0.1:8080 来查看（这里的8080就是你在 .env 中定义的端口号 ADDR）。</p>
+<p>POST 请求的 handler 稍微有些复杂，我们先来定义一下 POST 请求的 payload：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> Message <span class="keyword">struct</span> {</div><div class="line">    BPM <span class="typename">int</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>再看看 handler 的实现：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> handleWriteBlock(w http.ResponseWriter, r *http.Request) {</div><div class="line">    <span class="keyword">var</span> m Message</div><div class="line"></div><div class="line">    decoder := json.NewDecoder(r.Body)</div><div class="line">    <span class="keyword">if</span> err := decoder.Decode(&m); err != <span class="constant">nil</span> {</div><div class="line">        respondWithJSON(w, r, http.StatusBadRequest, r.Body)</div><div class="line">        <span class="keyword">return</span></div><div class="line">    }</div><div class="line">    <span class="keyword">defer</span> r.Body.Close()</div><div class="line"></div><div class="line">    newBlock, err := generateBlock(Blockchain[<span class="built_in">len</span>(Blockchain<span class="number">)-1</span>], m.BPM)</div><div class="line">    <span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">        respondWithJSON(w, r, http.StatusInternalServerError, m)</div><div class="line">        <span class="keyword">return</span></div><div class="line">    }</div><div class="line">    <span class="keyword">if</span> isBlockValid(newBlock, Blockchain[<span class="built_in">len</span>(Blockchain<span class="number">)-1</span>]) {</div><div class="line">        newBlockchain := <span class="built_in">append</span>(Blockchain, newBlock)</div><div class="line">        replaceChain(newBlockchain)</div><div class="line">        spew.Dump(Blockchain)</div><div class="line">    }</div><div class="line"></div><div class="line">    respondWithJSON(w, r, http.StatusCreated, newBlock)</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>我们的 POST 请求体中可以使用上面定义的 payload，比如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">{"<span class="attribute">BPM</span>":<span class="value"><span class="number">75</span></span>}</div></pre></td></tr></table></figure>
+
+<p>还记得前面我们写的 generateBlock 这个函数吗？它接受一个“前一个块”参数，和一个 BPM 值。POST handler 接受请求后就能获得请求体中的 BPM 值，接着借助生成块的函数以及校验块的函数就能生成一个新的块了！</p>
+<p>除此之外，你也可以：</p>
+<p>使用spew.Dump 这个函数可以以非常美观和方便阅读的方式将 struct、slice 等数据打印在控制台里，方便我们调试。</p>
+<p>测试 POST 请求时，可以使用 POSTMAN 这个 chrome 插件，相比 curl它更直观和方便。</p>
+<p>POST 请求处理完之后，无论创建块成功与否，我们需要返回客户端一个响应：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> respondWithJSON(w http.ResponseWriter, r *http.Request, code <span class="typename">int</span>, payload <span class="keyword">interface</span>{}) {</div><div class="line">    response, err := json.MarshalIndent(payload, <span class="string">""</span>, <span class="string">"  "</span>)</div><div class="line">    <span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">        w.WriteHeader(http.StatusInternalServerError)</div><div class="line">        w.Write([]<span class="typename">byte</span>(<span class="string">"HTTP 500: Internal Server Error"</span>))</div><div class="line">        <span class="keyword">return</span></div><div class="line">    }</div><div class="line">    w.WriteHeader(code)</div><div class="line">    w.Write(response)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="快要大功告成了">快要大功告成了</h3>
+<p>接下来，我们把这些关于区块链的函数，web 服务的函数“组装”起来：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">func</span> main() {</div><div class="line">    err := godotenv.Load()</div><div class="line">    <span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">        log.Fatal(err)</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">go</span> <span class="keyword">func</span>() {</div><div class="line">        t := time.Now()</div><div class="line">        genesisBlock := Block<span class="number">{0</span>, t.String(),<span class="number"> 0</span>, <span class="string">""</span>, <span class="string">""</span>}</div><div class="line">        spew.Dump(genesisBlock)</div><div class="line">        Blockchain = <span class="built_in">append</span>(Blockchain, genesisBlock)</div><div class="line">    }()</div><div class="line">    log.Fatal(run())</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>这里的 <code>genesisBlock （创世块）</code>是 <code>main</code> 函数中最重要的部分，通过它来初始化区块链，毕竟第一个块的 <code>PrevHash</code> 是空的。</p>
+<h2 id="哦耶！完成了">哦耶！完成了</h2>
+<p>你们可以从这里获得完整的代码：<a href="https://github.com/mycoralhealth/blockchain-tutorial" target="_blank" rel="external">Github repo</a>。<br>让我们来启动它：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">go run main.go</div></pre></td></tr></table></figure>
+
+<p>在终端中，我们可以看到 web 服务器启动的日志信息，并且打印出了创世块的信息：<br><img src="3.png" alt=""></p>
+<p>接着我们打开浏览器，访问 localhost:8080 这个地址，我们可以看到页面中展示了当前整个区块链的信息（当然，目前只有一个创世块）：<br><img src="4.png" alt=""></p>
+<p>接着，我们再通过 POSTMAN 来发送一些 POST 请求：<br><img src="5.png" alt=""></p>
+<p>刷新刚才的页面，现在的链中多了一些块，正是我们刚才生成的，同时你们可以看到，块的顺序和散列值都正确。<br><img src="6.png" alt=""></p>
+<h3 id="下一步">下一步</h3>
+<p>刚刚我们完成了一个自己的区块链，虽然很简单（陋），但它具备块生成、散列计算、块校验等基本能力。接下来你就可以继续深入的学习区块链的其他重要知识，比如工作量证明、权益证明这样的共识算法，或者是智能合约、Dapp、侧链等等。</p>
+<p>目前这个实现中不包括任何 P2P 网络的内容，我们会在下一篇文章中补充这部分内容，当然，我们鼓励你在这个基础上自己实践一遍！</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>这篇文章的原文为英文，出自 Coral Health公司: <a href="https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc" target="_blank" rel="external">Code your own blockchain in less than 200 lines of Go!</a>，</p>
+<p>本篇转载的译文来自魏佳翻译的: <a href="http://www.10tiao.com/html/175/201801/2653549361/1.html" target="_blank" rel="external">只用200行Go代码写一个自己的区块链！</a>,高可用架构的公众号， 开头部分我改为了原文的直接翻译。</p>
+]]>
+    
+    </summary>
+    
+      <category term="Go" scheme="http://colobu.com/categories/Go/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[流行的rpc框架benchmark 2018新春版]]></title>
     <link href="http://colobu.com/2018/01/31/benchmark-2018-spring-of-popular-rpc-frameworks/"/>
     <id>http://colobu.com/2018/01/31/benchmark-2018-spring-of-popular-rpc-frameworks/</id>
     <published>2018-01-31T07:00:38.000Z</published>
-    <updated>2018-02-01T00:06:49.711Z</updated>
+    <updated>2018-02-27T13:03:20.262Z</updated>
     <content type="html"><![CDATA[<p>随着公司规模的扩大，以及业务量的激增，单体应用逐步演化为服务/微服务的架构模式， 服务之间的调用大多采用rpc的方式调用，或者消息队列的方式进行解耦。几乎每个大厂都会创建自己的rpc框架，或者基于知名的rpc框架进行改造。</p>
 <p>目前, rpc框架主要沿着两条路线发展，一个是目标为了跨语言，服务端可以用不同的语言实现，客户端也可以用不同的语言实现，不同的语言实现的客户端和服务器端可以互相调用。很显然，要支持不同的语言，需要基于那种语言实现相同协议的框架，并且协议设计应该也是跨语言的，其中比较典型的是 grpc,基于同一个IDL，可以生成不同语言的代码，并且语言的支持也非常的多。</p>
 <p>另一个rpc框架发展的目标是支持服务治理，主要的精力放在服务发现、路由、容错处理等方面，主要围绕一个语言开发，可能也有一些第三方曲折的实现服务的调用和服务的实现，这其中的代表，也是比较早的开源的框架就是阿里巴巴的dubbo。</p>
@@ -81,19 +458,35 @@
 
 
 <p>平均延迟 rpcx和hprose重合。</p>
+<p><strong>解读</strong>: 简单而高效的Go标准库的rpc性能优异，因为没有额外的服务治理和插件、过滤器的设置，它本身采用一个简单的<code>header</code> + <code>payload</code>的协议，运行高效。</p>
+<p>rpcx表现不错，排名第二，并发量变化时吞吐率基本保持不变。</p>
+<p>hprose在并发量低的情况下排名第三，但是在并发量大的情况下和rpcx持平。</p>
+<p>其次是Google的grpc，吞吐率基本为Go标准rpc的一半。grpc经过去年下半年的性能优化，已经提升了不少的性能。</p>
+<p>再其次是thrift,吞吐率在7万左右。</p>
+<p>最后几个基本是dubbo、motan和twirp。</p>
+<p>基本上，基于Go的rpc框架吞吐率还是很强大的, 除了twirp。</p>
 <p>这里有一个奇怪的现象，在0ms这种case下， Go实现的框架P99延迟很大，但是在10ms/30ms下去很小。我在测试web框架的时候一位外国程序员也指出了一个问题，在业务逻辑中加上了runtime.Gosched()解决了这个问题。我想rpc测试也是这个问题，因为服务实现中没有机会让调度器抢走这个goroutine的执行，导致goroutine排队，并不能均匀地执行goroutine，我会在将来的时候验证这个猜想。</p>
 <h3 id="处理时间_10ms">处理时间 10ms</h3>
-<p>当处理时间为10ms时， 本测试的理论上的吞吐率 = clients <em> (1000ms/10ms) = clients </em> 100. 实际由于服务的调度等原因，肯定是达不到这个吞吐率。</p>
+<p>当处理时间为10ms时， 本测试的理论上的吞吐率 = clients <em> (1000ms/10ms) = clients \</em> 100. 实际由于服务的调度等原因，肯定是达不到这个吞吐率。</p>
 <table><tr><th>吞吐率</th><th>平均延迟</th><th>P99 延迟</th></tr><tr><td width="30%"><img src="p10-throughput.png" alt=""></td><td width="30%"><img src="p10-latency.png" alt=""></td><td width="30%"><img src="p10-p99.png" alt=""></td></tr></table>
 
 
+<p>当业务处理时间为10毫秒的时候，服务器需要花一部分时间在线程/goroutine调度上，对于Go来说，它基于goroutine实现并发，对于Java，它基于线程池。</p>
+<p>排名前4位的框架基本未变，go stdrpc、rpcx、hprose从趋势上看，随着并发数的增大，还有提升的空间，但是对于grpc,它基本处于一个平缓的趋势了。</p>
+<p>其它几种Java框架已经呈现下降的趋势。</p>
+<p>当然，在并发数很小的时候，吞吐率差别还不是很明显，基本请求都在10+ms的时候返回，都接近理论数字。</p>
+<p>吞吐率高的rpc框架的延迟反而很低， 这也正说明了吞吐率高的原因。在并发数很大的时候，延迟已经远远大于业务处理时间了。</p>
 <h3 id="处理时间_30ms">处理时间 30ms</h3>
-<p>当处理时间为30ms时， 本测试的理论上的吞吐率 = clients <em> (1000ms/30ms) = clients </em> 33. 实际由于服务的调度等原因，肯定是达不到这个吞吐率。</p>
+<p>当处理时间为30ms时， 本测试的理论上的吞吐率 = clients <em> (1000ms/30ms) = clients \</em> 33. 实际由于服务的调度等原因，肯定是达不到这个吞吐率。</p>
 <table><tr><th>吞吐率</th><th>平均延迟</th><th>P99 延迟</th></tr><tr><td width="30%"><img src="p30-throughput.png" alt=""></td><td width="30%"><img src="p30-latency.png" alt=""></td><td width="30%"><img src="p30-p99.png" alt=""></td></tr></table>
 
+
+<p>业务处理时间为30ms的时候，排名前4位的还是go stdrpc、rpcx、hprose和grpc。</p>
+<p>排名第五的是twirp，它也是用Go开发的。第6位是dubbo，在2000并发的情况下性能还好。</p>
 <blockquote>
 <p>在这个月全食的凌晨终于完成了测试，也欢迎大家提供bench代码和讨论。</p>
 </blockquote>
+<p><strong>Updated</strong>: 正好看到另外一位同学做的java的rpc/restful框架的<a href="https://mp.weixin.qq.com/s/TTcQJM9s5OhyY7dmpJlcfQ" target="_blank" rel="external">benchmark</a>, 可以和本文的对照。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>随着公司规模的扩大，以及业务量的激增，单体应用逐步演化为服务/微服务的架构模式， 服务之间的调用大多采用rpc的方式调用，或者消息队列的方式进行解耦。几乎每个大厂都会创建自己的rpc框架，或者基于知名的rpc框架进行改造。</p>
@@ -1530,207 +1923,6 @@ bar <span class="keyword">int</span>
       <category term="Kafka" scheme="http://colobu.com/tags/Kafka/"/>
     
       <category term="大数据" scheme="http://colobu.com/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[GOMAXPROCS需要设置吗？]]></title>
-    <link href="http://colobu.com/2017/10/11/interesting-things-about-GOMAXPROCS/"/>
-    <id>http://colobu.com/2017/10/11/interesting-things-about-GOMAXPROCS/</id>
-    <published>2017-10-11T06:27:38.000Z</published>
-    <updated>2017-10-26T15:14:07.564Z</updated>
-    <content type="html"><![CDATA[<p>自 Go 1.5开始， Go的<code>GOMAXPROCS</code>默认值已经设置为 CPU的核数， 这允许我们的Go程序充分使用机器的每一个CPU,最大程度的提高我们程序的并发性能， 而且，在大部分情况下， 我们并不会去设置这个参数。因为默认值已经足够好了， 以至于fasthttp的作者valyala<a href="https://github.com/golang/go/issues/20303" target="_blank" rel="external">提议</a>禁止<code>runtime.GOMAXPROCS</code>设置这个数值, 对于所有的case, <code>GOMAXPROCS</code>默认值是否是最好的值呢？</p>
-<p><a href="https://github.com/dgraph-io/badger" target="_blank" rel="external">badger</a>的作者Manish Rai Jain就遇到了这样一个<a href="https://groups.google.com/forum/#!topic/golang-nuts/jPb_h3TvlKE/discussion" target="_blank" rel="external">问题</a>。</p>
-<a id="more"></a>
-<p>Manish Rai Jain 写了一段<a href="https://github.com/dgraph-io/badger-bench/blob/master/randread/main.go" target="_blank" rel="external">Go代码</a>, 用来测试Go的读写SSD的性能，看看是否能打到Linux的I/O测试工具<a href="https://linux.die.net/man/1/fio" target="_blank" rel="external">fio</a>的读写性能。 使用fio，可以在 AWS(Amazon i3.large instance with NVMe SSD)达到100K IOPS， 但是使用这个Go程序，怎么也无法接近这个IOPS。</p>
-<p>他尝试了三个case:</p>
-<ol>
-<li>单个goroutine随机读</li>
-<li>使用一定数量的goroutine随机读</li>
-<li>类似#2,但是使用一个channel</li>
-</ol>
-<p>明显#1, #3比不上#2的性能，但是#2怎么也达不到fio的吞吐率。如果大家都使用小于CPU的核数, Go和Fio的吞吐率接近，但是如果把goroutine设置为大于CPU的核数，Fio性能提升明显，直到达到最大的IOPS，但是Go程序却没有显著变化。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ fio --name=randread --ioengine=psync --iodepth=<span class="number">32</span> --rw=randread --bs=<span class="number">4</span>k --direct=<span class="number">0</span> --size=<span class="number">2</span>G --numjobs=<span class="number">16</span> --runtime=<span class="number">120</span> --group_reporting</div><div class="line">Gives around <span class="number">62</span>K, tested via sar <span class="operator">-d</span> <span class="number">1</span> -p, <span class="keyword">while</span></div><div class="line"></div><div class="line">$ go build . && GOMAXPROCS=<span class="number">16</span> ./randread --dir ~/diskfio --jobs <span class="number">16</span> --num <span class="number">2000000</span> --mode <span class="number">1</span></div><div class="line">Gives around <span class="number">44</span>K, via sar. Number of cores on my machine are <span class="number">4</span>.</div></pre></td></tr></table></figure>
-
-<p>通过将<code>GOMAXPROCS</code>设置更大的数(64/128, 数倍CPU核数), Go 程序可以取得几乎和Fio一样的吞吐率。</p>
-<p>在今年的Gophercon上，Manish Rai Jain碰到了Russ Cox，问到了这个问题：</p>
-<blockquote>
-<p>If File::Read blocks goroutines, which then spawn new OS threads, in a long running job, there should be plenty of OS threads created already, so the random read throughput should increase over time and stabilize to the maximum possible value. But, that&#39;s not what I see in my benchmarks.</p>
-</blockquote>
-<p>大意是如果文件读取倍 block， Go会产生新的OS Thread,因为有很多的OS Thread,所以随机读的吞吐率应该也会上升才对，但是实际却不是。</p>
-<p>Russ Cox解释说<code>GOMAXPROCS</code>就像一个多路复用器，所以<code>GOMAXPROCS</code>就会是一个瓶颈。</p>
-<blockquote>
-<p>The GOMAXPROCS in a way acts like a multiplexer. From docs, &quot;the GOMAXPROCS variable limits the number of operating system threads that can execute user-level Go code simultaneously.&quot; Which basically means, all reads must first be run only via GOMAXPROCS number of goroutines, before switching over to some OS thread (not really a switch, but conceptually speaking). This introduces a bottleneck for throughput.</p>
-</blockquote>
-<p>最后Manish Rai Jain在他的高性能的K/V数据库调大了这个<a href="https://github.com/dgraph-io/dgraph/commit/30237a1429debab73eff38fea2f724914ca38b77" target="_blank" rel="external">参数</a>。</p>
-<p>这是一个有趣的讨论，很明显默认的<code>GOMAXPROCS</code>在某些情况下也不是最好的值，特别是在Manish Rai Jain这种写block的情况下，设置<code>GOMAXPROCS</code>更大一些会提高I/O的吞吐率。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>自 Go 1.5开始， Go的<code>GOMAXPROCS</code>默认值已经设置为 CPU的核数， 这允许我们的Go程序充分使用机器的每一个CPU,最大程度的提高我们程序的并发性能， 而且，在大部分情况下， 我们并不会去设置这个参数。因为默认值已经足够好了， 以至于fasthttp的作者valyala<a href="https://github.com/golang/go/issues/20303" target="_blank" rel="external">提议</a>禁止<code>runtime.GOMAXPROCS</code>设置这个数值, 对于所有的case, <code>GOMAXPROCS</code>默认值是否是最好的值呢？</p>
-<p><a href="https://github.com/dgraph-io/badger" target="_blank" rel="external">badger</a>的作者Manish Rai Jain就遇到了这样一个<a href="https://groups.google.com/forum/#!topic/golang-nuts/jPb_h3TvlKE/discussion" target="_blank" rel="external">问题</a>。</p>
-]]>
-    
-    </summary>
-    
-      <category term="Go" scheme="http://colobu.com/categories/Go/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[badger 一个高性能的LSM K/V store]]></title>
-    <link href="http://colobu.com/2017/10/11/badger-a-performant-k-v-store/"/>
-    <id>http://colobu.com/2017/10/11/badger-a-performant-k-v-store/</id>
-    <published>2017-10-11T01:21:54.000Z</published>
-    <updated>2017-10-26T15:14:07.387Z</updated>
-    <content type="html"><![CDATA[<p>大家好，给大家介绍一下， 新晋的高性能的 K/V数据库: <a href="https://github.com/dgraph-io/badger" target="_blank" rel="external">badger</a>。</p>
-<p>这是 <a href="https://dgraph.io" target="_blank" rel="external">dgraph.io</a>开发的一款基于 log structured merge (LSM) tree 的 key-value 本地数据库， 使用 Go 开发。</p>
-<p>事实上，市面上已经有一些知名的基于LSM tree的k/v数据库， 比如 <a href="https://github.com/google/leveldb" target="_blank" rel="external">leveldb</a>、<a href="https://github.com/syndtr/goleveldb" target="_blank" rel="external">goleveldb</a>、<a href="http://rocksdb.org" target="_blank" rel="external">rocksdb</a>、<a href="https://github.com/boltdb/bolt" target="_blank" rel="external">boltdb</a>, 可是为什么还要创造新的轮子呢。我们不妨从LSM说起。</p>
-<a id="more"></a>
-<h2 id="LSM_Tree">LSM Tree</h2>
-<p><img src="LSM.png" alt=""></p>
-<p><a href="https://en.wikipedia.org/wiki/Log-structured_merge-tree" target="_blank" rel="external">Log-structured merge-tree</a> (简称 LSM tree) 可以追溯到1996年 Patrick O&#39;Neil等人的<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.44.2782&amp;rep=rep1&amp;type=pdf" target="_blank" rel="external">论文</a>。最简单的LSM tree是两层树状结构C0,C1。 C0比较小，驻留在内存，当C0超过一定的大小， 一些连续的片段会从C0移动到磁盘中的C1中，这是一次merge的过程。在实际的应用中， 一般会分为更多的层级(level)， 而层级C0都会驻留在内存中。<br><img src="LSM_Tree.png" alt=""></p>
-<p>2006年， Google发表了它的那篇著名的文章: <a href="https://www.google.com.sg/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwjb2euMvufWAhVGNo8KHTd5CskQFggnMAA&amp;url=https%3A%2F%2Fresearch.google.com%2Farchive%2Fbigtable-osdi06.pdf&amp;usg=AOvVaw16gNeVUuapPgFX2eTD2tUI" target="_blank" rel="external">Bigtable: A Distributed Storage System for Structured Data</a>, 不但催生了 HBase这样的项目的诞生， 而且广泛地引起了大家对 LSM tree这种数据结构重视。</p>
-<p><img src="bigtable.png" alt=""></p>
-<p>之后， 2007 HBase, 2010年 Cassandra， 2011年 LevelDB, 2013年 RocksDB, 2015年 InfluxDB的 LSM tree引擎等众多的 基于LSM tree的k/v数据库(引擎)诞生。</p>
-<p><a href="https://github.com/google/leveldb" target="_blank" rel="external">LevelDB</a> 也是由Google的牛人 Jeffrey Dean 和 Sanjay Ghemawat创建的，被多个NoSql数据库用作底层的存储引擎。 <a href="https://github.com/facebook/rocksdb" target="_blank" rel="external">RocksDB</a> fork自LevelDB，但为多核和SSD做了很多的优化， 增加了一些有用的特性，比如Bloom filters、事务、TTL等，被Facebook、Yahoo!和Linkedin等公司使用。</p>
-<h2 id="badger">badger</h2>
-<p>回到开始的问题， 既然已经有了一些优秀的开源的LSM tree的项目，为什么dgraph还要创建一个新的轮子呢？</p>
-<p>答案是: <strong>更好的性能</strong>。</p>
-<p>dgraph开发一个新的基于LSM tree的数据库引擎badger是基于这篇论文： <a href="https://www.usenix.org/system/files/conference/fast16/fast16-papers-lu.pdf" target="_blank" rel="external">WiscKey: Separating Keys from Values<br>in SSD-conscious Storage</a>, 这篇论文很新， 也就是去年(2016年)发表的，这篇论文提出了一种新的设计，专门为SSD所优化，将key和value分别存储以减少I/O放大。论文是由斯康辛大学麦迪逊分校的Lanyue Lu等人完成，Lanyue Lu毕业于中国科大，现在就职于Google。论文中提供了一个测试数据，加载数据库要比LevelDB快2.5–111倍，随机lookup要快1.6-14倍。</p>
-<p>dgraph实现的这个产品叫做 <a href="https://github.com/dgraph-io/badger" target="_blank" rel="external">Badger</a>, 对于随机读，Badger至少要比RocksDB快3.5倍，对于值的大小从128B到16KB，数据加载Badger比LevelDB快0.86 - 14倍。</p>
-<p>Badger分离的key和value,只有key存在LSM tree中， value存在WAL中，叫做value log。通常情况下，key比较小，所以LSM tree比较小，当获取value值的时候，再从SSD存储中读取。现在的SSD， 比如Samsung 960 Pro，对于4KB的数据块，可以提供44万的读操作/秒，这相当快了。</p>
-<p>LSM tree最主要的性能消耗在于 compaction 过程。 在compaction的时候，多个文件需要读进内存，排序，然后再写回。每个文件都固定大小，如果文件中包含value, 文件大小会显著的增加，compaction会更频繁地发生。Badger不存储value，而是存储value的指针， 如果每个键是16， 每个value的指针是16 byte的话，一个64MB的文件就可以存储200万个键值对。</p>
-<p>因为Badger不存储value，而是存储value的指针,compaction的时候只移动key和value指针，对于 1KB大小的value和16 byte的key， 写放大为<code>(10*16 + 1024)/(16 + 1024) ~ 1.14</code>。</p>
-<p>因为Badger的LSM tree比较小，所以它的层级相对于普通的LSM tree要少，这也意味着查找会更少。例如1KB大小的value, 22byte的key, 7500万条数据的原始大小是 72GB,但是对于Badger的LSM tree来说，只需要1.7G,完全可以放在内存中，这也是Badger的随机读比RocksDB快3.5的原因。</p>
-<h2 id="容错">容错</h2>
-<p>LSM tree将所有的更新写入到内存中的memtable，一旦填满， memtable回替换为immutable memtable，最终回写入到磁盘中的level0中。</p>
-<p>如果机器宕机，内存表中的数据就会丢失。k/v数据库一般使用write-ahead log (WAL)来处理这个问题，Badger也一样。Badger会记录memtable的最后一个值的指针，当恢复的时候，它可以replay和重建LSM tree。</p>
-<h2 id="文件大小">文件大小</h2>
-<p>Badger还使用技术对value值进行压缩，以便是log文件更小。</p>
-<p>对于1KB的value,16 byte的key, 7500万条数据，RocksDB的 LSM tree 是 50GB， Badger的 value log文件是74GB(未压缩)， LSM tree 是 1.7GB。</p>
-<p>和RocksDB的Benchmark比较：</p>
-<p><img src="badger-benchmarks.png" alt=""></p>
-<h2 id="使用">使用</h2>
-<p>Badger使用起来超级简单， 配置参数页不多，而且提供了默认的配置参数。</p>
-<p>下面的代码是读写查和便利的代码，所有的操作都是在事务中完成的， Badger的事物是基于MVCC实现的。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"fmt"</span></div><div class="line">	<span class="string">"log"</span></div><div class="line"></div><div class="line">	<span class="string">"github.com/dgraph-io/badger"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">func</span> main() {</div><div class="line">	opts := badger.DefaultOptions</div><div class="line">	opts.Dir = <span class="string">"./data"</span></div><div class="line">	opts.ValueDir = <span class="string">"./data"</span></div><div class="line">	db, err := badger.Open(&opts)</div><div class="line">	<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">		log.Fatal(err)</div><div class="line">	}</div><div class="line">	<span class="keyword">defer</span> db.Close()</div><div class="line"></div><div class="line">	<span class="comment">// set</span></div><div class="line">	err = db.Update(<span class="keyword">func</span>(txn *badger.Txn) error {</div><div class="line">		err := txn.Set([]<span class="typename">byte</span>(<span class="string">"answer"</span>), []<span class="typename">byte</span>(<span class="string">"42"</span>),<span class="number"> 0</span>)</div><div class="line">		<span class="keyword">return</span> err</div><div class="line">	})</div><div class="line">	<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">		<span class="built_in">panic</span>(err)</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="comment">// get</span></div><div class="line">	err = db.View(<span class="keyword">func</span>(txn *badger.Txn) error {</div><div class="line">		item, err := txn.Get([]<span class="typename">byte</span>(<span class="string">"answer"</span>))</div><div class="line">		<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">			<span class="keyword">return</span> err</div><div class="line">		}</div><div class="line">		val, err := item.Value()</div><div class="line">		<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">			<span class="keyword">return</span> err</div><div class="line">		}</div><div class="line">		fmt.Printf(<span class="string">"The answer is: %s\n"</span>, val)</div><div class="line">		<span class="keyword">return</span> <span class="constant">nil</span></div><div class="line">	})</div><div class="line">	<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">		<span class="built_in">panic</span>(err)</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="comment">// iterate</span></div><div class="line">	err = db.View(<span class="keyword">func</span>(txn *badger.Txn) error {</div><div class="line">		opts := badger.DefaultIteratorOptions</div><div class="line">		opts.PrefetchSize =<span class="number"> 10</span></div><div class="line">		it := txn.NewIterator(opts)</div><div class="line">		<span class="keyword">for</span> it.Rewind(); it.Valid(); it.Next() {</div><div class="line">			item := it.Item()</div><div class="line">			k := item.Key()</div><div class="line">			v, err := item.Value()</div><div class="line">			<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">				<span class="keyword">return</span> err</div><div class="line">			}</div><div class="line">			fmt.Printf(<span class="string">"key=%s, value=%s\n"</span>, k, v)</div><div class="line">		}</div><div class="line">		<span class="keyword">return</span> <span class="constant">nil</span></div><div class="line">	})</div><div class="line">	<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">		<span class="built_in">panic</span>(err)</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="comment">// Prefix scans</span></div><div class="line">	db.View(<span class="keyword">func</span>(txn *badger.Txn) error {</div><div class="line">		it := txn.NewIterator(badger.DefaultIteratorOptions)</div><div class="line">		prefix := []<span class="typename">byte</span>(<span class="string">"ans"</span>)</div><div class="line">		<span class="keyword">for</span> it.Seek(prefix); it.ValidForPrefix(prefix); it.Next() {</div><div class="line">			item := it.Item()</div><div class="line">			k := item.Key()</div><div class="line">			v, err := item.Value()</div><div class="line">			<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">				<span class="keyword">return</span> err</div><div class="line">			}</div><div class="line">			fmt.Printf(<span class="string">"key=%s, value=%s\n"</span>, k, v)</div><div class="line">		}</div><div class="line">		<span class="keyword">return</span> <span class="constant">nil</span></div><div class="line">	})</div><div class="line">	<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">		<span class="built_in">panic</span>(err)</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="comment">// iterate keys</span></div><div class="line">	err = db.View(<span class="keyword">func</span>(txn *badger.Txn) error {</div><div class="line">		opts := badger.DefaultIteratorOptions</div><div class="line">		opts.PrefetchValues = <span class="constant">false</span></div><div class="line">		it := txn.NewIterator(opts)</div><div class="line">		<span class="keyword">for</span> it.Rewind(); it.Valid(); it.Next() {</div><div class="line">			item := it.Item()</div><div class="line">			k := item.Key()</div><div class="line">			fmt.Printf(<span class="string">"key=%s\n"</span>, k)</div><div class="line">		}</div><div class="line">		<span class="keyword">return</span> <span class="constant">nil</span></div><div class="line">	})</div><div class="line"></div><div class="line">	<span class="comment">// delete</span></div><div class="line">	err = db.Update(<span class="keyword">func</span>(txn *badger.Txn) error {</div><div class="line">		<span class="keyword">return</span> txn.Delete([]<span class="typename">byte</span>(<span class="string">"answer"</span>))</div><div class="line">	})</div><div class="line">	<span class="keyword">if</span> err != <span class="constant">nil</span> {</div><div class="line">		<span class="built_in">panic</span>(err)</div><div class="line">	}</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
-
-<h2 id="参考文档">参考文档</h2>
-<ol>
-<li><a href="https://blog.dgraph.io/post/badger/" target="_blank" rel="external">https://blog.dgraph.io/post/badger/</a></li>
-<li><a href="https://www.slideshare.net/ssuser7e134a/log-structured-merge-tree" target="_blank" rel="external">https://www.slideshare.net/ssuser7e134a/log-structured-merge-tree</a></li>
-<li><a href="https://blog.dgraph.io/post/badger/" target="_blank" rel="external">https://blog.dgraph.io/post/badger/</a></li>
-</ol>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>大家好，给大家介绍一下， 新晋的高性能的 K/V数据库: <a href="https://github.com/dgraph-io/badger" target="_blank" rel="external">badger</a>。</p>
-<p>这是 <a href="https://dgraph.io" target="_blank" rel="external">dgraph.io</a>开发的一款基于 log structured merge (LSM) tree 的 key-value 本地数据库， 使用 Go 开发。</p>
-<p>事实上，市面上已经有一些知名的基于LSM tree的k/v数据库， 比如 <a href="https://github.com/google/leveldb" target="_blank" rel="external">leveldb</a>、<a href="https://github.com/syndtr/goleveldb" target="_blank" rel="external">goleveldb</a>、<a href="http://rocksdb.org" target="_blank" rel="external">rocksdb</a>、<a href="https://github.com/boltdb/bolt" target="_blank" rel="external">boltdb</a>, 可是为什么还要创造新的轮子呢。我们不妨从LSM说起。</p>
-]]>
-    
-    </summary>
-    
-      <category term="Go" scheme="http://colobu.com/categories/Go/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Convert Shadowsocks into an HTTP proxy]]></title>
-    <link href="http://colobu.com/2017/10/10/Convert-Shadowsocks-into-an-HTTP-proxy/"/>
-    <id>http://colobu.com/2017/10/10/Convert-Shadowsocks-into-an-HTTP-proxy/</id>
-    <published>2017-10-10T07:30:27.000Z</published>
-    <updated>2017-10-26T15:14:07.239Z</updated>
-    <content type="html"><![CDATA[<p><strong>备用，不解释</strong></p>
-<h2 id="socks5_to_http_proxy">socks5 to http proxy</h2>
-<p>1、 首先安装 polipo, 设置parent proxy to Ss:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">apt-get install polipo</div><div class="line">service polipo stop</div><div class="line">polipo socksParentProxy=localhost:<span class="number">1080</span> &</div></pre></td></tr></table></figure>
-
-<p>macosx运行</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew install polipo</div><div class="line">polipo socksParentProxy=localhost:<span class="number">1080</span> &</div></pre></td></tr></table></figure>
-
-<p>设置全局http proxy:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http_proxy=<span class="keyword">http</span>://localhost:<span class="number">8123</span> apt-<span class="built_in">get</span> update</div><div class="line">http_proxy=<span class="keyword">http</span>://localhost:<span class="number">8123</span> curl www.google.com</div><div class="line">http_proxy=<span class="keyword">http</span>://localhost:<span class="number">8123</span> wget www.google.com</div></pre></td></tr></table></figure>
-
-<p>对于git:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">git config --<span class="keyword">global</span> http.proxy <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">8123</span></div><div class="line">git <span class="keyword">clone</span> https:<span class="comment">//github.com/xxx/xxx.git</span></div><div class="line">git xxx</div><div class="line">git xxx</div><div class="line">git config --<span class="keyword">global</span> --<span class="keyword">unset</span>-all http.proxy</div></pre></td></tr></table></figure>
-
-<h2 id="glide_mirror">glide mirror</h2>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ rm -rf ~/.glide</div><div class="line">$ mkdir -p ~/.glide</div><div class="line">$ glide mirror <span class="built_in">set</span> <span class="keyword">https</span>://golang.org/x/mobile <span class="keyword">https</span>://github.com/golang/mobile <span class="comment">--vcs git</span></div><div class="line">$ glide mirror <span class="built_in">set</span> <span class="keyword">https</span>://golang.org/x/crypto <span class="keyword">https</span>://github.com/golang/crypto <span class="comment">--vcs git</span></div><div class="line">$ glide mirror <span class="built_in">set</span> <span class="keyword">https</span>://golang.org/x/net <span class="keyword">https</span>://github.com/golang/net <span class="comment">--vcs git</span></div><div class="line">$ glide mirror <span class="built_in">set</span> <span class="keyword">https</span>://golang.org/x/tools <span class="keyword">https</span>://github.com/golang/tools <span class="comment">--vcs git</span></div><div class="line">$ glide mirror <span class="built_in">set</span> <span class="keyword">https</span>://golang.org/x/<span class="keyword">text</span> <span class="keyword">https</span>://github.com/golang/<span class="keyword">text</span> <span class="comment">--vcs git</span></div><div class="line">$ glide mirror <span class="built_in">set</span> <span class="keyword">https</span>://golang.org/x/image <span class="keyword">https</span>://github.com/golang/image <span class="comment">--vcs git</span></div><div class="line">$ glide mirror <span class="built_in">set</span> <span class="keyword">https</span>://golang.org/x/sys <span class="keyword">https</span>://github.com/golang/sys <span class="comment">--vcs git</span></div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[<p><strong>备用，不解释</strong></p>
-<h2 id="socks5_to_http_proxy">socks5 to http proxy</h2>
-<p>1、 首先安装 polipo, 设置parent proxy to Ss:</p>
-<figure ]]>
-    </summary>
-    
-      <category term="工具" scheme="http://colobu.com/categories/%E5%B7%A5%E5%85%B7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[[转]KV存储的对比]]></title>
-    <link href="http://colobu.com/2017/10/10/comparision-of-kv-datastore/"/>
-    <id>http://colobu.com/2017/10/10/comparision-of-kv-datastore/</id>
-    <published>2017-10-10T03:12:28.000Z</published>
-    <updated>2017-10-26T15:14:07.551Z</updated>
-    <content type="html"><![CDATA[<p>本文转自饿了么的高级架构师陈东明(cadem)发布于云栖社区的文章: <a href="https://yq.aliyun.com/articles/85634?spm=5176.8091938.0.0.Bck5cC" target="_blank" rel="external">KV存储的对比</a>。作者还整理了另外一篇文章: <a href="https://yq.aliyun.com/articles/85619?spm=5176.8091938.0.0.Bck5cC" target="_blank" rel="external">存储系统的分类</a>,列举了常见的一些kv存储模型和实现。</p>
-<p>最近对各种KV存储进行一个比较，从存储引擎到存储引擎的类型，到单机版的kvstore，再到分布式kvstore集群。</p>
-<a id="more"></a>
-<h2 id="存储引擎的类型">存储引擎的类型</h2>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>全称</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>btree</td>
-<td></td>
-</tr>
-<tr>
-<td>LSH</td>
-<td>Log-Structured Hash Table</td>
-</tr>
-<tr>
-<td>LSM</td>
-<td>Log-Structured Merge Tree</td>
-</tr>
-<tr>
-<td>FractalTree</td>
-<td>分型树</td>
-</tr>
-</tbody>
-</table>
-<h2 id="存储引擎">存储引擎</h2>
-<p><span id="thx">Welcome to Oschina Tools website</span>            <table><thead><tr><th>类型</th><th>名称</th><th>语言</th><th>备注</th><th>应用在___</th><th>dbengine排名</th><th>出品</th></tr></thead><tbody><tr><td>berkeleyDB</td><td>BTREE, HASH, QUEUE, RECNO</td><td>C,Java</td><td></td><td></td><td>No.9</td><td>oracle</td></tr><tr><td>Wiredtiger</td><td>btree, LSM</td><td>C</td><td></td><td>mongodb</td><td>No.24</td><td>WiredTiger/mongodb</td></tr><tr><td>Tokyo Cabinet /Kyoto Cabinet</td><td>b+tree,hash table</td><td></td><td></td><td>nmdb,Kyoto Tycoon</td><td>NO.27/No.36</td><td>FAL Labs</td></tr><tr><td>LMDB</td><td>btree</td><td>C</td><td></td><td>OpenLDAP</td><td></td><td>symas</td></tr><tr><td>BoltDB</td><td>btree</td><td>Go</td><td>LMDB的go版本</td><td></td><td></td><td></td></tr><tr><td>leveldb</td><td>LSM</td><td>c++</td><td></td><td></td><td>No.15</td><td>google</td></tr><tr><td>goleveldb</td><td>LSM</td><td>Go</td><td>leveldb的go版本</td><td></td><td></td><td>个人</td></tr><tr><td>levigo</td><td>LSM</td><td>Go</td><td>Go wrapper for LevelDB</td><td></td><td></td><td>个人</td></tr><tr><td>rocksdb</td><td>LSM</td><td>c++,java</td><td></td><td></td><td>No.18</td><td>facebook</td></tr><tr><td>gorocksdb</td><td>LSM</td><td>Go</td><td>Go wrapper for RocksDB</td><td></td><td></td><td>个人</td></tr><tr><td>mongo-rocks</td><td>LSM</td><td>C++</td><td></td><td>RocksDB Storage Engine Module for MongoDB</td><td></td><td>mongo partner</td></tr><tr><td>bitcast</td><td>LSH</td><td>C</td><td></td><td>beansdb,riak</td><td></td><td>basho</td></tr><tr><td>PerconaFT</td><td>FractalTree</td><td>C++</td><td>Mysql存储引擎之TokuDB</td><td>percona</td><td></td><td></td></tr></tbody></table></p>
-<h2 id="单机kvstore">单机kvstore</h2>
-<table><thead><tr><th>类型</th><th>名称</th><th>采用的存储引擎</th><th>语言</th><th>出品</th><th>主从复制</th><th>github star</th></tr></thead><tbody><tr><td>kv对</td><td>nmdb</td><td>qdbm, berkeley db, tokyo cabinet,tdb</td><td>C</td><td>个人Alberto Bertogli</td><td></td><td></td></tr><tr><td>kv对</td><td>memcachedb</td><td>Berkeley DB</td><td>C</td><td>新浪</td><td>yes</td><td></td></tr><tr><td>kv对</td><td>Kyoto Tycoon</td><td>Kyoto Cabinet</td><td>C/C++</td><td>FAL Labs</td><td></td><td></td></tr><tr><td>结构化kv(redis兼容）</td><td>ssdb</td><td>leveddb</td><td>C/C++</td><td>个人ideawu</td><td>yes</td><td>4k+</td></tr><tr><td>结构化kv(redis兼容）</td><td>ssdb-rocks</td><td>rocksdb</td><td>C/C++</td><td>个人ideawu</td><td></td><td>92</td></tr><tr><td>结构化kv(redis兼容）</td><td>ardb</td><td>LevelDB, RocksDB, LMDB, WiredTiger</td><td>C++</td><td>个人yinqiwen</td><td>yes</td><td>800+</td></tr><tr><td>结构化kv(redis兼容）</td><td>(reborndb)qdb</td><td>Rocksdb and LevelDB</td><td>Go</td><td>个人ngaut</td><td></td><td>200+</td></tr><tr><td>结构化kv(redis兼容）</td><td>Pika</td><td>Rocksdb</td><td>C</td><td>Qihoo360</td><td>yes</td><td>900+</td></tr><tr><td>结构化kv(redis兼容）</td><td>LedisDB</td><td>LevelDB, goleveldb, LMDB, RocksDB, BoltDB or Memory</td><td>Go</td><td>个人SiddonTang</td><td></td><td>2K+</td></tr></tbody></table>
-
-<h2 id="单机kvstore的分布式代理">单机kvstore的分布式代理</h2>
-<table><thead><tr><th>名称</th><th>语言</th><th>存储</th><th>出品</th><th>应用/githubstar</th><th>分片</th><th>弹性</th><th>备注</th></tr></thead><tbody><tr><td>Reborndb</td><td>Go</td><td>qdb</td><td>个人ngaut</td><td>200+</td><td>yes</td><td>yes</td><td></td></tr><tr><td>Netflix Dynomite</td><td>C</td><td>redis,memcached</td><td>Netflix</td><td>1.9K+</td><td></td><td></td><td>Dynamo</td></tr><tr><td>Codis</td><td>Go</td><td>codis-server(定制redis)</td><td>社区CodisLabs</td><td>5K+</td><td></td><td></td><td></td></tr><tr><td>Twenproxy</td><td>C</td><td>redis,memcached</td><td>twitter</td><td>6K+</td><td></td><td></td><td></td></tr></tbody></table>
-
-<h2 id="分布式KVstore">分布式KVstore</h2>
-<table><thead><tr><th>类型</th><th>名称</th><th>语言</th><th>出品</th><th>dbengine排名/githubstar</th><th>存储引擎</th><th>社区活跃</th><th>特性</th><th>备注</th></tr></thead><tbody><tr><td>kv型</td><td>riak</td><td>erlang</td><td>basho</td><td>No.3/2K+</td><td>bitcask</td><td></td><td></td><td>Dynamo</td></tr><tr><td>kv型</td><td>beansdb</td><td>C</td><td>douban</td><td>600+</td><td>bitcask模型</td><td>近2年没有更新，没有文档</td><td></td><td>Dynamo</td></tr><tr><td>kv型</td><td>project Voldmort</td><td>Java</td><td>LinkedIn</td><td>No.29/1.8K+</td><td>BDB-JE,MySQL,Read-Only</td><td></td><td></td><td></td></tr><tr><td>kv型</td><td>Scalris</td><td>erlang</td><td>Zuse Institute Berlin</td><td>No.35/88</td><td></td><td></td><td></td><td></td></tr><tr><td>kv型</td><td>aeospike</td><td></td><td>aespike</td><td>No.7</td><td></td><td></td><td></td><td></td></tr><tr><td>kv型</td><td>Tair</td><td>C/C++</td><td>alibaba</td><td>400+</td><td>自研的fdb</td><td>停止更新，没有文档</td><td></td><td></td></tr></tbody></table>
-
-<h2 id="补充">补充</h2>
-<p>原文中没有提到的，在这里添加上作为补充。</p>
-<ul>
-<li><a href="https://github.com/pingcap/tidb" target="_blank" rel="external">tidb</a>: 国产的分布式NewSQL产品，底层采用tikv, 支持MySQL协议， PingCap出品。</li>
-<li><a href="https://github.com/dgraph-io/badger" target="_blank" rel="external">badger</a>: 性能优异，特别为SSD优化，仅仅key存储在LSM tree中。</li>
-</ul>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>本文转自饿了么的高级架构师陈东明(cadem)发布于云栖社区的文章: <a href="https://yq.aliyun.com/articles/85634?spm=5176.8091938.0.0.Bck5cC" target="_blank" rel="external">KV存储的对比</a>。作者还整理了另外一篇文章: <a href="https://yq.aliyun.com/articles/85619?spm=5176.8091938.0.0.Bck5cC" target="_blank" rel="external">存储系统的分类</a>,列举了常见的一些kv存储模型和实现。</p>
-<p>最近对各种KV存储进行一个比较，从存储引擎到存储引擎的类型，到单机版的kvstore，再到分布式kvstore集群。</p>
-]]>
-    
-    </summary>
-    
-      <category term="数据库" scheme="http://colobu.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
   </entry>
   
