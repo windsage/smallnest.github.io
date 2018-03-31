@@ -113,6 +113,359 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-subnet-mask" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/12/subnet-mask/" class="article-date">
+  <time datetime="2014-11-12T07:34:12.000Z" itemprop="datePublished">2014年11月12日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络编程/">网络编程</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/12/subnet-mask/">子网掩码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+      
+        <p>互联网是由许多小型网络构成的，每个网络上都有许多主机，这样便构成了一个有层次的结构。IP地址在设计时就考虑到地址分配的层次特点，将每个IP地址都分割成网络号和主机号两部分，以便于IP地址的寻址操作。</p>
+<p>子网掩码只有一个作用，就是将某个IP地址划分成网络地址和主机地址两部分。子网掩码的设定必须遵循一定的规则。与IP地址相同，子网掩码的长度也是32位，左边是网络位，用二进制数字“1”表示；右边是主机位，用二进制数字“0”表示。只有通过子网掩码，才能表明一台主机所在的子网与其他子网的关系，使网络正常工作。 1 的部分代表网络号，掩码为 0的部分代表主机号。其中 A类地址的默认子网掩码为 255.0.0.0；B类地址的默认子网掩码为 255.255.0.0；C类地址的默认子网掩码为：255.255.255.0。</p>
+<p>同一个网络内的主机的IP地址与掩码 &quot;AND&quot;操作后的结果必然相同。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2014/11/12/subnet-mask/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-linux-muticast-setting-with-netty" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/07/linux-muticast-setting-with-netty/" class="article-date">
+  <time datetime="2014-11-07T09:25:52.000Z" itemprop="datePublished">2014年11月07日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络编程/">网络编程</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/07/linux-muticast-setting-with-netty/">Linux组播设置以及netty设置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+		<img class="article-post-image" src="/2014/10/21/udp-and-unicast-multicast-broadcast-anycast/100px-Multicast.svg.png">
+	  
+      
+        <p>Java 7增加NIO multicast的支持， netty 4中也增加了对multicast的支持: <a href="https://github.com/netty/netty/issues/216" target="_blank" rel="external">Issue #216</a>。<br>实际在使用中需要对环境和Netty的代码进行相应的配置。<br>
+        
+          <p class="article-more-link">
+            <a href="/2014/11/07/linux-muticast-setting-with-netty/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/multicast/">multicast</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-secrets-of-java-8-lambda" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/06/secrets-of-java-8-lambda/" class="article-date">
+  <time datetime="2014-11-06T02:48:39.000Z" itemprop="datePublished">2014年11月06日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/06/secrets-of-java-8-lambda/">Java 8 Lambda 揭秘</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+		<img class="article-post-image" src="/images/logos/Lambda.png">
+	  
+      
+        <p>再了解了Java 8 Lambda的一些基本概念和应用后， 我们会有这样的一个问题: <em>Lambda表达式被编译成了什么？</em>。 这是一个有趣的问题，涉及到JDK的具体的实现。 本文将介绍OpenJDK对Lambda表达式的转换细节， 读者可以了解Java 8 Lambda表达式背景知识。<br>
+        
+          <p class="article-more-link">
+            <a href="/2014/11/06/secrets-of-java-8-lambda/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lambda/">Lambda</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-kernel-101-lets-write-a-kernel" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/05/kernel-101-lets-write-a-kernel/" class="article-date">
+  <time datetime="2014-11-05T08:33:21.000Z" itemprop="datePublished">2014年11月05日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  </div>
+
+	
+  <div class="article-author"> by Arjun Sreedharan</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/05/kernel-101-lets-write-a-kernel/">kernel 101 - 动手写内核</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+		<img class="article-post-image" src="/images/logos/Tux.png">
+	  
+      
+        <p><a href="http://arjunsreedharan.org/" target="_blank" rel="external">Arjun Sreedharan</a>写的内核编写教程。 超级简单。<br>目前写了两篇：<br><a href="http://arjunsreedharan.org/post/82710718100/kernel-101-lets-write-a-kernel" target="_blank" rel="external">Kernel 101 – Let’s write a Kernel</a><br><a href="http://arjunsreedharan.org/post/99370248137/kernel-201-lets-write-a-kernel-with-keyboard-and" target="_blank" rel="external">Kernel 201 - Let’s write a Kernel with keyboard and screen support</a></p>
+<p>国内也有人翻译了，如</p>
+<ul>
+<li><a href="http://www.geekfan.net/8663/" target="_blank" rel="external">内核代号101 — 动手写自己的内核</a></li>
+<li><a href="http://noalgo.info/649.html" target="_blank" rel="external">编写最简单的内核：HelloWorld</a></li>
+</ul>
+<p>以下是我根据上面的文章整理的翻译。<br>
+        
+          <p class="article-more-link">
+            <a href="/2014/11/05/kernel-101-lets-write-a-kernel/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kernel/">kernel</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Java-8-default-method-and-multiple-inheritance" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/04/Java-8-default-method-and-multiple-inheritance/" class="article-date">
+  <time datetime="2014-11-04T07:55:41.000Z" itemprop="datePublished">2014年11月04日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/04/Java-8-default-method-and-multiple-inheritance/">Java 8 默认方法和多继承</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+		<img class="article-post-image" src="/images/logos/Lambda.png">
+	  
+      
+        <p>以前经常谈论的Java对比c++的一个优势是Java中没有多继承的问题。 因为Java中子类只能继承(extends)单个父类， 尽管可以实现(implements)多个接口，但是接口中只有抽象方法，方法体是空的，没有具体的方法实现，不会有方法冲突的问题。</p>
+<p>这些都是久远的说法了，自从今年Java 8发布后， 接口中也可以定义方法了(default method)。 之所以打破以前的设计在接口中<br>增加具体的方法， 是为了既有的成千上万的Java类库的类增加新的功能， 且不必对这些类重新进行设计。 比如， 只需在Collection接口中<br>增加<code>default Stream&lt;E&gt; stream()</code>, 相应的<code>Set</code>和<code>List</code>接口以及它们的子类都包含此的方法， 不必为每个子类都重新copy这个方法。</p>
+<p>这是一个折衷的设计，带来的问题就是为Java引入了多继承的问题。 我们知道， 接口可以继承接口， 类可以继承类和实现接口。 一旦继承的类和实现的接口中有<br>相同签名的方法， 会出现什么样的状况呢？ 本文将探讨各种情况的多继承， 以便能清楚的理解Java多继承的规则。<br>
+        
+          <p class="article-more-link">
+            <a href="/2014/11/04/Java-8-default-method-and-multiple-inheritance/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lambda/">Lambda</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-secrets-of-java-8-functional-interface" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/10/28/secrets-of-java-8-functional-interface/" class="article-date">
+  <time datetime="2014-10-28T07:42:53.000Z" itemprop="datePublished">2014年10月28日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+	
+  <div class="article-author"> by smallnest</div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/10/28/secrets-of-java-8-functional-interface/">Java 8函数式接口functional interface的秘密</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+	  
+	  
+		<img class="article-post-image" src="/images/logos/Lambda.png">
+	  
+      
+        <p><strong>函数式接口(Functional Interface)</strong>是Java 8对一类特殊类型的接口的称呼。 这类接口只定义了唯一的抽象方法的接口（除了隐含的Object对象的公共方法）， 因此最开始也就做<strong>SAM</strong>类型的接口（Single Abstract Method）。</p>
+<p>为什么会单单从接口中定义出此类接口呢？ 原因是在Java Lambda的实现中， 开发组不想再为Lambda表达式单独定义一种特殊的Structural函数类型，称之为箭头类型（arrow type）， 依然想采用Java既有的类型系统(class, interface, method等)， 原因是增加一个结构化的函数类型会增加函数类型的复杂性，破坏既有的Java类型，并对成千上万的Java类库造成严重的影响。 权衡利弊， 因此最终还是利用SAM 接口作为 Lambda表达式的目标类型。</p>
+<p>JDK中已有的一些接口本身就是函数式接口，如<code>Runnable</code>。 JDK 8中又增加了<code>java.util.function</code>包， 提供了常用的函数式接口。</p>
+<p>函数式接口代表的一种契约， 一种对某个特定函数类型的契约。 在它出现的地方，实际期望一个符合契约要求的函数。 Lambda表达式不能脱离上下文而存在，它必须要有一个明确的目标类型，而这个目标类型就是某个函数式接口。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2014/10/28/secrets-of-java-8-functional-interface/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+	
+
+	  
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lambda/">Lambda</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-CRC-introduction" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/10/22/CRC-introduction/" class="article-date">
@@ -372,382 +725,9 @@
 
 
   
-    <article id="post-java-buffer-basic" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/10/20/java-buffer-basic/" class="article-date">
-  <time datetime="2014-10-20T00:39:20.000Z" itemprop="datePublished">2014年10月20日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/20/java-buffer-basic/">Java Buffer编程基础</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-		<img class="article-post-image" src="http://tutorials.jenkov.com/images/java-nio/buffers-modes.png">
-	  
-      
-        <p>Java 1.4中在java.nio包中增加了Buffer类以及一些处理基本数据类型的子类(除了boolean型) ，用来提供为基本数据类型(primitive) 的数据提供一个容器。<br>何谓Buffer? <code>Buffer</code> 是一个线性的有限长度的特定基本数据的序列。 除了基础数据外，它还包括一些基础操作和属性， 比如<code>capacity</code>, <code>limit</code> 和 <code>position</code>。</p>
-<p>实际使用中使用特定的子类来处理数据。每个子类都定义了两套get/put的操作。 </p>
-<ul>
-<li><strong>相对位置操作 （Relative ）</strong>。 从当前位置<code>position</code>读写一个或者多个元素， 并<code>position</code>增加相应的数值。 如果一个get请求的数据超过了<code>limit</code>的位置，会抛出<code>BufferUnderflowException</code>异常。 如果一个put操作超过了<code>limit</code>的限制， 会抛出<code>BufferOverflowException</code>异常。不管上面哪种情况，没有数据被传输。</li>
-<li><strong>绝对位置操作 （Absolute ）</strong>。 显式地提供index， 不会影响<code>position</code>的值。 如果索引超过<code>limit</code>会抛出<code>IndexOutOfBoundsException</code>异常。</li>
-</ul>
-<p>数据也可以通过<code>Channel</code>的I/O操作如<code>write</code>,<code>read</code> 写入或者读出。<br>显然， Buffer只有写入了数据才可能有意义的数据读出。</p>
-<p>Buffer类并不是线程安全的， 使用时要特别小心， 避免多线程同时读写同一个Buffer。 万不得已， 需要为读写操作加锁。</p>
-
-        
-          <p class="article-more-link">
-            <a href="/2014/10/20/java-buffer-basic/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/buffer/">buffer</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-redo-log-in-distribution-systems" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/10/16/redo-log-in-distribution-systems/" class="article-date">
-  <time datetime="2014-10-16T00:56:10.000Z" itemprop="datePublished">2014年10月16日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/高并发编程/">高并发编程</a>
-  </div>
-
-	
-  <div class="article-author"> by 不会开机的男孩</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/16/redo-log-in-distribution-systems/">分布式系统原理--日志技术Redo Log</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-      
-        <h1 id="问题概述">问题概述</h1>
-<p>在分布式系统中，宕机是需要考虑的重要组成部分。日志技术是宕机恢复的重要技术之一。日志技术应用广泛，早些更是广泛应用在数据库设计实现中。本文先介绍基本原理概念，最后通过redis介绍生产环境中的实现方法。</p>
-
-        
-          <p class="article-more-link">
-            <a href="/2014/10/16/redo-log-in-distribution-systems/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hexo-supports-both-github-and-gitcafe" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/10/13/hexo-supports-both-github-and-gitcafe/" class="article-date">
-  <time datetime="2014-10-13T07:16:23.000Z" itemprop="datePublished">2014年10月13日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/前端开发/">前端开发</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/13/hexo-supports-both-github-and-gitcafe/">Hexo 同时支持Github和Gitcafe</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-      
-        <p>Hexo支持同时发布到多个git仓库中。需要修改<code>_config.yml</code>。<br>原来的配置:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="label">deploy:</span></div><div class="line"><span class="label">type:</span> github</div><div class="line"><span class="label">repo:</span> github: https://github.com/&lt;username&gt;/&lt;username&gt;.github.io.git</div><div class="line"><span class="label">branch:</span> master</div></pre></td></tr></table></figure>
-
-<p>改成</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">   type: git</div><div class="line">   repo: </div><div class="line">      github: https:<span class="comment">//github.com/&lt;username&gt;/&lt;username&gt;.github.io.git,master</span></div><div class="line">      gitcafe: https:<span class="comment">//gitcafe.com/&lt;username&gt;/&lt;username&gt;.git,gitcafe-pages</span></div></pre></td></tr></table></figure>
-
-<p>首先需要你在gitcafe创建一个和用户名相同的项目，并为此项目创建一个<code>gitcafe-pages</code>。 静态站点发布到这个分支上。 同时需要绑定你的域名在此项目上。<br>这和<code>github</code>有点不同。 <code>github</code>要求创建一个<code>&lt;username&gt;.github.io</code>的项目，站点发布到master分支即可。</p>
-<p><strong>dnspod</strong><br>之所以发布到两个站点， 主要是想让国内的用户直接访问g<code>gircafe</code>上的站点，这样速度快一点。<br>你可以在dnspod上针对不同的线路配置不同的A记录。</p>
-<p>参考文档：</p>
-<ul>
-<li><a href="http://blog.billryan.me/posts/2014/05/multi-deployment-with-hexo.html" target="_blank" rel="external">Hexo多Repo部署——使用Github和GitCafe同时托管博客</a></li>
-<li><a href="http://www.autonavi.me/2014/09/09/Hexo%E5%8A%A0%E8%BD%BD%E8%BF%87%E6%85%A2.html" target="_blank" rel="external">HEXO个人博客速度优化</a></li>
-<li><a href="http://blog.magiclin.com/2013/12/20/hexo-gitcafe/" target="_blank" rel="external">部署Hexo静态blog到gitcafe</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-javascript-function-and-unary-operators" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/10/13/javascript-function-and-unary-operators/" class="article-date">
-  <time datetime="2014-10-13T05:58:05.000Z" itemprop="datePublished">2014年10月13日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/前端开发/">前端开发</a>
-  </div>
-
-	
-  <div class="article-author"> by 葵中剑@剑空</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/13/javascript-function-and-unary-operators/">javascript 函数前面的一元操作符</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-		<img class="article-post-image" src="/images/logos/JavaScript.png">
-	  
-      
-        <p><a href="http://segmentfault.com/q/1010000000117476" target="_blank" rel="external">segmentfault</a>上的一个问题：</p>
-<p>一般看JQuery插件里的写法是这样的:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span><span class="params">($)</span> </span>{         </div><div class="line">  <span class="comment">//...  </span></div><div class="line">})(jQuery);</div></pre></td></tr></table></figure>
-
-<p>今天看到bootstrap的javascript组件是这样写的:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">!<span class="function"><span class="keyword">function</span><span class="params">( $ )</span></span>{</div><div class="line">  <span class="comment">//...</span></div><div class="line">}( <span class="built_in">window</span>.jQuery );</div></pre></td></tr></table></figure>
-
-<p>为什么要在前面加一个 &quot; ! &quot; 呢？<br>原来，使用括号包裹定义函数体，解析器将会以函数表达式的方式去调用定义函数。也就是说，任何能将函数变成一个函数表达式的作法，都可以使解析器正确的调用定义函数。而 ! 就是其中一个，而 + - || 都有这样的功能。<br>另外，用 ! 可能更多的是一个习惯问题，不同的运算符，性能是不同的。<br>
-        
-          <p class="article-more-link">
-            <a href="/2014/10/13/javascript-function-and-unary-operators/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-gitbook-quickstart" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/10/09/gitbook-quickstart/" class="article-date">
-  <time datetime="2014-10-09T07:12:20.000Z" itemprop="datePublished">2014年10月09日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/工具/">工具</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/09/gitbook-quickstart/">Gitbook简明教程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-		<img class="article-post-image" src="https://www.gitbook.io/assets/images/logo/tile-800.png">
-	  
-      
-        <p>Gitbook是一个命令行工具(node.js库)， 使用Github/Git创建漂亮的图书。 你可以看一些用它编写的图书的例子： <a href="https://www.gitbook.io/book/GitBookIO/javascript" target="_blank" rel="external">学习Javascript</a>. 你也可以很容易的通过<a href="https://www.gitbook.io" target="_blank" rel="external">gitbook.io</a>网站发布在线图书。 <a href="https://github.com/GitbookIO/editor" target="_blank" rel="external">editor</a> 是一个图形化的编辑工具， 提供Windows, Mac 和Linux的版本. 关注Twitter帐号 <a href="https://twitter.com/GitBookIO" target="_blank" rel="external">@GitBookIO</a>. 这篇文章只是一个起步教程， 完整的文档可以在<a href="http://help.gitbook.io/" target="_blank" rel="external">help.gitbook.io</a>网站找到.<br>
-        
-          <p class="article-more-link">
-            <a href="/2014/10/09/gitbook-quickstart/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gitbook/">gitbook</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-using-fastjson-as-JAX-RS-data-binding" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/09/30/using-fastjson-as-JAX-RS-data-binding/" class="article-date">
-  <time datetime="2014-09-30T05:37:30.000Z" itemprop="datePublished">2014年09月30日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-	
-  <div class="article-author"> by smallnest</div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/30/using-fastjson-as-JAX-RS-data-binding/">使用FastJson作为JAX-RS的序列化/反序列化框架</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-	  
-	  
-		<img class="article-post-image" src="/images/logos/fastjson.jpg">
-	  
-      
-        <p><a href="https://github.com/alibaba/fastjson" target="_blank" rel="external">FastJson</a>是阿里巴巴的<a href="https://github.com/wenshao" target="_blank" rel="external">温少</a>开发的一个JSON的序列化和反序列化的框架。 我前面的文章: <a href="http://colobu.com/2014/08/26/java-serializer-comparison/" target="_blank" rel="external">Java序列化框架性能比较</a>中也提到， 我使用第三方的序列化测试框架<a href="https://github.com/eishay/jvm-serializers" target="_blank" rel="external">jvm-serializers</a>表明， FastJson是最快的JSON序列化框架之一， 优于Jackson。</p>
-<p><a href="https://jax-rs-spec.java.net/" target="_blank" rel="external">JAX-RS</a>是一个Java编程语言的应用程序接口,支持按照 表象化状态转变 (REST)架构风格创建Web服务Web服务. JAX-RS使用了Java SE 5引入的Java 标注来简化Web服务客户端和服务端的开发和部署。<br>JAX-RS的实现包括：</p>
-<ul>
-<li>Apache CXF，开源的Web服务框架。</li>
-<li>Jersey， 由Sun提供的JAX-RS的参考实现。</li>
-<li>RESTEasy，JBoss的实现。</li>
-<li>Restlet，由Jerome Louvel和Dave Pawson开发，是最早的REST框架，先于JAX-RS出现。</li>
-<li>Apache Wink，一个Apache软件基金会孵化器中的项目，其服务模块实现JAX-RS规范</li>
-</ul>
-<p>如果项目中使用JAX-RS传递JSON格式的数据， 可以利用FastJson提高序列化的性能。 但是FastJson并没有提供JAX-RS的集成（ <a href="https://github.com/alibaba/fastjson/issues/65" target="_blank" rel="external">Issue #65</a>, <a href="https://github.com/alibaba/fastjson/issues/138" target="_blank" rel="external">Issue #138</a> ）。</p>
-<p>我实现了一个FastJson的JAX-RS集成框架： <a href="https://github.com/smallnest/fastjson-jaxrs-json-provider" target="_blank" rel="external">fastjson-jaxrs-json-provider
-</a>,可以方便在在JAX-RS项目中使用。<br>
-        
-          <p class="article-more-link">
-            <a href="/2014/09/30/using-fastjson-as-JAX-RS-data-binding/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-	
-
-	  
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FastJson/">FastJson</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/31/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="page-number current">32</span><a class="page-number" href="/page/33/">33</a><a class="page-number" href="/page/34/">34</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/33/">下一页 &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/31/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="page-number current">32</span><a class="page-number" href="/page/33/">33</a><a class="page-number" href="/page/34/">34</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/">38</a><a class="extend next" rel="next" href="/page/33/">下一页 &raquo;</a>
     </nav>
   
 </section>
@@ -769,7 +749,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DOTNET/">DOTNET</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><span class="category-list-count">94</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">60</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端开发/">前端开发</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构/">架构</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/管理/">管理</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络编程/">网络编程</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/高并发编程/">高并发编程</a><span class="category-list-count">20</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DOTNET/">DOTNET</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go/">Go</a><span class="category-list-count">98</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">62</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala/">Scala</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端开发/">前端开发</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/区块链/">区块链</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构/">架构</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/管理/">管理</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络编程/">网络编程</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维/">运维</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/高并发编程/">高并发编程</a><span class="category-list-count">20</span></li></ul>
     </div>
   </div>
 
@@ -787,7 +767,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">August 2014</a><span class="archive-list-count">19</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -799,23 +779,23 @@
       <ul>
         
           <li>
-            <a href="/2018/02/27/go-addressable/">go addressable</a>
+            <a href="/2018/03/26/channel-patterns/">Go Channel 应用模式</a>
           </li>
         
           <li>
-            <a href="/2018/02/24/Fixing-Bugs-in-Running-Java-Code-with-Dynamic-Attach/">[转][译]在 Java 中运用动态挂载实现 Bug 的热修复</a>
+            <a href="/2018/03/26/distributed-hash-table/">DHT 分布式哈希表</a>
           </li>
         
           <li>
-            <a href="/2018/02/13/make-your-methods-as-services-in-10-seconds/">10秒钟，让你的方法变为RPC服务</a>
+            <a href="/2018/03/12/Concurrency-Utilities-Enhancements-in-Java-8-Java-9/">Java8 和 Java 9中并发工具的改变</a>
           </li>
         
           <li>
-            <a href="/2018/02/05/code-your-own-blockchain-in-less-than-200-lines-of-go/">[转][译]只用200行Go代码写一个自己的区块链</a>
+            <a href="/2018/03/12/20-Examples-of-Using-Java’s-CompletableFuture/">[译]20个使用 Java CompletableFuture的例子</a>
           </li>
         
           <li>
-            <a href="/2018/01/31/benchmark-2018-spring-of-popular-rpc-frameworks/">流行的rpc框架benchmark 2018新春版</a>
+            <a href="/2018/03/12/Debugging-Go-Code-with-LLDB/">[译]使用 LLDB 调试 Go 程序</a>
           </li>
         
       </ul>

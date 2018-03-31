@@ -2,13 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://colobu.com/2018/03/26/channel-patterns/</loc>
+    <lastmod>2018-03-31T00:05:26.691Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2018/03/08/two-issues-in-go-development/</loc>
+    <lastmod>2018-03-26T13:58:03.950Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://colobu.com/2018/02/13/make-your-methods-as-services-in-10-seconds/</loc>
-    <lastmod>2018-02-27T13:03:20.322Z</lastmod>
+    <lastmod>2018-03-26T13:58:03.934Z</lastmod>
   </url>
   
   <url>
     <loc>http://colobu.com/2018/02/27/go-addressable/</loc>
-    <lastmod>2018-02-27T13:03:20.312Z</lastmod>
+    <lastmod>2018-03-26T13:58:03.918Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2018/03/26/distributed-hash-table/</loc>
+    <lastmod>2018-03-26T13:58:03.867Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2014/09/30/deploy-a-project-to-maven-central/</loc>
+    <lastmod>2018-03-26T13:58:03.849Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2018/03/12/Debugging-Go-Code-with-LLDB/</loc>
+    <lastmod>2018-03-26T13:58:03.833Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2018/03/12/Concurrency-Utilities-Enhancements-in-Java-8-Java-9/</loc>
+    <lastmod>2018-03-26T13:58:03.828Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://colobu.com/2018/03/12/20-Examples-of-Using-Java%E2%80%99s-CompletableFuture/</loc>
+    <lastmod>2018-03-26T13:58:03.824Z</lastmod>
   </url>
   
   <url>
@@ -162,12 +197,12 @@
   </url>
   
   <url>
-    <loc>http://colobu.com/2017/09/27/distributed-systems-theory-for-the-distributed-systems-engineer/</loc>
+    <loc>http://colobu.com/2017/09/22/golang-bcc-bpf-function-tracing/</loc>
     <lastmod>2017-09-30T14:15:44.755Z</lastmod>
   </url>
   
   <url>
-    <loc>http://colobu.com/2017/09/22/golang-bcc-bpf-function-tracing/</loc>
+    <loc>http://colobu.com/2017/09/27/distributed-systems-theory-for-the-distributed-systems-engineer/</loc>
     <lastmod>2017-09-30T14:15:44.755Z</lastmod>
   </url>
   
@@ -1259,11 +1294,6 @@
   <url>
     <loc>http://colobu.com/2016/06/15/dive-into-go-1/</loc>
     <lastmod>2016-11-13T09:22:59.195Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://colobu.com/2014/09/30/deploy-a-project-to-maven-central/</loc>
-    <lastmod>2016-11-13T09:22:59.181Z</lastmod>
   </url>
   
   <url>
